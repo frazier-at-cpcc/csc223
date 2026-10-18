@@ -2,7 +2,7 @@ export default {
   title: 'Inference Engineering, Chapter 1: Prerequisites',
   id: 'urn:uuid:2128ec14-1f06-4646-a0ee-2771915e8c8c',
   description: 'Chapter 1 of Inference Engineering: Prerequisites.',
-  version: '1.2.0',
+  version: '1.2.1',
   language: 'en',
   navigation: { mode: 'free' },
   completion: { mode: 'percentage', percentageThreshold: 100 },

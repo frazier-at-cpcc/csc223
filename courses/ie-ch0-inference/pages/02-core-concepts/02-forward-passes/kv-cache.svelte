@@ -25,7 +25,7 @@
 </p>
 
 <h2>Video: How the KV Cache Grows</h2>
-<Video src="$assets/videos/kv-cache-growth.mp4" title="How the KV Cache Grows, explainer video" transcript={kvCacheGrowthTranscript} />
+<Video src="$assets/videos/kv-cache-growth.mp4" title="How the KV Cache Grows, explainer video" transcript={kvCacheGrowthTranscript} tracks={[{ src: '$assets/videos/kv-cache-growth.vtt', kind: 'captions', srclang: 'en', label: 'English' }]} />
 <details class="video-answer">
   <summary>Check your answer to the question at the end of the video</summary>
   <p>The cache holds 2,500 entries after prefill and 2,800 entries after 300 decode steps. Each decode step adds one entry.</p>

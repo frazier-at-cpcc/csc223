@@ -29,7 +29,7 @@
 </p>
 
 <h2>Video: How Speculative Decoding Verifies Drafts</h2>
-<Video src="$assets/videos/speculative-decoding.mp4" title="How Speculative Decoding Verifies Drafts, explainer video" transcript={speculativeDecodingTranscript} />
+<Video src="$assets/videos/speculative-decoding.mp4" title="How Speculative Decoding Verifies Drafts, explainer video" transcript={speculativeDecodingTranscript} tracks={[{ src: '$assets/videos/speculative-decoding.vtt', kind: 'captions', srclang: 'en', label: 'English' }]} />
 <details class="video-answer">
   <summary>Check your answer to the question at the end of the video</summary>
   <p>Drafts 4, 5, and 6 are discarded, so three drafts are discarded. The pass produces three tokens: the two accepted drafts plus the target model&#x27;s own token in place of the rejected third draft.</p>

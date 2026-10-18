@@ -29,7 +29,7 @@
 </p>
 
 <h2>Video: Prefill and Decode</h2>
-<Video src="$assets/videos/prefill-vs-decode.mp4" title="Prefill and Decode, explainer video" transcript={prefillVsDecodeTranscript} />
+<Video src="$assets/videos/prefill-vs-decode.mp4" title="Prefill and Decode, explainer video" transcript={prefillVsDecodeTranscript} tracks={[{ src: '$assets/videos/prefill-vs-decode.vtt', kind: 'captions', srclang: 'en', label: 'English' }]} />
 <details class="video-answer">
   <summary>Check your answer to the question at the end of the video</summary>
   <p>Request B spends most of its time in prefill, because its input is long and its output is short. Request A spends most of its time in decode, because it generates many tokens one forward pass at a time.</p>

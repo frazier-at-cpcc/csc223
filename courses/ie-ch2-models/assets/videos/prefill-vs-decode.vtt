@@ -1,0 +1,91 @@
+WEBVTT
+
+1
+00:00:00.010 --> 00:00:05.120
+Every response a language model
+streams to you comes from two different jobs.
+
+2
+00:00:05.130 --> 00:00:09.320
+Learn to tell them apart, and you can
+say which job is making a user wait.
+
+3
+00:00:09.487 --> 00:00:10.807
+Two terms first.
+
+4
+00:00:10.947 --> 00:00:14.747
+A token is the unit of
+text a model reads and writes.
+
+5
+00:00:14.807 --> 00:00:18.987
+A forward pass is one trip of data
+through every layer of the model.
+
+6
+00:00:19.130 --> 00:00:21.520
+The first job is prefill.
+
+7
+00:00:21.610 --> 00:00:26.540
+The model takes every token of the
+prompt in parallel, in one forward pass.
+
+8
+00:00:26.630 --> 00:00:31.560
+Along the way, it stores each
+token's keys and values in the KV cache.
+
+9
+00:00:31.650 --> 00:00:34.320
+Prefill ends with the first output token.
+
+10
+00:00:34.502 --> 00:00:35.932
+The second job is decode.
+
+11
+00:00:35.932 --> 00:00:39.092
+Each forward pass produces one new token.
+
+12
+00:00:39.092 --> 00:00:44.612
+That token joins the sequence, its keys
+and values join the cache, and the loop runs
+
+13
+00:00:44.612 --> 00:00:46.332
+again until the model stops.
+
+14
+00:00:46.669 --> 00:00:48.789
+That split tells you where the time goes.
+
+15
+00:00:48.889 --> 00:00:50.639
+Prefill sets time to first token.
+
+16
+00:00:50.729 --> 00:00:52.739
+Decode sets tokens per second.
+
+17
+00:00:52.908 --> 00:00:54.748
+Pause and sort these two requests.
+
+18
+00:00:54.878 --> 00:01:00.008
+Request A sends a 50-token
+question and asks for a long essay.
+
+19
+00:01:00.078 --> 00:01:06.038
+Request B sends a 3,000-token
+contract and asks for a one-line summary.
+
+20
+00:01:06.198 --> 00:01:09.868
+Which one spends most of its time
+in prefill, and which in decode?

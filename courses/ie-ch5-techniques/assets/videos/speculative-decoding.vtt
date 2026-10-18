@@ -1,0 +1,95 @@
+WEBVTT
+
+1
+00:00:00.020 --> 00:00:04.440
+Speculative decoding can turn
+one forward pass into four tokens.
+
+2
+00:00:04.460 --> 00:00:07.960
+It works because checking a
+guess costs far less than making one.
+
+3
+00:00:08.714 --> 00:00:11.114
+Recall that decode is memory-bound.
+
+4
+00:00:11.194 --> 00:00:15.784
+Each pass reads all the weights to
+produce one token, while compute sits idle.
+
+5
+00:00:15.874 --> 00:00:18.514
+Speculation puts that
+idle compute to work.
+
+6
+00:00:19.212 --> 00:00:24.372
+A speculator, such as a small
+draft model, proposes draft tokens.
+
+7
+00:00:24.412 --> 00:00:29.572
+The target model is the model you are
+accelerating, and only its output counts.
+
+8
+00:00:30.450 --> 00:00:33.340
+The text so far reads 'Once upon a'.
+
+9
+00:00:33.430 --> 00:00:38.680
+The speculator drafts five tokens:
+'time', a comma, 'there', 'lived', and 'a'.
+
+10
+00:00:39.456 --> 00:00:43.726
+The target model checks all five
+drafts in one forward pass, in parallel.
+
+11
+00:00:43.816 --> 00:00:46.686
+It accepts 'time', the comma, and 'there'.
+
+12
+00:00:46.776 --> 00:00:49.846
+It rejects 'lived', because
+it would have written 'was'.
+
+13
+00:00:49.936 --> 00:00:53.606
+It discards the final 'a',
+because it follows a rejection.
+
+14
+00:00:53.696 --> 00:00:56.356
+Then it adds its own token, 'was'.
+
+15
+00:00:57.019 --> 00:01:00.269
+One forward pass produced
+four tokens instead of one.
+
+16
+00:01:00.279 --> 00:01:05.269
+If every draft fails, the pass still
+yields one token, the same as ordinary decode.
+
+17
+00:01:05.935 --> 00:01:07.505
+Pause and trace.
+
+18
+00:01:07.505 --> 00:01:10.435
+A speculator drafts six tokens.
+
+19
+00:01:10.435 --> 00:01:13.295
+The target accepts the
+first two and rejects the third.
+
+20
+00:01:13.455 --> 00:01:17.065
+How many drafts are discarded, and
+how many tokens does the pass produce?

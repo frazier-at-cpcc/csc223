@@ -1,0 +1,94 @@
+WEBVTT
+
+1
+00:00:00.050 --> 00:00:05.560
+A GPU can hold a model's weights and still run
+out of memory halfway through a long conversation.
+
+2
+00:00:05.610 --> 00:00:07.980
+The KV cache is the
+part that keeps growing.
+
+3
+00:00:08.916 --> 00:00:11.806
+Attention projects a key
+and a value for every token.
+
+4
+00:00:11.916 --> 00:00:16.566
+The KV cache stores those key and
+value tensors in VRAM, so the model never
+
+5
+00:00:16.566 --> 00:00:19.156
+recomputes them for earlier tokens.
+
+6
+00:00:19.912 --> 00:00:23.302
+Follow one request
+with a 1,000-token prompt.
+
+7
+00:00:23.392 --> 00:00:28.762
+Prefill processes all 1,000 tokens and
+writes 1,000 entries into the cache at once.
+
+8
+00:00:29.415 --> 00:00:32.215
+Decode then grows it one step at a time.
+
+9
+00:00:32.405 --> 00:00:37.825
+Each decode step reads every stored
+entry and adds one new entry for its token.
+
+10
+00:00:37.885 --> 00:00:42.775
+After 200 decode steps, the
+cache holds 1,200 entries.
+
+11
+00:00:42.895 --> 00:00:46.115
+The cache grows
+linearly with sequence length.
+
+12
+00:00:46.826 --> 00:00:50.276
+Every request in a
+batch has its own cache.
+
+13
+00:00:50.306 --> 00:00:55.936
+Long contexts and large batches multiply
+the total, until the cache can become the
+
+14
+00:00:56.036 --> 00:00:57.616
+main consumer of VRAM.
+
+15
+00:00:57.646 --> 00:01:02.456
+That is why memory planning reserves
+headroom for it, as Chapter 3 shows.
+
+16
+00:01:03.163 --> 00:01:05.053
+Pause and calculate.
+
+17
+00:01:05.053 --> 00:01:07.763
+A request arrives with
+a 2,500-token prompt.
+
+18
+00:01:07.763 --> 00:01:09.153
+How many entries does its KV cache
+
+19
+00:01:09.903 --> 00:01:11.433
+hold after prefill?
+
+20
+00:01:11.603 --> 00:01:13.993
+How many after 300 decode steps?

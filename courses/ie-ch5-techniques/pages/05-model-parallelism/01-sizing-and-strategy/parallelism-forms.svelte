@@ -21,7 +21,7 @@
 </Signal>
 
 <h2>Video: Tensor and Pipeline Parallelism</h2>
-<Video src="$assets/videos/tensor-vs-pipeline.mp4" title="Tensor and Pipeline Parallelism, explainer video" transcript={tensorVsPipelineTranscript} />
+<Video src="$assets/videos/tensor-vs-pipeline.mp4" title="Tensor and Pipeline Parallelism, explainer video" transcript={tensorVsPipelineTranscript} tracks={[{ src: '$assets/videos/tensor-vs-pipeline.vtt', kind: 'captions', srclang: 'en', label: 'English' }]} />
 <details class="video-answer">
   <summary>Check your answer to the question at the end of the video</summary>
   <p>Case 1 calls for tensor parallelism across the eight GPUs, TP8, because the GPUs share NVLink and tensor parallelism gives the lowest latency. Case 2 calls for tensor parallelism within each node and pipeline parallelism between them, TP8PP2, because tensor parallelism needs too much communication to span the slower link between nodes.</p>
