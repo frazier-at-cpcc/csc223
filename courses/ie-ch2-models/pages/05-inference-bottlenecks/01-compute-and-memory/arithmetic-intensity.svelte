@@ -3,6 +3,7 @@
 </script>
 
 <script>
+  import Term from '$shared/Term.svelte';
   import Figure from '../../../components/Figure.svelte';
   import RooflineChart from '../../../components/RooflineChart.svelte';
 </script>
@@ -22,7 +23,8 @@
 
 <p>
   The ops:byte ratio describes hardware on a per-second scale. Arithmetic intensity describes software,
-  measured across one execution of a function or algorithm. Comparing the two reveals the bottleneck.
+  measured across one execution of a function or algorithm, with the same convention that a multiply-add counts
+  as two operations. Comparing the two reveals the bottleneck.
 </p>
 
 <h2>The roofline model</h2>
@@ -49,6 +51,7 @@
 </ul>
 
 <p>
-  To find a bottleneck, examine the arithmetic intensity of the most expensive calculations in a system.
-  In inference, attention is one such calculation.
+  To find a bottleneck, examine the arithmetic intensity of the most expensive calculations in a system. In
+  LLM inference, the two most expensive calculations are the linear layers and <Term id="attention">attention</Term>. The next lesson
+  calculates both.
 </p>

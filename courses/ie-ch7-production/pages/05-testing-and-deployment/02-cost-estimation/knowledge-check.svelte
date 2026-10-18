@@ -3,37 +3,43 @@
 </script>
 
 <script>
-  import { MultipleChoice } from 'tessera-learn';
+  import { MultipleChoice, Sorting } from 'tessera-learn';
 </script>
 
 <h1>Knowledge Check: Cost Estimation</h1>
+<p>These practice questions are ungraded. Each one gives feedback when you answer.</p>
 
-<p>These practice questions are ungraded. Select an answer to see feedback.</p>
-
-<MultipleChoice
-  id="kc_ce_1"
-  question="A dedicated deployment runs 2,000 GPU-hours at $4.00 per GPU-hour over one week. What is its GPU cost for the week?"
-  options={['$500', '$2,004', '$8,000']}
-  correct={2}
-  optionFeedback={[
-    'Incorrect. This result divides GPU-hours by price. Total cost multiplies them.',
-    'Incorrect. This result adds GPU-hours and price. Total cost multiplies them.',
-    'Correct. 2,000 GPU-hours × $4.00 per GPU-hour = $8,000.',
+<p class="ie-objective">Practices objective 8: calculate monthly total cost of ownership</p>
+<Sorting
+  id="kc_ce_drivers"
+  question="In this chapter's cost model, sort each input by the monthly cost it changes."
+  items={[
+    'Price per million output tokens',
+    'GPU price per hour',
+    'Minimum always-on replicas',
+    'Average output tokens per request',
+    'Monthly engineering cost',
+    'Target utilization',
   ]}
+  targets={['Per-token API cost only', 'Dedicated cost only', 'Both costs']}
+  correct={[0, 1, 1, 2, 1, 1]}
+  correctFeedback="Correct. Token prices touch only the API bill. GPU price, the floor, engineering, and utilization touch only the dedicated bill. Output length changes both, because the API charges per output token and the dedicated estimate sizes GPU time by output tokens."
+  incorrectFeedback="Trace each input through the two formulas. The API bill multiplies token counts by token prices. The dedicated bill converts output tokens into GPU-hours using throughput and utilization, applies the floor, multiplies by the GPU price, and adds engineering. Only output tokens per request appear in both."
 />
 
+<p class="ie-objective">Practices objective 8: calculate monthly total cost of ownership</p>
 <MultipleChoice
-  id="kc_ce_2"
-  question="Which comparison does the chapter recommend when deciding between a per-token API and a dedicated deployment?"
+  id="kc_ce_method"
+  question="A team pays $9,000 per month for GPUs that served 3 billion tokens, and it wants to know whether a per-token API would be cheaper. Which comparison should it make?"
   options={[
-    'Compare the total API cost with the total GPU cost for the workload.',
-    'Compare the API price per token with a per-token price derived from GPU spend.',
-    'Compare the API price per token with the hourly price of one GPU.',
+    'Compare $9,000 plus engineering with the API bill for the month’s input and output.',
+    'Compare $3.00 per million tokens, the GPU bill per token, with the API’s output price.',
+    'Compare the GPU price per hour with the API’s price per million tokens for input.',
   ]}
   correct={0}
   optionFeedback={[
-    'Correct. Converting the token price into a total cost avoids reverse-engineering a per-token price from many dedicated variables.',
-    'Incorrect. The chapter advises against reverse-engineering a per-token price from GPU spend, because dedicated cost depends on many variables.',
-    'Incorrect. These units do not compare directly. One is per token and the other is per GPU-hour.',
+    'Correct. Convert the API price into a monthly total for the same workload, with input and output priced separately, and compare it with the dedicated TCO for the same month.',
+    'Incorrect. $9,000 ÷ 3,000 million tokens is a reverse-engineered per-token price. It mixes input and output tokens and changes with every shift in batch size and traffic.',
+    'Incorrect. A price per GPU-hour and a price per million tokens measure different units, so they cannot be compared directly.',
   ]}
 />

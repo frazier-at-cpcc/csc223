@@ -89,3 +89,32 @@ table.data tbody th {
 .mem-step {
   font-weight: 600;
 }
+
+.table-scroll {
+  overflow-x: auto;
+  max-width: calc(100vw - 2rem);
+}
+
+.table-scroll table.data {
+  min-width: 720px;
+}
+
+.table-scroll:focus-visible {
+  outline: 2px solid var(--tessera-primary);
+  outline-offset: 2px;
+}
+
+/* The framework's grid item defaults to min-width: auto, which lets a wide code block or table widen
+   the page on phones. Same rule as the other chapter courses. */
+.tessera-main,
+.tessera-content {
+  min-width: 0;
+}
+.tessera-content pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+}

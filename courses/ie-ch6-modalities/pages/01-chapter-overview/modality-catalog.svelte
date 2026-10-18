@@ -2,15 +2,20 @@
   export const pageConfig = { title: 'A Catalog of Modalities' };
 </script>
 
+<script>
+  import { scrollable } from '$shared/scrollable.js';
+  import Term from '$shared/Term.svelte';
+</script>
+
 <h1>A Catalog of Modalities</h1>
 
 <p>
-  Generative AI models cover a wide range of input and output types. The table lists the common
+  <Term id="generative-ai">Generative AI</Term> models cover a wide range of input and output types. The table lists the common
   combinations and the category name for each. This chapter covers six of them in depth: vision
   language, embedding, transcription, speech synthesis, image generation, and video generation.
 </p>
 
-<div class="table-wrap">
+<div class="table-wrap" role="region" aria-label="Common generative AI modalities by input, output, and category" use:scrollable>
   <table>
     <caption>Common generative AI modalities by input, output, and category</caption>
     <thead>

@@ -3,8 +3,10 @@
 </script>
 
 <script>
+  import { scrollable } from '$shared/scrollable.js';
   import Figure from '../../../components/Figure.svelte';
   import DenoisingSteps from '../../../components/DenoisingSteps.svelte';
+  import Term from '$shared/Term.svelte';
 </script>
 
 <h1>Latent Space and Denoising</h1>
@@ -13,24 +15,24 @@
 
 <p>
   An ordinary HD image of 1024 × 1024 pixels contains more than a million pixels. The denoising model
-  calculates attention over the entire image in parallel. Doing that in pixel space would be infeasible.
+  calculates <Term id="attention">attention</Term> over the entire image in parallel. Doing that in pixel space would be infeasible.
 </p>
 
 <p>
   The pipeline therefore operates in <strong>latent space</strong>, a low-dimensional representation of
-  an image. A latent for an image might be 128 × 128, less than two percent of the values in the pixel space
-  it represents.
+  an image. The <Term id="sdxl">SDXL</Term> latent for a 1024 × 1024 image is 128 × 128 positions with 4 channels each. Each pixel
+  has 3 color channels, so the comparison counts channels on both sides.
 </p>
 
-<pre><code>Pixel space:  1024 × 1024 = 1,048,576 values
-Latent space:  128 ×  128 =    16,384 values  (about 1.6 percent)</code></pre>
+<pre><code>Pixel space:  1024 × 1024 × 3 channels = 3,145,728 values
+Latent space:  128 ×  128 × 4 channels =    65,536 values  (about 2 percent)</code></pre>
 
 <h2>Iterative denoising</h2>
 
 <p>
   Generation starts by filling the latent with random values, called noise. The denoising model then
   refines the noise toward an image over a series of steps, guided by the text prompt. This process is
-  called <strong>iterative denoising</strong>, or diffusion.
+  called <strong>iterative denoising</strong>, or <Term id="diffusion">diffusion</Term>.
 </p>
 
 <Figure
@@ -43,14 +45,14 @@ Latent space:  128 ×  128 =    16,384 values  (about 1.6 percent)</code></pre>
 
 <h2>How denoising differs from LLM decode</h2>
 
-<div class="ie-table-wrap">
+<div class="ie-table-wrap" role="region" aria-label="LLM decode compared with image denoising" use:scrollable>
   <table class="ie-table">
     <caption>LLM decode compared with image denoising</caption>
     <thead>
-      <tr><th scope="col">Property</th><th scope="col">LLM decode</th><th scope="col">Image denoising</th></tr>
+      <tr><th scope="col">Property</th><th scope="col">LLM <Term id="decode">decode</Term></th><th scope="col">Image denoising</th></tr>
     </thead>
     <tbody>
-      <tr><th scope="row">Unit of work per step</th><td>One new token</td><td>The entire latent</td></tr>
+      <tr><th scope="row">Unit of work per step</th><td>One new <Term id="token">token</Term></td><td>The entire latent</td></tr>
       <tr><th scope="row">Number of steps</th><td>One per output token</td><td>Usually 30 to 50 for a high-quality image</td></tr>
       <tr><th scope="row">Output size</th><td>Variable length</td><td>Fixed size</td></tr>
     </tbody>

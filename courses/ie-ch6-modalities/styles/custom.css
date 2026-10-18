@@ -29,3 +29,19 @@ th {
   padding: 0.75rem 1rem;
   margin: 1rem 0;
 }
+pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+/* The framework's grid item defaults to min-width: auto, which lets a wide table widen the page. */
+.tessera-main,
+.tessera-content {
+  min-width: 0;
+}
+.table-wrap {
+  max-width: 100%;
+}
+/* Five-column comparison table: keep columns readable and scroll inside the wrapper on phones. */
+table.wide {
+  min-width: 44rem;
+}

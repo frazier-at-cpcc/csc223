@@ -3,24 +3,24 @@
 </script>
 
 <script>
-  import { MultipleChoice } from 'tessera-learn';
+  import { Matching, MultipleChoice } from 'tessera-learn';
 </script>
 
 <h1>Knowledge Check: Network Structure</h1>
 
-<p>These questions are ungraded. Retry them as often as you like.</p>
+<p>These questions are ungraded and practice objective 3, interpreting a model's architecture. Retry them as often as you like.</p>
 
-<MultipleChoice
+<Matching
   id="kc_structure_1"
-  question="In a neural network, the outputs of the hidden layers are passed forward as input to the next layer. What are these outputs called?"
-  options={['Biases', 'Hidden states', 'Logits', 'Weights']}
-  correct={1}
-  optionFeedback={[
-    'Incorrect. A bias is a value a node adds during its calculation. It is a parameter, not a layer output.',
-    'Correct. The output of each hidden layer is a hidden state, which the next layer reads as input.',
-    'Incorrect. Logits are the output of the final layer of an LLM, one per vocabulary token. They are not passed between hidden layers.',
-    'Incorrect. Weights are values set during training that a node multiplies its input by. They are not outputs.',
+  question="Match each part of a neural network to its description."
+  pairs={[
+    { left: 'Hidden state', right: 'The output of a hidden layer, which the next layer reads as input' },
+    { left: 'Weight', right: 'A learned value that a node multiplies its input by' },
+    { left: 'Encoder', right: 'A network that turns raw input into an internal representation' },
+    { left: 'Decoder', right: 'A network that generates output from an internal representation' },
   ]}
+  correctFeedback="Weights are fixed after training. Hidden states change with every input. Encoders build representations, and decoders generate from them."
+  incorrectFeedback="Weights are learned values fixed after training. A hidden state is the output a hidden layer passes forward. An encoder builds an internal representation, and a decoder generates output from one."
 />
 
 <MultipleChoice

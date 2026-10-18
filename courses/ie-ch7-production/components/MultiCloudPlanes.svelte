@@ -18,7 +18,7 @@
   {/each}
   {#each clouds as c}
     {#each c.planes as py}
-      <rect x={c.x + 15} y={py} width="130" height="30" rx="3" fill="#ffffff" stroke="var(--ie-accent)" stroke-width="2" />
+      <rect x={c.x + 15} y={py} width="130" height="30" rx="3" fill="var(--ie-surface)" stroke="var(--ie-accent)" stroke-width="2" />
       <text class="ie-svg-text" x={c.x + 80} y={py + 20} text-anchor="middle" font-size="12">Workload plane</text>
     {/each}
   {/each}

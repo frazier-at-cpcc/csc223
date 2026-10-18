@@ -4,19 +4,20 @@
 
 <script>
   import CodeFigure from '../../../components/CodeFigure.svelte';
+  import Term from '$shared/Term.svelte';
 
-  const serve = `vllm serve deepseek-ai/DeepSeek-V3.1
-  --enable-expert-parallel
-  --tensor-parallel-size 8
+  const serve = `vllm serve deepseek-ai/DeepSeek-V3.1 \\
+  --enable-expert-parallel \\
+  --tensor-parallel-size 8 \\
   --served-model-name ds31`;
 </script>
 
 <h1>vLLM</h1>
 
 <p>
-  <strong>vLLM</strong> is a widely adopted inference engine with broad model
-  and hardware support and strong defaults. It has the largest market share of
-  the three engines. At the time of publication, vLLM had twice as many GitHub
+  <strong>vLLM</strong> is a widely adopted <Term id="inference-engine">inference engine</Term> with broad
+  model and hardware support and strong defaults. At the time of publication, it
+  had the largest market share of the three engines and twice as many GitHub
   stars as SGLang and TensorRT-LLM combined. Star counts are only a rough measure
   of popularity.
 </p>
@@ -32,7 +33,7 @@
 <h2>Strength: breadth of support</h2>
 
 <ul>
-  <li>Hardware: NVIDIA, AMD, and Intel GPUs, along with Google TPUs.</li>
+  <li>Hardware: at the time of publication, NVIDIA, AMD, and Intel GPUs, along with Google TPUs.</li>
   <li>Models: the most models and architectures of any engine. Nearly every open LLM works with vLLM on its release day.</li>
   <li>Modalities: vLLM Omni extends the engine to image, audio, and video inputs and outputs.</li>
 </ul>
@@ -47,27 +48,29 @@
 
 <p>
   The <code>vllm serve</code> command launches a server. Flags on the command line
-  carry the server configuration. vLLM installs with <code>pip</code>, and
-  official Docker images bundle its dependencies for several hardware
-  architectures.
+  carry the server configuration. vLLM installs with <code>pip</code>, the Python
+  package installer, and official Docker images bundle its dependencies for
+  several hardware architectures.
 </p>
 
 <CodeFigure
   code={serve}
   language="shell"
-  caption="Figure 4.4. A vLLM inference example on eight GPUs."
+  caption="Figure 4.4. A vLLM inference example on eight GPUs. Each trailing backslash continues the command on the next line."
 />
 
 <p>
-  The example serves DeepSeek-V3.1 across eight GPUs with tensor parallelism and
-  expert parallelism. It exposes the model under the short name
-  <code>ds31</code>.
+  The example serves DeepSeek-V3.1 across eight GPUs. It combines
+  <Term id="tensor-parallelism">tensor parallelism</Term>, which splits each layer's weights across the
+  GPUs, with <Term id="expert-parallelism">expert parallelism</Term>, which places different experts on
+  different GPUs. Chapter 5 explains both. The example exposes the model under the
+  short name <code>ds31</code>.
 </p>
 
 <h2>When to choose vLLM</h2>
 
 <ul>
   <li>You need a model server with solid out-of-the-box performance for almost any open model, quickly.</li>
-  <li>You need to run an "Omni" model with multiple input and output modalities.</li>
+  <li>You need to run an "Omni" model with multiple input and output modalities, which Chapter 6 covers.</li>
   <li>You use a smaller GPU or an older architecture, where TensorRT-LLM offers few performance benefits.</li>
 </ul>

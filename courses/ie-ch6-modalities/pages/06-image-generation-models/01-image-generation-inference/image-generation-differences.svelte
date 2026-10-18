@@ -3,24 +3,18 @@
 </script>
 
 <script>
-  import ModalityFlow from '../../../components/ModalityFlow.svelte';
+  import { scrollable } from '$shared/scrollable.js';
+  import Term from '$shared/Term.svelte';
 </script>
 
 <h1>How Image Generation Differs from LLMs</h1>
 
-<ModalityFlow
-  number="6.8"
-  caption="Image generation models may accept both text and reference images to create new output images."
-  alt="A text prompt and an optional reference image flow into an image generation model, which outputs a new image"
-  description="Two inputs, a text prompt and an optional reference image, flow into a box labeled image generation model. The model outputs a new image."
-  inputs={['Text prompt', 'Reference image|(optional)']}
-  model="Image|generation model"
-  output="New image"
-/>
+<p>
+  An image generation model takes a text prompt, and sometimes a reference image, and creates a new
+  image. Image and video generation models differ from LLMs on several axes.
+</p>
 
-<p>Image and video generation models differ from LLMs on several axes.</p>
-
-<div class="table-wrap">
+<div class="table-wrap" role="region" aria-label="Image generation compared with LLM inference" use:scrollable>
   <table>
     <caption>Image generation compared with LLM inference</caption>
     <thead>
@@ -30,17 +24,25 @@
       <tr>
         <td>Architecture</td>
         <td>Uniform autoregressive decoder</td>
-        <td>Iterative denoiser; a pipeline of several small models working in latent space. A few recent models, such as HunyuanImage-3.0, resemble LLMs.</td>
+        <td>
+          Iterative denoiser; a pipeline of several small models working in
+          <Term id="latent-space">latent space</Term>. A few recent models, such as HunyuanImage-3.0,
+          resemble LLMs.
+        </td>
       </tr>
       <tr>
         <td>Tooling</td>
         <td>Mature inference engines</td>
-        <td>Mostly implemented lower in the stack with PyTorch or TensorRT. SGLang Diffusion and vLLM Omni were brand new at publication.</td>
+        <td>
+          Mostly implemented lower in the stack with <Term id="pytorch">PyTorch</Term> or
+          <Term id="tensorrt">TensorRT</Term>. SGLang Diffusion and vLLM Omni were brand new at the book's
+          publication in 2025.
+        </td>
       </tr>
       <tr>
         <td>Size and bottleneck</td>
-        <td>Large; decode is bound by memory bandwidth</td>
-        <td>Ten to twenty times smaller than frontier LLMs; bound by compute</td>
+        <td>Large; decode is <Term id="memory-bound">memory-bound</Term></td>
+        <td>Ten to twenty times smaller than frontier LLMs; <Term id="compute-bound">compute-bound</Term></td>
       </tr>
       <tr>
         <td>Quality-speed tradeoffs</td>
@@ -51,11 +53,18 @@
   </table>
 </div>
 
+<p>
+  The bottleneck row drives the rest of this section. A compute-bound workload speeds up when it does
+  less arithmetic or does its arithmetic faster. Kernel choice, lower-precision Tensor Core math, and
+  fewer forward passes all serve that goal.
+</p>
+
 <h2>Evaluating quality</h2>
 
 <p>
   Image quality is hard to evaluate programmatically. Automatic pipelines that use VLMs as judges give a
   directional signal at best, and they can diverge from human preferences. Most image quality
   evaluations ask humans to choose among thousands of images and aggregate those preferences into
-  benchmarks.
+  benchmarks. Any optimization that trades quality for speed therefore needs a human review before
+  release.
 </p>

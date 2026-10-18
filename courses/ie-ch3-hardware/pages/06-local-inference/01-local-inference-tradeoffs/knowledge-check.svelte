@@ -3,14 +3,33 @@
 </script>
 
 <script>
-  import { MultipleChoice } from 'tessera-learn';
+  import { MultipleChoice, Sorting } from 'tessera-learn';
 </script>
 
 <h1>Knowledge Check: Local Inference Tradeoffs</h1>
-<p>These practice questions are ungraded. Each option explains why it is right or wrong.</p>
+<p>These practice items are ungraded. Each one gives feedback that explains the answer.</p>
 
+<p class="ie-obj">Objective 9: Recommend a deployment target</p>
+<Sorting
+  id="kc_local_sort"
+  question="Sort each statement about local inference as an advantage or a weakness compared with datacenter inference."
+  items={[
+    'The app keeps working without an internet connection',
+    'User data never leaves the device',
+    'The developer pays nothing for inference compute',
+    'Sustained speed drops as the device heats up',
+    'Many hardware and software combinations must be supported',
+    'Long sessions drain the battery',
+  ]}
+  targets={['Advantage', 'Weakness']}
+  correct={[0, 0, 0, 1, 1, 1]}
+  correctFeedback="Correct. Independence, privacy, and cost favor local inference. Thermal limits, a fragmented support matrix, and battery drain count against it, along with weaker hardware."
+  incorrectFeedback="Ask who benefits. Offline operation, data that stays on the device, and zero compute cost help the developer and the user. Heat, fragmented hardware, and battery drain limit what the device can run."
+/>
+
+<p class="ie-obj">Objective 9: Recommend a deployment target</p>
 <MultipleChoice
-  id="kc1"
+  id="kc_privacy"
   question="A health app must analyze user notes without sending them to any server. Which advantage of local inference addresses this requirement?"
   options={['Cost', 'Improved privacy', 'Zero network latency']}
   correct={1}
@@ -21,8 +40,9 @@
   ]}
 />
 
+<p class="ie-obj">Objective 9: Recommend a deployment target</p>
 <MultipleChoice
-  id="kc2"
+  id="kc_median_device"
   question="A developer tests a local model on a new flagship phone and plans to ship it to a broad consumer audience. Which risk should the developer weigh first?"
   options={[
     'Most users own older devices with less powerful hardware',

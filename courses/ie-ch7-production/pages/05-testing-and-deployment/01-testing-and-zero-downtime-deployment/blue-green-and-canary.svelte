@@ -11,28 +11,25 @@
 
 <p>Inference engineers use high-availability deployment strategies to release updates without downtime.</p>
 
-<h2>Blue-green deployment</h2>
-
+<h2>Blue-Green Deployment</h2>
 <p>
   A <strong>blue-green deployment</strong> runs two identical production environments. The original blue environment
   serves traffic while a new green environment runs the updated service. When green is ready, all traffic cuts over
   from blue to green. Blue stays ready for a quick rollback if issues appear.
 </p>
-
 <p>
   Blue-green suits large-scale inference poorly. The GPU capacity and cost problems that make large-scale testing
-  difficult apply here too. If blue uses 100 GPUs, green needs another 100 GPUs before traffic can cut over.
+  difficult apply here too, because green must match blue's full size before traffic can cut over. If blue runs on 100
+  GPUs, green needs another 100 GPUs for the release.
 </p>
 
-<h2>Canary deployment</h2>
-
+<h2>Canary Deployment</h2>
 <p>
   A <strong>canary deployment</strong> starts a new deployment with a small share of live traffic to validate its
   stability and performance. Over time, the new deployment absorbs all production traffic. The name comes from the
   canaries that miners once carried to detect gas in coal mines. A canary deployment catches errors before they affect
   large numbers of users, and it needs far less extra GPU capacity than blue-green.
 </p>
-
 <Figure
   number="7.13"
   caption="Iteratively shifting traffic over to the new deployment prevents multiple issues during inference service updates."

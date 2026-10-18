@@ -4,21 +4,25 @@
       name: 'NVIDIA Dynamo',
       section: 'Section 4.4',
       role: 'Orchestrates inference engines across many GPUs and nodes for large-scale deployments.',
+      example: 'Example task: set a planner target for time to first token.',
     },
     {
       name: 'Inference engines',
       section: 'Section 4.3',
       role: 'Configurable, PyTorch-backed serving for common model architectures: vLLM, SGLang, TensorRT-LLM.',
+      example: 'Example task: choose launch flags for an engine server.',
     },
     {
       name: 'Deep learning frameworks',
       section: 'Section 4.2',
       role: 'Python abstractions over CUDA for training, exporting, and running neural networks: PyTorch.',
+      example: 'Example task: export a model or compile it for one GPU.',
     },
     {
       name: 'CUDA',
       section: 'Section 4.1',
       role: 'Direct communication with the GPU for explicit control over computation and memory.',
+      example: 'Example task: write, select, or fuse a kernel.',
     },
   ];
 </script>
@@ -32,6 +36,7 @@
           <span class="layer-name">{layer.name}</span>
           <span class="layer-section">{layer.section}</span>
           <span class="layer-role">{layer.role}</span>
+          <span class="layer-example">{layer.example}</span>
         </li>
       {/each}
     </ol>
@@ -80,8 +85,13 @@
     color: var(--tessera-text);
   }
 
-  .layer-role {
+  .layer-role,
+  .layer-example {
     grid-column: 1 / -1;
     font-size: 0.95rem;
+  }
+
+  .layer-example {
+    font-style: italic;
   }
 </style>

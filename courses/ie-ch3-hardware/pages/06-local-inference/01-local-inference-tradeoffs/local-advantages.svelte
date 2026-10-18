@@ -2,6 +2,10 @@
   export const pageConfig = { title: 'Advantages of Local Inference' };
 </script>
 
+<script>
+  import Term from '$shared/Term.svelte';
+</script>
+
 <h1>Advantages of Local Inference</h1>
 
 <p>
@@ -12,14 +16,17 @@
 <h2>Four advantages over server-side inference</h2>
 <dl>
   <dt><strong>Zero network latency</strong></dt>
-  <dd>No request travels over a network, which saves tens or even hundreds of milliseconds.</dd>
+  <dd>
+    No request travels over a network, which removes tens or even hundreds of milliseconds of
+    <Term id="latency">latency</Term>.
+  </dd>
   <dt><strong>Independence</strong></dt>
   <dd>The application works without an internet connection and is unaffected by server traffic spikes or downtime.</dd>
   <dt><strong>Improved privacy</strong></dt>
   <dd>The user's data never leaves the device.</dd>
   <dt><strong>Cost</strong></dt>
   <dd>
-    Datacenter GPUs are expensive. Edge inference costs the developer nothing in compute, which enables new business
+    Datacenter <Term id="gpu">GPUs</Term> are expensive. Edge inference costs the developer nothing in compute, which enables new business
     models.
   </dd>
 </dl>

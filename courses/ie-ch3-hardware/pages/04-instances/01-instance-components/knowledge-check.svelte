@@ -3,36 +3,52 @@
 </script>
 
 <script>
-  import { MultipleChoice } from 'tessera-learn';
+  import { Matching, MultipleChoice } from 'tessera-learn';
 </script>
 
 <h1>Knowledge Check: Instance Components</h1>
-<p>These practice questions are ungraded. Each option explains why it is right or wrong.</p>
+<p>These practice items are ungraded. Each one gives feedback that explains the answer.</p>
 
+<p class="ie-obj">Objective 7: Determine which interconnect limits a data path</p>
+<Matching
+  id="kc_host_device"
+  question="Match each instance term to what it refers to."
+  pairs={[
+    { left: 'Device', right: 'A GPU in the instance' },
+    { left: 'Device memory', right: 'VRAM on a GPU' },
+    { left: 'Host', right: 'The CPU that runs everything outside the GPU' },
+    { left: 'Host memory', right: 'RAM attached to the CPU' },
+  ]}
+  correctFeedback="Correct. The host is the CPU side of the instance and the device is the GPU side. Each side has its own memory."
+  incorrectFeedback="Review the pairs. The CPU is the host and its RAM is host memory. A GPU is a device and its VRAM is device memory."
+/>
+
+<p class="ie-obj">Objective 7: Determine which interconnect limits a data path</p>
 <MultipleChoice
-  id="kc1"
-  question="In instance terminology, what does host memory refer to?"
-  options={['Disk storage for model files', 'RAM attached to the CPU', 'VRAM on the GPU']}
-  correct={1}
+  id="kc_load_path"
+  question="An instance loads model weights from local disk into the VRAM of each GPU. After the weights reach host memory, which link do they cross to reach VRAM in a standard x86 server?"
+  options={['InfiniBand', 'NVLink', 'PCIe']}
+  correct={2}
   optionFeedback={[
-    'Incorrect. Disk is the storage component. It holds files but is not host memory.',
-    'Correct. The CPU is the host, so host memory is the traditional RAM the CPU uses.',
-    'Incorrect. VRAM belongs to the GPU, which is the device. VRAM is device memory.',
+    'Incorrect. InfiniBand connects separate nodes. A transfer inside one server does not use it.',
+    'Incorrect. NVLink connects GPUs to each other. In a standard server, the CPU reaches each GPU over PCIe.',
+    'Correct. In a standard server, the host CPU and its memory reach each GPU over the PCIe bus.',
   ]}
 />
 
+<p class="ie-obj">Objective 7: Determine which interconnect limits a data path</p>
 <MultipleChoice
-  id="kc2"
-  question="Two cloud providers both offer A100 instances. One uses the PCIe form factor and the other uses SXM. Which statement describes the SXM instance?"
+  id="kc_sxm"
+  question="Two cloud providers offer A100 instances, one with the PCIe form factor and one with SXM. Your team will split one model across all eight GPUs with tensor parallelism. Which difference matters most for that plan?"
   options={[
-    'It has more memory bandwidth and is the standard for inference',
-    'It has the same specifications in a different physical slot',
-    'It plugs into a standard PCI Express slot for easier upgrades',
+    'SXM GPUs connect to all eight GPUs through NVLink and NVSwitch',
+    'SXM GPUs have about 5 percent more memory bandwidth',
+    'SXM GPUs have lower memory bandwidth but a higher power limit',
   ]}
   correct={0}
   optionFeedback={[
-    'Correct. SXM GPUs support higher-bandwidth connections and often have higher base specifications. The SXM A100 has 5 percent more memory bandwidth than the PCIe A100.',
-    'Incorrect. Form factor changes specifications. The SXM A100 has more memory bandwidth than the PCIe A100.',
-    'Incorrect. The PCIe form factor uses a standard PCI Express slot. SXM is a socketed module.',
+    'Correct. Tensor parallelism exchanges data between GPUs on every layer, so the full NVLink and NVSwitch connectivity of SXM matters most.',
+    'Incorrect. The SXM A100 does have about 5 percent more bandwidth, but tensor parallelism depends far more on the links between GPUs.',
+    'Incorrect. SXM GPUs have a higher power limit, but their memory bandwidth is higher, not lower, than the PCIe variant.',
   ]}
 />

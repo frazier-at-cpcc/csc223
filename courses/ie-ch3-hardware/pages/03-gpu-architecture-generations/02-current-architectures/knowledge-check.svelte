@@ -3,48 +3,52 @@
 </script>
 
 <script>
-  import { MultipleChoice } from 'tessera-learn';
+  import { Matching, MultipleChoice } from 'tessera-learn';
 </script>
 
 <h1>Knowledge Check: Current Architectures</h1>
-<p>These practice questions are ungraded. Each option explains why it is right or wrong.</p>
+<p>These practice items are ungraded. Each one gives feedback that explains the answer.</p>
 
-<MultipleChoice
-  id="kc1"
-  question="Which architecture first introduced FP4 Tensor Core support along with the MXFP8, MXFP4, and NVFP4 microscaling formats?"
-  options={['Ada Lovelace', 'Blackwell', 'Hopper']}
-  correct={1}
-  optionFeedback={[
-    'Incorrect. Ada Lovelace supports FP8, the same lowest precision as Hopper.',
-    'Correct. Blackwell added FP4 and the microscaling formats for better quality retention at low precision.',
-    'Incorrect. Hopper introduced FP8. FP4 arrived one generation later.',
+<p class="ie-obj">Objective 6: Differentiate GPU generations by inference features</p>
+<Matching
+  id="kc_features"
+  question="Match each GPU to the inference feature or limitation that sets it apart."
+  pairs={[
+    { left: 'B200', right: 'FP4 Tensor Cores and hardware microscaling formats' },
+    { left: 'H100', right: 'First NVIDIA datacenter GPU with FP8 Tensor Cores' },
+    { left: 'H200', right: 'Same chip as its predecessor with 141 GB of faster HBM3e' },
+    { left: 'L40S', right: 'FP8 support but no NVLink connection to other GPUs' },
   ]}
+  correctFeedback="Correct. Hopper introduced FP8, the H200 adds memory to the same Hopper chip, Blackwell adds FP4 and microscaling, and Lovelace GPUs such as the L40S lack NVLink."
+  incorrectFeedback="Use the letter first. H marks Hopper and FP8, and the H200 differs from the H100 only in memory. B marks Blackwell and FP4. L marks Lovelace, which supports FP8 but has no NVLink."
 />
 
+<p class="ie-obj">Objective 6: Differentiate GPU generations by inference features</p>
 <MultipleChoice
-  id="kc2"
-  question="A team wants to split one large model across eight GPUs in a node using efficient parallelism. Why is the L40 a poor fit?"
+  id="kc_l40_parallel"
+  question="A team plans to serve one 70-billion-parameter model on four L40S GPUs in a single server. Which approach suits this hardware, and why?"
   options={[
-    'It does not support FP8 inference',
-    'It does not support NVLink',
-    'It has less than 16 GB of VRAM',
+    'Pipeline parallelism, because the GPUs connect only over PCIe',
+    'Tensor parallelism, because the GPUs share an NVLink domain',
+    'Tensor parallelism, because the L40S lacks FP8 Tensor Cores',
   ]}
-  correct={1}
-  optionFeedback={[
-    'Incorrect. Lovelace GPUs, including the L40, support FP8 inference.',
-    'Correct. Lovelace GPUs lack NVLink, so they cannot use the high-bandwidth interconnect that efficient multi-GPU parallelism requires.',
-    'Incorrect. The L40 has 48 GB of VRAM. Its limitation for multi-GPU work is the interconnect, not capacity.',
-  ]}
-/>
-
-<MultipleChoice
-  id="kc3"
-  question="Which kernel uses the asynchronous data transfer and execution features introduced with Hopper to speed up attention?"
-  options={['FlashAttention 3', 'FlashAttention 4', 'Pipeline Parallelism']}
   correct={0}
   optionFeedback={[
+    'Correct. Lovelace GPUs have no NVLink, so they talk over PCIe. Pipeline parallelism needs little communication between stages, which suits the slower link, at the cost of added latency.',
+    'Incorrect. Lovelace GPUs do not support NVLink, so the four cards have no NVLink domain. Tensor parallelism over PCIe runs poorly.',
+    'Incorrect. Lovelace GPUs, including the L40S, do support FP8. The deciding factor is the missing NVLink.',
+  ]}
+/>
+
+<p class="ie-obj">Objective 6: Differentiate GPU generations by inference features</p>
+<MultipleChoice
+  id="kc_fa_kernel"
+  question="Which attention kernel was written for Hopper GPUs to use their asynchronous data transfer features?"
+  options={['FlashAttention 2', 'FlashAttention 3', 'FlashAttention 4']}
+  correct={1}
+  optionFeedback={[
+    'Incorrect. FlashAttention 2 was tuned for the Ampere generation. It runs on Hopper but does not use the Hopper asynchronous features.',
     'Correct. FlashAttention 3 targets Hopper and uses its asynchronous features to improve attention performance and memory efficiency.',
-    'Incorrect. FlashAttention 4 targets Blackwell and its extended asynchronous loading and storing features.',
-    'Incorrect. Pipeline Parallelism is a method for splitting a model across GPUs, not an attention kernel.',
+    'Incorrect. FlashAttention 4 targets Blackwell and its extended features for moving data between tensor memory and global memory.',
   ]}
 />

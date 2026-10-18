@@ -14,14 +14,14 @@
     {@const y = 20 + i * 54}
     <rect
       x="30" {y} width="300" height="40" rx="4"
-      fill={layer.writable ? '#ffffff' : 'var(--ie-accent-soft)'}
+      fill={layer.writable ? 'var(--ie-surface)' : 'var(--ie-accent-soft)'}
       stroke="var(--ie-accent)"
       stroke-width="2"
       stroke-dasharray={layer.writable ? '6 4' : 'none'}
     />
     <text class="ie-svg-text" x="180" y={y + 25} text-anchor="middle" font-size="15" font-weight="600">{layer.name}</text>
     <line x1="330" y1={y + 20} x2="370" y2={y + 20} stroke="var(--ie-line)" stroke-width="2" />
-    <rect x="370" {y} width="150" height="40" rx="4" fill="#ffffff" stroke="var(--ie-muted)" stroke-width="1.5" />
+    <rect x="370" {y} width="150" height="40" rx="4" fill="var(--ie-surface)" stroke="var(--ie-muted)" stroke-width="1.5" />
     <text class="ie-svg-text" x="445" y={y + 25} text-anchor="middle" font-size="14">{layer.access}</text>
   {/each}
 </svg>

@@ -3,40 +3,60 @@
 </script>
 
 <script>
-  import { MultipleChoice } from 'tessera-learn';
+  import { Matching, MultipleChoice, Sorting } from 'tessera-learn';
 </script>
 
 <h1>Knowledge Check: Kernels for Inference</h1>
 
-<p>These questions are ungraded. Use the feedback to confirm your understanding.</p>
+<p>
+  These questions are ungraded. The first practices objective 2, distinguishing
+  kernel libraries by role. The other two practice objective 3, determining what
+  a change of GPU architecture requires of a manually selected kernel.
+</p>
 
-<MultipleChoice
-  id="kc_kernels_1"
-  question="An inference engine needs ready-made, optimized attention kernels and fused sampling functions for an LLM. Which library supplies these directly?"
-  options={['cuBLAS', 'cuDNN', 'CuTe', 'FlashInfer']}
-  correct={3}
-  optionFeedback={[
-    'cuBLAS supplies linear algebra kernels such as GEMM, not LLM-specific attention and sampling kernels.',
-    'cuDNN supplies general neural network primitives, not LLM-specific attention and sampling kernels.',
-    'CuTe is a template library for writing tiled tensor kernels. It provides building blocks, not finished attention kernels.',
-    'Correct. FlashInfer provides high-performance kernels for LLM inference, including attention kernels and fused sampling functions.',
+<Matching
+  id="kc_kernels_match"
+  question="Match each kernel library to what it gives an engineer."
+  pairs={[
+    { left: 'cuBLAS', right: 'Pre-built linear algebra kernels, including a general GEMM' },
+    { left: 'cuDNN', right: 'Primitives for building neural networks' },
+    { left: 'CUTLASS', right: 'C++ templates for writing architecture-tuned GEMM kernels' },
+    { left: 'CuTe', right: 'The tiled-tensor layout layer that CUTLASS 3 is built on' },
+    { left: 'FlashInfer', right: 'Finished attention and sampling kernels for LLM inference' },
   ]}
+  correctFeedback="cuBLAS and cuDNN supply general building blocks, CUTLASS and CuTe help engineers write new kernels, and FlashInfer supplies finished LLM kernels."
+  incorrectFeedback="Separate finished kernels from tools for writing kernels. cuBLAS, cuDNN, and FlashInfer ship finished kernels. CUTLASS, with CuTe inside it, is for writing new ones."
+/>
+
+<Sorting
+  id="kc_kernels_port"
+  question="A team runs a DeepGEMM plugin kernel on H100s and is moving to B200s. Sort each proposed action by whether it meets the plugin's compatibility obligation."
+  items={[
+    'Check whether the DeepGEMM release supports Blackwell',
+    'Fall back to the cuBLAS GEMM for that operation',
+    'Port the plugin kernel to the Blackwell architecture',
+    'Convert the model weights to the ONNX format',
+    'Raise the batch size to fill the larger B200 memory',
+    'Keep the plugin unchanged, since a newer GPU runs it faster',
+  ]}
+  targets={['Meets the obligation', 'Does not meet it']}
+  correct={[0, 0, 0, 1, 1, 1]}
+  correctFeedback="The three valid actions confirm support, fall back to a general kernel, or port the kernel. The other three leave the H100-tuned kernel in place."
+  incorrectFeedback="A valid action changes or verifies the kernel itself. A weight format, a batch size, or a newer GPU does not change the hardware assumptions coded into the kernel."
 />
 
 <MultipleChoice
-  id="kc_kernels_2"
-  question="A handwritten kernel runs well on an H100. Why might it perform poorly after the team moves to a B200?"
+  id="kc_kernels_upgrade"
+  question="A handwritten attention kernel was tuned for the on-chip memory size of an H100. After an upgrade to B200s, the kernel runs correctly but slower than the team expected. What explains the result?"
   options={[
-    'The B200 cannot execute code compiled from C++.',
-    'The kernel encodes hardware details specific to the H100.',
-    'The kernel stores model weights in an incompatible format.',
-    'The B200 uses a different CUDA programming language.',
+    'Its hard-coded sizes leave B200 resources unused.',
+    'The B200 cannot run kernels compiled for Hopper.',
+    'The kernel stores its weights in an outdated file format.',
   ]}
-  correct={1}
+  correct={0}
   optionFeedback={[
-    'Every NVIDIA GPU runs compiled CUDA C++. The problem is the hard-coded assumptions inside the kernel.',
-    'Correct. Kernels often hard-code values based on memory bandwidth or Tensor Core layout, so they fail to use a newer architecture fully.',
-    'Kernels compute on data. Weight file formats are a separate concern.',
-    'CUDA is not a language. Kernels for every NVIDIA GPU are written in a language such as C++.',
+    'Correct. The kernel encodes H100 values, so it fails to use the larger memory and newer features of the B200. The fix is a kernel tuned for Blackwell.',
+    'The kernel does run. An older kernel usually runs on a newer generation. The risk of not running at all applies in the other direction.',
+    'Kernels compute on data in memory. Weight file formats are a separate concern.',
   ]}
 />

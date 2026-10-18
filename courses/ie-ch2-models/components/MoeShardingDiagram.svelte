@@ -1,31 +1,31 @@
 <script>
-  const gpus = [0, 1, 2, 3, 4, 5, 6, 7];
+  // One layer of Qwen3-235B-A22B on eight GPUs: 128 experts, 16 per GPU, 64 query heads, 4 KV heads.
+  const selected = new Set([3, 17, 40, 41, 77, 90, 101, 126]);
+  const gpus = [0, 1, 2, 3, 4, 5, 6, 7].map((g) => ({
+    g,
+    experts: Array.from({ length: 16 }, (_, i) => g * 16 + i),
+    kv: Math.floor(g / 2),
+  }));
 </script>
 
-<p>One decoder layer of Qwen3-235B-A22B, spread across eight GPUs. All 94 layers follow the same layout.</p>
-<table class="ie-table">
-  <caption>What each GPU holds for one decoder layer</caption>
-  <thead>
-    <tr>
-      <th scope="col">GPU</th>
-      <th scope="col">Attention (Q, K, V, O weights and heads)</th>
-      <th scope="col">Router</th>
-      <th scope="col">Experts</th>
-    </tr>
-  </thead>
-  <tbody>
-    {#each gpus as g}
-      <tr>
-        <th scope="row">GPU{g}</th>
-        <td>Slice {g + 1} of 8</td>
-        <td>Full copy</td>
-        <td>{g * 16} to {g * 16 + 15}</td>
-      </tr>
-    {/each}
-  </tbody>
-</table>
-<ul>
-  <li>Attention is sharded. Linear weights are split across GPUs with tensor parallelism, and attention is split by KV head.</li>
-  <li>The router is replicated. Every GPU runs the full router, so expert routing is not shared.</li>
-  <li>The experts are sharded by Expert Parallelism. Each GPU holds 16 of the 128 experts, and the router sends each token to 8 experts.</li>
+<ul class="moe-gpus">
+  {#each gpus as { g, experts, kv } (g)}
+    {@const picked = experts.filter((e) => selected.has(e)).length}
+    <li class="moe-gpu">
+      <p class="moe-name">GPU {g}</p>
+      <p class="moe-row">Attention: query heads {g * 8} to {g * 8 + 7}, KV head {kv}</p>
+      <p class="moe-row">Router: full copy</p>
+      <p class="moe-row">Experts {g * 16} to {g * 16 + 15}, {picked} selected:</p>
+      <ul class="moe-experts">
+        {#each experts as e (e)}
+          {#if selected.has(e)}
+            <li class="moe-sel"><span aria-hidden="true">✓</span>{e}<span class="ie-vh"> (selected)</span></li>
+          {:else}
+            <li>{e}</li>
+          {/if}
+        {/each}
+      </ul>
+    </li>
+  {/each}
 </ul>
+<p class="moe-key">A check mark and a heavy outline mark the 8 experts the router selects for one example token.</p>

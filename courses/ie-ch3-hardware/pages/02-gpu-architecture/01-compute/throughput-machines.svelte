@@ -2,11 +2,17 @@
   export const pageConfig = { title: 'GPUs as Throughput Machines' };
 </script>
 
+<script>
+  import { scrollable } from '$shared/scrollable.js';
+  import Term from '$shared/Term.svelte';
+</script>
+
 <h1>GPUs as Throughput Machines</h1>
 
 <p>
-  A CPU and a GPU solve different problems. A CPU excels at complex sequential execution: long chains of
-  dependent instructions with branching logic. A GPU excels at simple, massively parallel work.
+  A <Term id="cpu">CPU</Term> and a <Term id="gpu">GPU</Term> solve different problems. A CPU excels at complex
+  sequential execution: long chains of dependent instructions with branching logic. A GPU excels at simple,
+  massively parallel work.
 </p>
 <p>
   More precisely, a GPU performs one uniform operation on thousands of independent pieces of data at the same
@@ -19,7 +25,7 @@
   A <strong>thread</strong> is an independent stream of instructions. The concept means the same thing on both
   processors, but the scale differs by orders of magnitude.
 </p>
-<div class="ie-table-wrap">
+<div class="ie-table-wrap" role="region" aria-label="Thread capacity compared" use:scrollable>
   <table class="ie-table">
     <caption>Thread capacity compared</caption>
     <thead>
@@ -33,7 +39,7 @@
   </table>
 </div>
 
-<h2>The right level of abstraction</h2>
+<h2>The level of abstraction for inference engineers</h2>
 <p>
   GPUs are extraordinarily complex devices. Their engineering spans the physics of power and cooling and the
   extremely tight tolerances of chip manufacturing. Inference engineers work at a level of abstraction above

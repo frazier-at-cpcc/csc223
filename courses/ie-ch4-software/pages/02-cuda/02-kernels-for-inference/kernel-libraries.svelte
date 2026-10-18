@@ -2,11 +2,17 @@
   export const pageConfig = { title: 'Kernel Libraries' };
 </script>
 
+<script>
+  import { scrollable } from '$shared/scrollable.js';
+  import Term from '$shared/Term.svelte';
+</script>
+
 <h1>Kernel Libraries</h1>
 
 <p>
-  Writing CUDA kernels does not mean starting from nothing. Kernel engineers
-  build on libraries and specifications, some of which predate CUDA by decades.
+  Writing CUDA <Term id="kernel">kernels</Term> does not mean starting from nothing.
+  Kernel engineers build on libraries and specifications, some of which predate
+  CUDA by decades.
 </p>
 
 <h2>BLAS and cuBLAS</h2>
@@ -24,11 +30,11 @@
   building neural networks.
 </p>
 
-<h2>GEMM: the operation that dominates inference</h2>
+<h2>GEMM, the operation that dominates inference</h2>
 
 <p>
   <strong>GEMM</strong> (General Matrix-Matrix Multiplication) is the BLAS
-  operation that inference uses most. Every linear layer in a model performs a
+  operation that inference uses most. Every linear <Term id="layer">layer</Term> in a model performs a
   matrix multiplication. cuBLAS provides a strong GEMM implementation as a
   starting point.
 </p>
@@ -39,8 +45,9 @@
   specific GPU architecture.
 </p>
 
-<h2>Template libraries for custom kernels</h2>
+<h2>Template libraries and ready-made kernels</h2>
 
+<div class="table-wrap" role="region" aria-label="Libraries for writing and sourcing high-performance kernels" use:scrollable>
 <table class="data">
   <caption>Libraries for writing and sourcing high-performance kernels</caption>
   <thead>
@@ -56,7 +63,7 @@
     </tr>
     <tr>
       <th scope="row">CuTe</th>
-      <td>A C++ template library that abstracts tiled tensor operations for recent GPU architectures.</td>
+      <td>The layout and tensor abstraction inside CUTLASS 3. It describes how tiles of a tensor map onto threads and memory, and CUTLASS 3 kernels are built on it.</td>
     </tr>
     <tr>
       <th scope="row">FlashInfer</th>
@@ -64,9 +71,10 @@
     </tr>
   </tbody>
 </table>
+</div>
 
 <p>
-  CUTLASS and CuTe let engineers write kernels at a higher level of abstraction
-  while keeping strong performance. FlashInfer supplies finished kernels that an
-  engine can use directly.
+  CUTLASS, with CuTe as its tiled-tensor layer, lets engineers write kernels at a
+  higher level of abstraction while keeping strong performance. FlashInfer
+  supplies finished kernels that an engine can use directly.
 </p>

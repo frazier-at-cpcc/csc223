@@ -2,14 +2,20 @@
   export const pageConfig = { title: 'KV Cache Offloading Tiers' };
 </script>
 
+<script>
+  import { scrollable } from '$shared/scrollable.js';
+  import Term from '$shared/Term.svelte';
+</script>
+
 <h1>KV Cache Offloading Tiers</h1>
 
 <p>
   <strong>KV cache offloading</strong> moves cache blocks from VRAM to nearby storage to make room for more cache.
-  Four storage levels exist, listed here in descending order of bandwidth to the GPU.
+  A block that is offloaded can be read back later instead of recomputed in <Term id="prefill">prefill</Term>. Four storage levels exist,
+  listed here in descending order of bandwidth to the GPU.
 </p>
 
-<div class="ie-table-wrap">
+<div class="ie-table-wrap" role="region" aria-label="KV cache storage levels" use:scrollable>
   <table class="ie-table">
     <caption>KV cache storage levels</caption>
     <thead>
@@ -32,11 +38,11 @@
 
 <h2>Hardware and tooling</h2>
 <p>
-  Some systems, such as the GB200, pair GPUs with CPUs and interconnects that make G2 storage much faster. That
-  makes them strong choices for KV cache offloading.
+  Some systems, such as the GB200, pair GPUs with a <Term id="grace-cpu">Grace CPU</Term> over a fast chip-to-chip
+  link, which makes G2 storage much faster. That makes them strong choices for KV cache offloading.
 </p>
 <p>
-  NVIDIA Dynamo supports offloading through the KV Block Manager (KVBM). KVBM provides APIs that move KV cache
-  blocks between memory levels. Keep the most frequently used blocks in higher-bandwidth memory, and move
+  <Term id="nvidia-dynamo" /> supports offloading through the KV Block Manager (KVBM). KVBM provides APIs that move
+  KV cache blocks between memory levels. Keep the most frequently used blocks in higher-bandwidth memory, and move
   less-used blocks to slower storage until they are needed.
 </p>

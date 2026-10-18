@@ -209,3 +209,76 @@
   font-size: 1.35rem;
   text-align: center;
 }
+
+/* Visually hidden text for screen readers */
+.ie-vh {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* MoE sharding (Figure 2.9) */
+.moe-gpus {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.moe-gpu {
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--tessera-primary-dark);
+  border-radius: 6px;
+  background: var(--tessera-bg);
+}
+
+.moe-name {
+  margin: 0;
+  font-weight: 700;
+}
+
+.moe-row {
+  margin: 0.15rem 0;
+  font-size: 0.85rem;
+}
+
+.moe-experts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0;
+}
+
+.moe-experts li {
+  min-width: 2.1rem;
+  padding: 0.1rem 0.2rem;
+  border: 1px solid var(--tessera-border);
+  border-radius: 3px;
+  font-size: 0.8rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.moe-experts li.moe-sel {
+  border: 2px solid var(--tessera-text);
+  background: var(--tessera-primary-light);
+  font-weight: 700;
+}
+
+.moe-key {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+}
+
+/* Let wide tables scroll inside their wrapper instead of widening the page on small screens. */
+.tessera-main,
+.tessera-content {
+  min-width: 0;
+}

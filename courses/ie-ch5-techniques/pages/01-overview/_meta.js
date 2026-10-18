@@ -1,1 +1,4 @@
-export default { title: 'Overview', pages: ['overview', 'principles', 'check-principles'] };
+export default {
+  title: 'Overview',
+  pages: ['overview', 'recall-earlier-chapters', 'principles', 'check-principles'],
+};

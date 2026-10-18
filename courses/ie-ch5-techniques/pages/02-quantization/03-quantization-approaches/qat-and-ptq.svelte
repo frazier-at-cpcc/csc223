@@ -2,22 +2,27 @@
   export const pageConfig = { title: 'Training-Time and Post-Training Quantization' };
 </script>
 
+<script>
+  import Term from '$shared/Term.svelte';
+</script>
+
 <h1>Training-Time and Post-Training Quantization</h1>
 
 <p>
-  Models with more parameters are less sensitive to quantization, because each individual parameter matters less.
-  Even very large models still need careful quantization.
+  Models with more <Term id="parameter">parameters</Term> are less sensitive to quantization, because each
+  individual parameter matters less. Even very large models still need careful quantization.
 </p>
 
 <h2>Two points at which quantization happens</h2>
 <ul>
   <li>
-    <strong>Quantization-aware training</strong> computes scale factors and optimizes weights together during
+    <strong>Quantization-aware training</strong> computes <Term id="scale-factor">scale factors</Term> and optimizes <Term id="weights">weights</Term> together during
     training. The converged weights are already accurate at the target precision.
   </li>
   <li>
-    <strong>Post-training quantization</strong> converts finished weights to a new precision. It computes scale
-    factors and preserves accuracy through <strong>calibration</strong>.
+    <strong>Post-training quantization</strong> converts finished weights to a new precision. It sets scale factors
+    through <strong>calibration</strong>: running a small, representative dataset through the model to measure the
+    range of its values, then choosing scale factors that cover that range.
   </li>
 </ul>
 <p>
@@ -26,16 +31,17 @@
   only approach available to them.
 </p>
 
-<h2>Tooling</h2>
+<h2>Quantization tooling</h2>
 <p>
   NVIDIA TensorRT Model Optimizer (ModelOpt) is a leading open-source library for post-training quantization. It
-  also supports pruning, distillation, and sparsity. Its outputs work with vLLM, SGLang, and TensorRT-LLM.
+  also supports <Term id="pruning">pruning</Term>, <Term id="distillation">distillation</Term>, and <Term id="sparsity">sparsity</Term>. Its outputs work with
+  <Term id="vllm" />, <Term id="sglang">SGLang</Term>, and <Term id="tensorrt-llm">TensorRT-LLM</Term>.
 </p>
 
 <h2>Two decisions before quantizing</h2>
 <p>After you pick a target precision, post-training quantization requires two more decisions.</p>
 <ol>
-  <li>Which parts of the model to quantize: weights, activations, KV cache, or attention.</li>
+  <li>Which parts of the model to quantize: weights, <Term id="activations">activations</Term>, <Term id="kv-cache">KV cache</Term>, or <Term id="attention">attention</Term>.</li>
   <li>Which number format offers the dynamic range and granularity those parts need.</li>
 </ol>
 <p>These decisions turn quantization from a yes-or-no choice into a spectrum of performance and quality tradeoffs.</p>

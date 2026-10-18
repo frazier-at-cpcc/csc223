@@ -15,8 +15,8 @@
     </div>
   {/each}
   <ul class="ie-legend" aria-label="Legend">
-    <li>✓ Match: read from cache</li>
-    <li>✗ Miss: first non-repeated token</li>
-    <li>– Discarded: computed in prefill</li>
+    <li><span aria-hidden="true">✓</span> Match: read from cache</li>
+    <li><span aria-hidden="true">✗</span> Miss: first non-repeated token</li>
+    <li><span aria-hidden="true">↻</span> Recomputed: computed again in prefill</li>
   </ul>
 </Figure>

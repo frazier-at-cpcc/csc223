@@ -4,6 +4,8 @@
 
 <script>
   import { Callout } from 'tessera-learn';
+  import Signal from '$shared/Signal.svelte';
+  import Term from '$shared/Term.svelte';
 </script>
 
 <h1>Kernel Selection</h1>
@@ -21,16 +23,15 @@
   CUDA exposes low-level APIs for memory management and parallel computation.
   Kernel engineers make implementation decisions based on the exact
   specifications of the target GPU. Kernels often contain hard-coded values based
-  on memory bandwidth or on the number and layout of Tensor Cores.
+  on <Term id="memory-bandwidth">memory bandwidth</Term>, on-chip memory size, or the number and layout of
+  <Term id="tensor-core">Tensor Cores</Term>.
 </p>
 
-<p>
-  That specialization cuts both ways:
-</p>
+<p>That specialization cuts both ways:</p>
 
 <ul>
-  <li>A kernel written for an H100 will likely fail to use the architecture and extra memory of a B200.</li>
-  <li>A kernel written for a B200 may not run at all on the previous-generation Hopper architecture.</li>
+  <li>Moving to a newer generation: a kernel written for an <Term id="h100" /> will likely run on a <Term id="b200" /> but fail to use its architecture and extra memory.</li>
+  <li>Moving to an older generation: a kernel written for a B200 may not run at all on the previous-generation <Term id="hopper" /> architecture, because it relies on features that only <Term id="blackwell" /> has.</li>
 </ul>
 
 <p>
@@ -38,13 +39,23 @@
   engineering work.
 </p>
 
+<Signal kind="mistake" title="Same language, different hardware">
+  <p>
+    Every NVIDIA GPU runs code written in CUDA C++, so it is tempting to assume
+    that any CUDA kernel runs well on any NVIDIA GPU. The source language is the
+    same on every GPU. The problem is the hardware assumptions coded into the
+    kernel and the architecture it was compiled to target.
+  </p>
+</Signal>
+
 <h2>Automatic selection</h2>
 
 <p>
   Most kernel selection happens automatically. Deep learning frameworks and
   inference engines ship with pre-configured kernels for common architectures.
   PyTorch and TensorRT-LLM also select kernels automatically during their
-  compilation steps.
+  compilation steps. Automatic selection follows the hardware: when the GPU
+  changes, the framework or engine picks kernels for the new architecture.
 </p>
 
 <h2>Manual selection: the DeepGEMM example</h2>
@@ -53,21 +64,34 @@
   Engineers sometimes choose kernels by hand for a few essential operations.
   Most production GEMM kernels come from cuBLAS. When the DeepSeek lab released
   an updated DeepSeek-V3, it also released <strong>DeepGEMM</strong>, a library
-  of GEMM kernels with strong FP8 performance on the Hopper architecture.
+  of GEMM kernels with strong <Term id="fp8" /> performance on the Hopper architecture.
 </p>
 
 <p>
-  Manual selection lets an engineer insert a DeepGEMM kernel as a plugin. The
-  plugin speeds up one specific step, such as multiplying two matrices of
-  precise dimensions.
+  Manual selection lets an engineer insert a DeepGEMM kernel as a
+  <strong>plugin kernel</strong>: a hand-picked kernel that replaces the default
+  one for a specific step, such as multiplying two matrices of precise
+  dimensions.
 </p>
 
-<Callout type="warning">
+<h2>What a hardware change requires</h2>
+
+<p>
+  A manually selected kernel creates a compatibility obligation, because nothing
+  selects a replacement automatically. When a team changes GPU architecture, it
+  works through each plugin kernel in order:
+</p>
+
+<ol>
+  <li>Confirm whether the kernel's library supports the new architecture. If it does, update to that version and benchmark again.</li>
+  <li>If it does not, fall back to a general kernel, such as the cuBLAS GEMM, or to the engine's automatic selection for that operation.</li>
+  <li>If the plugin's speedup is essential and no supported version exists, wait for the library to add support or port the kernel to the new architecture.</li>
+</ol>
+
+<Callout type="info">
   <p>
-    A manually selected kernel creates a compatibility obligation. Suppose a team
-    moves from Hopper GPUs to a B200. The team must either swap back to a
-    general kernel, wait for the library to add Blackwell support, or port the
-    kernel itself. DeepGEMM added Blackwell support by the time of the book's
-    publication, but the obligation applies to every hand-picked kernel.
+    DeepGEMM added Blackwell support by the time of the book's publication in
+    2025. The obligation still applies to every hand-picked kernel, because each
+    library adds support for a new architecture on its own schedule.
   </p>
 </Callout>

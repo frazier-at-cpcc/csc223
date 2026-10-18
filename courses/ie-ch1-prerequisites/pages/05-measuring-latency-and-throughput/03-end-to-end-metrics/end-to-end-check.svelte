@@ -3,24 +3,32 @@
 </script>
 
 <script>
-  import { MultipleChoice } from 'tessera-learn';
+  import { MultipleChoice, Sorting } from 'tessera-learn';
 </script>
 
 <h1>Knowledge Check: End-to-End Metrics</h1>
 
-<p>Answer these practice questions. They do not count toward your score.</p>
+<p>Answer these practice questions. They do not count toward your score. Each item names the objective it practices.</p>
 
-<MultipleChoice
+<p class="ie-obj">Objective 9: Diagnose where to direct optimization work.</p>
+
+<Sorting
   id="kc_e2e_1"
-  question="Which measurement reflects how fast users perceive an application to be?"
-  options={['End-to-end latency', 'Inference time', 'Total TPS']}
-  correct={0}
-  optionFeedback={[
-    'Correct. End-to-end latency includes network and queue time, which users experience along with inference.',
-    'Not quite. Inference time covers only on-GPU work and leaves out network and queue delays.',
-    'Not quite. Total TPS is a throughput metric for the whole service, not a measure of one user\'s wait.',
+  question="Sort each measurement by where the team should work first."
+  items={[
+    'GPU time is 150 ms of a 2,000 ms end-to-end wait',
+    'GPU time is 900 ms of a 1,000 ms end-to-end wait',
+    'Requests wait 3 seconds in a queue at peak, and GPU time is 0.4 seconds',
+    'Users on another continent see 600 ms of network time, and GPU time is 300 ms',
+    'A reply takes 2.5 seconds on the GPU out of a 2.7-second wait',
   ]}
+  targets={['Network and queues first', 'Model performance first']}
+  correct={[0, 1, 0, 0, 1]}
+  correctFeedback="Correct. Work goes to whichever part holds most of the wait."
+  incorrectFeedback="Not yet. Subtract GPU time from the end-to-end wait. If most of the wait is outside the GPU, fix infrastructure first. If most is inside, optimize the model."
 />
+
+<p class="ie-obj">Objective 9: Diagnose where to direct optimization work.</p>
 
 <MultipleChoice
   id="kc_e2e_2"

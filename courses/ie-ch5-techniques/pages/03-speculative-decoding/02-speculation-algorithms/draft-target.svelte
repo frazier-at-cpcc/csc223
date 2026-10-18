@@ -2,12 +2,16 @@
   export const pageConfig = { title: 'Draft-Target Speculation' };
 </script>
 
+<script>
+  import Term from '$shared/Term.svelte';
+</script>
+
 <h1>Draft-Target Speculation</h1>
 
-<p>The original method of speculative decoding uses two models.</p>
+<p>The original method of <Term id="speculative-decoding">speculative decoding</Term> uses two models.</p>
 <ul>
-  <li>The <strong>draft model</strong> is an additional model that generates draft tokens.</li>
-  <li>The <strong>target model</strong> is the original model. It verifies draft tokens and performs ordinary decode.</li>
+  <li>The <strong>draft model</strong> is an additional, smaller model that generates draft tokens.</li>
+  <li>The <strong>target model</strong> is the original model. It verifies draft tokens and performs ordinary <Term id="decode">decode</Term>.</li>
 </ul>
 
 <h2>Choosing a draft model</h2>
@@ -16,9 +20,15 @@
   rate and needs minimal resources.
 </p>
 <ul>
-  <li>Draft models usually come from the same model family as the target, because they share a tokenizer and similar behavior.</li>
+  <li>
+    Draft models usually come from the same model family as the target, because they share a
+    <Term id="tokenizer">tokenizer</Term> and similar behavior.
+  </li>
   <li>As a rule of thumb, the draft model should be at least ten times smaller than the target by parameter count.</li>
-  <li>Fine-tuning or distillation can raise the acceptance rate by teaching the draft model to behave more like the target.</li>
+  <li>
+    <Term id="fine-tuning">Fine-tuning</Term> or <Term id="distillation">distillation</Term> can raise the acceptance rate by teaching
+    the draft model to behave more like the target.
+  </li>
 </ul>
 <p>
   For example, a 70-billion-parameter target model calls for a draft model of 7 billion parameters or fewer from
@@ -31,10 +41,10 @@
   perform better, because draft-target carries the most overhead of any method.
 </p>
 <ul>
-  <li>The engine stores the draft model's weights, activations, and KV cache in memory.</li>
-  <li>The engine spends compute on prefill for the draft model.</li>
+  <li>The engine stores the draft model's <Term id="weights">weights</Term>, <Term id="activations">activations</Term>, and <Term id="kv-cache">KV cache</Term> in memory.</li>
+  <li>The engine spends compute on <Term id="prefill">prefill</Term> for the draft model.</li>
   <li>
     The draft and target models must run in coordination so they do not compete for resources. Engines such as
-    TensorRT-LLM handle this orchestration.
+    <Term id="tensorrt-llm">TensorRT-LLM</Term> handle this orchestration.
   </li>
 </ul>

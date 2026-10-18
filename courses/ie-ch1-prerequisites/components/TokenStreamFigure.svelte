@@ -31,7 +31,11 @@
     display: grid;
     grid-template-columns: 3fr 7fr;
     gap: 0.5rem;
-    min-width: 32rem;
+  }
+  @media (max-width: 36rem) {
+    .stream {
+      grid-template-columns: 1fr;
+    }
   }
   .track {
     min-height: 2.5rem;

@@ -7,29 +7,34 @@
 </script>
 
 <h1>Knowledge Check: Observability</h1>
+<p>These practice questions are ungraded. Each one gives feedback when you answer.</p>
 
-<p>These practice questions are ungraded. Select an answer to see feedback.</p>
-
+<p class="ie-objective">Practices objective 9: diagnose the source of a latency problem</p>
 <MultipleChoice
-  id="kc_ob_1"
-  question="Users of an asynchronous batch service report that jobs take hours longer than usual. GPU utilization is at 100 percent on every replica. Which metric shows how much work is still waiting?"
-  options={['Queue depth', 'Replica count', 'Response codes']}
+  id="kc_ob_backlog"
+  question="Users of an asynchronous document service report that results arrive hours later than usual. Every replica shows 100 percent GPU utilization. Which metric tells the team whether the delay will keep growing?"
+  options={[
+    'Queue depth over the last hour',
+    'Replica count over the last hour',
+    'Response codes over the last hour',
+  ]}
   correct={0}
   optionFeedback={[
-    'Correct. Queue depth counts requests that are enqueued and waiting to be processed.',
-    'Incorrect. Replica count shows how many instances serve traffic, not how much work is waiting.',
-    'Incorrect. Response codes count successes and errors for completed requests, not pending ones.',
+    'Correct. If queue depth keeps climbing while the replicas are saturated, arrivals exceed throughput and the delay will grow. A falling depth means the backlog is draining.',
+    'Incorrect. Replica count shows how much capacity exists, not whether that capacity keeps up with arrivals.',
+    'Incorrect. Response codes count completed requests by outcome. They say nothing about the work still waiting.',
   ]}
 />
 
+<p class="ie-objective">Practices objective 9: diagnose the source of a latency problem</p>
 <MultipleChoice
-  id="kc_ob_2"
-  question="An engineer needs to find out who changed the engine configuration of an inference service shortly before an outage. Which record answers this?"
-  options={['Audit logs', 'Latency percentiles', 'Server logs']}
-  correct={0}
+  id="kc_ob_audit"
+  question="Latency and error rates jump at 3:05 p.m., and the team suspects that someone changed the engine configuration shortly before. Which record answers who changed it?"
+  options={['Latency percentiles', 'Server logs', 'Audit logs']}
+  correct={2}
   optionFeedback={[
-    'Correct. Audit logs record changes made to the inference service.',
     'Incorrect. Latency percentiles show how fast requests completed, not who changed the service.',
-    'Incorrect. Server logs record request handling. Configuration changes belong in audit logs.',
+    'Incorrect. Server logs record how the service handled requests. Changes to the service itself belong in audit logs.',
+    'Correct. Audit logs record changes made to the inference service, with who made each change and when.',
   ]}
 />

@@ -42,7 +42,7 @@
   const labels = {
     static: 'Timeline of four requests under static batching. Requests arrive at 0, 40, 90, and 230 milliseconds. All four wait, shown as dashed queue time, until the batch fills at about 240 milliseconds. Inference then runs for all four, ending between 370 and 600 milliseconds.',
     dynamic: 'Timeline of four requests under dynamic batching. Requests arrive at 0, 40, and 90 milliseconds and wait only until a cutoff at 150 milliseconds, when the partial batch starts. A fourth request arrives at 230 milliseconds, after the cutoff, and is batched separately.',
-    continuous: 'Timeline of four requests under continuous batching. Each request starts inference the moment it arrives, with no queue time. When a request finishes, its slot is freed, shown as a dotted line, and a new request can take its place.',
+    continuous: 'Timeline of four requests under continuous batching. Each request starts inference the moment it arrives, because a slot is free. When every slot is full, a new request waits in a queue until a slot frees. When a request finishes, its slot is freed, shown as a dotted line, and a new request can take its place.',
   };
 </script>
 

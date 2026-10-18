@@ -3,41 +3,46 @@
 </script>
 
 <script>
-  import { MultipleChoice } from 'tessera-learn';
+  import { MultipleChoice, Sorting } from 'tessera-learn';
 </script>
 
 <h1>Knowledge Check: Online Versus Offline</h1>
 
-<p>Answer these practice questions. They do not count toward your score.</p>
+<p>Answer these practice questions. They do not count toward your score. Each item names the objective it practices.</p>
 
-<MultipleChoice
+<p class="ie-obj">Objective 3: Classify a workload as online or offline.</p>
+
+<Sorting
   id="kc_online_1"
-  question="Why does higher throughput lower inference cost at scale?"
-  options={[
-    'Each request finishes faster for its user',
-    'Fewer GPUs can serve the same number of users',
-    'The team can replace the model with a smaller one',
+  question="Sort each workload as online or offline."
+  items={[
+    'Live captions for a video call in progress',
+    'Re-embedding a company document archive every Sunday night',
+    'Rewriting a paragraph when a writer selects it and clicks Improve',
+    'Transcribing 10,000 archived podcast episodes for a search index',
+    'Answering a caller on a phone support line',
+    'Bulk-tagging every product photo in a catalog of 3 million items',
   ]}
-  correct={1}
-  optionFeedback={[
-    'Not quite. Faster individual requests describe lower latency. A throughput-optimized system may make each request slower.',
-    'Correct. Throughput is total work per unit time, so more throughput per GPU means fewer GPUs for the same load.',
-    'Not quite. Changing the model is a model selection decision, not a property of throughput.',
-  ]}
+  targets={['Online', 'Offline']}
+  correct={[0, 1, 0, 1, 0, 1]}
+  correctFeedback="Correct. In each online workload a person waits for the response. In each offline workload no one waits on any single item."
+  incorrectFeedback="Not yet. For each workload, ask whether a person is waiting for that response right now. If so, it is online, however many requests it involves."
 />
+
+<p class="ie-obj">Objective 3: Classify a workload as online or offline.</p>
 
 <MultipleChoice
   id="kc_online_2"
-  question="A company uses Whisper for live dictation and for nightly transcription of its podcast archive. Both workloads have high volume. Which setup is most cost-effective?"
+  question="A video platform runs one captioning model for live streams and for an archive of 2 million older videos that still lack captions. Both workloads have high volume. Which setup is most cost-effective?"
   options={[
-    'One deployment optimized for latency that serves both workloads',
-    'One deployment optimized for throughput that serves both workloads',
-    'Two deployments of the same model, one tuned for latency and one for throughput',
+    'One deployment tuned for latency that serves both workloads',
+    'One deployment tuned for throughput that serves both workloads',
+    'Two deployments of the same model, one tuned for each workload',
   ]}
   correct={2}
   optionFeedback={[
-    'Not quite. A latency-optimized deployment wastes GPU capacity on the archive job, which does not need fast individual responses.',
-    'Not quite. A throughput-optimized deployment makes each dictation request too slow for a live user.',
-    'Correct. With enough volume on each side, separate deployments let each workload get the optimization it needs.',
+    'Not quite. A latency-tuned deployment spends GPU capacity on fast individual responses that the archive job does not need.',
+    'Not quite. A throughput-tuned deployment makes each live caption arrive too late for viewers.',
+    'Correct. Live captions are online and the archive is offline. With enough volume on each side, separate deployments let each workload get the optimization it needs.',
   ]}
 />

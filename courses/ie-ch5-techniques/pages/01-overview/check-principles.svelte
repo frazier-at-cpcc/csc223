@@ -3,39 +3,36 @@
 </script>
 
 <script>
-  import { MultipleChoice } from 'tessera-learn';
+  import { MultipleChoice, Sorting } from 'tessera-learn';
 </script>
 
 <h1>Knowledge Check: Principles</h1>
-<p>These questions are ungraded. Use them to confirm your understanding before moving on.</p>
+<p>These questions are ungraded. Each one practices objective 1: how constraints, traffic volume, and interactions decide which techniques to apply.</p>
 
 <MultipleChoice
   id="kc_principles_1"
-  question="Which pair of choices pulls in opposite directions, so that strengthening one weakens the other?"
+  question="A two-person team serves an internal model on one replica that receives a few hundred requests per day. A vendor proposes dynamic disaggregation and cache-aware routing. What should the team conclude?"
   options={[
-    'Increasing batch size and using speculative decoding',
-    'Quantizing the KV cache and using disaggregation',
-    'Using prefix caching and using cache-aware routing',
-    'Using Tensor Parallelism and using NVLink within a node',
+    'Adopt both, because every optimization lowers cost per token',
+    'Adopt cache-aware routing first, because it needs no extra GPUs',
+    'Adopt dynamic disaggregation first, because it is lossless',
+    'Defer both, because neither pays off at this traffic volume',
   ]}
-  correct={0}
+  correct={3}
   optionFeedback={[
-    'Correct. Larger batches consume the spare compute that speculative decoding needs to validate draft tokens.',
-    'Incorrect. Quantizing the KV cache relieves a bottleneck in disaggregation, so the two are symbiotic.',
-    'Incorrect. Cache-aware routing sends requests to the replica that holds their prefix, which raises the prefix cache hit rate.',
-    'Incorrect. NVLink supplies the high intra-node bandwidth that Tensor Parallelism depends on.',
+    'Incorrect. Optimizations that need many GPUs raise cost when traffic cannot keep those GPUs busy.',
+    'Incorrect. Cache-aware routing chooses among replicas. With one replica, every request already reaches the only cache.',
+    'Incorrect. Being lossless does not make a technique worthwhile. Disaggregation needs high volume to fill separate engines.',
+    'Correct. Both techniques assume many GPUs serving heavy traffic. At a few hundred requests per day they add cost and complexity without a matching gain.',
   ]}
 />
 
-<MultipleChoice
+<Sorting
   id="kc_principles_2"
-  question="Which technique from this chapter can reduce a model's output quality?"
-  options={['Disaggregation', 'Prefix caching', 'Quantization', 'Speculative decoding']}
-  correct={2}
-  optionFeedback={[
-    'Incorrect. Disaggregation moves prefill and decode onto separate engines without changing the computation.',
-    'Incorrect. Prefix caching re-uses KV cache values that are identical to what prefill would compute.',
-    'Correct. Lowering numerical precision can introduce errors that compound through the model.',
-    'Incorrect. The target model verifies every draft token, so the output matches what the model would have generated.',
-  ]}
+  question="Sort each technique by whether it can change the model's output."
+  items={['Quantization', 'Speculative decoding', 'Prefix caching', 'Tensor parallelism', 'Disaggregation']}
+  targets={['Can change output quality', 'Lossless']}
+  correct={[0, 1, 1, 1, 1]}
+  correctFeedback="Correct. Only quantization changes the numbers the model computes with. The other four change where or when the model computes."
+  incorrectFeedback="Quantization lowers numerical precision, so it can change outputs. Speculation verifies every draft, prefix caching reuses identical keys and values, and parallelism and disaggregation move the same computation to different GPUs."
 />

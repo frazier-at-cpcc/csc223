@@ -1,95 +1,182 @@
 <script>
   import Figure from './Figure.svelte';
 
-  // Workload plane boxes: [x, y]. Width 180, height 36. Positions follow the book figure.
-  const planes = [
-    [50, 72], [50, 192], [50, 312], // Cloud A, left column
-    [290, 312], // Cloud A, lower middle
-    [290, 72], // Cloud B
-    [530, 72], [530, 192], [530, 312], // Cloud C
+  // Capacity per cloud follows the book figure: Cloud A 4 planes, Cloud B 1, Cloud C 3.
+  const clouds = [
+    { name: 'Cloud A', planes: 4 },
+    { name: 'Cloud B', planes: 1 },
+    { name: 'Cloud C', planes: 3 },
   ];
-  const cx = 380;
-  const cy = 210;
+
+  let outage = $state(false);
+
+  const status = $derived(
+    outage
+      ? 'Cloud A is down, and its four workload planes are offline. The global control plane redeploys the models from Cloud A onto the four workload planes in Clouds B and C. Routing sends requests to those planes, so users stay served.'
+      : 'All eight workload planes are healthy. The global control plane places each model wherever capacity exists across the three clouds.',
+  );
 </script>
 
 <Figure number="0.3" caption="Serving model inference at scale requires unifying capacity across multiple cloud service providers.">
-  <svg viewBox="0 0 760 400" role="img" aria-labelledby="mc-title mc-desc" class="mc">
-    <title id="mc-title">Global control plane connected to workload planes in three clouds</title>
-    <desc id="mc-desc">
-      A global control plane in the center links to eight workload planes. Cloud A holds four, Cloud B holds one, and Cloud
-      C holds three.
-    </desc>
-    <path class="cloud" d="M30 50 H250 V290 H490 V380 H30 Z" />
-    <rect class="cloud" x="270" y="50" width="220" height="90" />
-    <rect class="cloud" x="510" y="50" width="220" height="330" />
-    <text class="cloud-label" x="140" y="36">CLOUD A</text>
-    <text class="cloud-label" x="380" y="36">CLOUD B</text>
-    <text class="cloud-label" x="620" y="36">CLOUD C</text>
-    {#each planes as [x, y] (`${x}-${y}`)}
-      <line class="link" x1={cx} y1={cy} x2={x + 90} y2={y + 18} />
-    {/each}
-    {#each planes as [x, y] (`${x}-${y}`)}
-      <rect class="plane" {x} {y} width="180" height="36" />
-      <text class="plane-label" x={x + 90} y={y + 23}>WORKLOAD PLANE</text>
-    {/each}
-    <rect class="control" x="280" y="190" width="200" height="40" />
-    <text class="control-label" x={cx} y="215">GLOBAL CONTROL PLANE</text>
-  </svg>
+  <div class="mc">
+    <div class="control">
+      <p class="control-name">Global control plane</p>
+      <p class="control-note">Deploys models and allocates resources across all eight workload planes</p>
+    </div>
+    <ul class="clouds" aria-label="Clouds and their workload planes">
+      {#each clouds as c (c.name)}
+        {@const down = outage && c.name === 'Cloud A'}
+        <li class="cloud" class:down>
+          <p class="cloud-name">{c.name}{#if down}: outage{/if}</p>
+          <ul class="planes" aria-label="{c.name} workload planes">
+            {#each Array(c.planes) as _, i (i)}
+              <li class="plane">
+                <span>Workload plane {i + 1}</span>
+                <span class="state">{down ? 'offline' : 'serving'}</span>
+              </li>
+            {/each}
+          </ul>
+        </li>
+      {/each}
+    </ul>
+    <div class="toggle">
+      <button type="button" aria-pressed={outage ? 'true' : 'false'} onclick={() => (outage = !outage)}>
+        Simulate a Cloud A outage
+      </button>
+    </div>
+    <p class="status" role="status">{status}</p>
+  </div>
   {#snippet description()}
     <p>
       The figure shows three cloud providers, labeled Cloud A, Cloud B, and Cloud C. Each provider contributes a different
       amount of capacity. Cloud A runs four workload planes, Cloud B runs one, and Cloud C runs three.
     </p>
     <p>
-      A single global control plane sits in the center. A line connects it to every one of the eight workload planes. The
+      A single global control plane sits above all three clouds and connects to every one of the eight workload planes. The
       control plane deploys models and allocates resources across all three clouds, so the workload planes act as one pool
       of compute instead of three separate silos.
+    </p>
+    <p>
+      A button simulates an outage in Cloud A. During the outage, Cloud A's four planes show as offline, and the status text
+      explains that the control plane moves their models to the planes in Clouds B and C.
     </p>
   {/snippet}
 </Figure>
 
 <style>
   .mc {
-    display: block;
-    width: 100%;
-    height: auto;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  }
-  .cloud {
-    fill: #e3f4ea;
-    stroke: #1f7a4d;
-    stroke-width: 1.5;
-  }
-  .cloud-label {
-    font-size: 15px;
-    font-weight: 700;
-    fill: #14532d;
-    text-anchor: middle;
-  }
-  .link {
-    stroke: #1f7a4d;
-    stroke-width: 2;
-  }
-  .plane {
-    fill: #ffffff;
-    stroke: #1f7a4d;
-    stroke-width: 2;
-  }
-  .plane-label {
-    font-size: 13px;
-    fill: #14532d;
-    text-anchor: middle;
+    display: grid;
+    gap: var(--tessera-spacing-md);
   }
   .control {
-    fill: #ffffff;
-    stroke: #14532d;
-    stroke-width: 2;
-    stroke-dasharray: 5 3;
+    position: relative;
+    padding: var(--tessera-spacing-sm) var(--tessera-spacing-md);
+    border: 2px dashed #14532d;
+    border-radius: 6px;
+    background: #ffffff;
+    text-align: center;
   }
-  .control-label {
-    font-size: 14px;
+  .control::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: calc(-1 * var(--tessera-spacing-md) - 2px);
+    height: var(--tessera-spacing-md);
+    border-left: 2px solid #1f7a4d;
+  }
+  .control-name {
+    margin: 0;
     font-weight: 700;
-    fill: #14532d;
-    text-anchor: middle;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #14532d;
+  }
+  .control-note {
+    margin: 0.25rem 0 0;
+    font-size: 0.9rem;
+    color: #14532d;
+  }
+  .clouds {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    gap: var(--tessera-spacing-sm);
+    margin: 0;
+    padding: var(--tessera-spacing-sm) 0 0;
+    border-top: 2px solid #1f7a4d;
+    list-style: none;
+  }
+  .cloud {
+    padding: var(--tessera-spacing-sm);
+    border: 1.5px solid #1f7a4d;
+    border-radius: 6px;
+    background: #e3f4ea;
+  }
+  .cloud.down {
+    border-style: dashed;
+    background: #f3f4f6;
+  }
+  .cloud-name {
+    margin: 0 0 0.35rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #14532d;
+  }
+  .down .cloud-name {
+    color: #7f1d1d;
+  }
+  .planes {
+    display: grid;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .plane {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.35rem 0.5rem;
+    border: 2px solid #1f7a4d;
+    border-radius: 4px;
+    background: #ffffff;
+    color: #14532d;
+    font-size: 0.9rem;
+  }
+  .down .plane {
+    border-style: dotted;
+    border-color: #6b7280;
+    color: #374151;
+    text-decoration: line-through;
+  }
+  .down .plane .state {
+    text-decoration: none;
+    font-weight: 700;
+  }
+  .state {
+    font-size: 0.8rem;
+  }
+  .toggle button {
+    font: inherit;
+    padding: 0.45rem 0.9rem;
+    border: 2px solid var(--tessera-primary);
+    border-radius: 6px;
+    background: var(--tessera-bg);
+    color: var(--tessera-primary-dark, var(--tessera-primary));
+    cursor: pointer;
+  }
+  .toggle button[aria-pressed='true'] {
+    background: var(--tessera-primary);
+    color: #ffffff;
+  }
+  .toggle button:focus-visible {
+    outline: 3px solid var(--tessera-primary);
+    outline-offset: 2px;
+  }
+  .status {
+    margin: 0;
+    padding: var(--tessera-spacing-sm) var(--tessera-spacing-md);
+    border-left: 4px solid var(--tessera-primary);
+    background: var(--tessera-bg-secondary);
   }
 </style>

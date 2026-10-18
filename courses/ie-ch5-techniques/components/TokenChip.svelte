@@ -5,6 +5,7 @@
     accepted: '✓',
     rejected: '✗',
     discarded: '–',
+    recomputed: '↻',
     generated: '+',
     match: '✓',
     miss: '✗',

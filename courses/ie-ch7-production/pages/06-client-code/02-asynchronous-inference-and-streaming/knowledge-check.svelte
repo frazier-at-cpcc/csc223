@@ -7,37 +7,55 @@
 </script>
 
 <h1>Knowledge Check: Asynchronous Inference and Streaming</h1>
+<p>These practice questions are ungraded. Each one gives feedback when you answer.</p>
 
-<p>These practice questions are ungraded. Select an answer to see feedback.</p>
-
+<p class="ie-objective">Practices objective 9: diagnose the source of a latency problem</p>
 <MultipleChoice
-  id="kc_as_1"
-  question="A team must embed 50 million documents. Each request can take longer than the few-minute timeout of a synchronous call, and no user waits on the result. Which approach fits?"
+  id="kc_as_jobs"
+  question="A team embeds 50 million documents with synchronous requests, and about 3 percent of requests fail after a few minutes even though the GPUs are healthy. No user waits on the results. Which change addresses the failures?"
   options={[
-    'Asynchronous jobs that return results to a webhook',
-    'Synchronous HTTP requests with streaming output',
-    'WebSocket connections held open for each document',
-  ]}
-  correct={0}
-  optionFeedback={[
-    'Correct. Asynchronous jobs are acknowledged immediately, allow hours to finish, and deliver results to a webhook.',
-    'Incorrect. Streaming improves perceived latency, but synchronous requests still fail after a timeout of a few minutes.',
-    'Incorrect. WebSockets serve real-time streams. Holding open connections wastes capacity on work that no one watches live.',
-  ]}
-/>
-
-<MultipleChoice
-  id="kc_as_2"
-  question="A WebSocket voice service reaches its configured client limit on every server. What happens to the next client that tries to connect?"
-  options={[
-    'It connects and shares a slot with an existing client.',
-    'It falls back to a gRPC connection automatically.',
-    'It waits until a slot frees up or another replica scales up.',
+    'Hold a WebSocket connection open for each document.',
+    'Stream each synchronous response over HTTP.',
+    'Submit asynchronous jobs that return to a webhook.',
   ]}
   correct={2}
   optionFeedback={[
-    'Incorrect. Each slot holds one client. A full server cannot accept another connection.',
-    'Incorrect. WebSocket and gRPC are separate protocols, and no automatic fallback exists between them.',
-    'Correct. New connections cannot be established until a slot frees up or autoscaling adds a replica.',
+    'Incorrect. WebSockets serve real-time streams. Holding connections open for work no one watches wastes capacity and does not change the time limit.',
+    'Incorrect. Streaming improves perceived latency, but a synchronous request still fails when it outlasts its timeout of a few minutes.',
+    'Correct. The failures come from the synchronous timeout, not the GPUs. Asynchronous jobs are acknowledged at once, may run for hours, and deliver results to a webhook.',
+  ]}
+/>
+
+<p class="ie-objective">Practices objective 9: diagnose the source of a latency problem</p>
+<MultipleChoice
+  id="kc_as_protocol"
+  question="A voice assistant sends microphone audio in a new HTTP request every 200 milliseconds and waits for each response before sending the next chunk. Users hear long pauses, although server-side inference is fast. Which protocol change fits the workload?"
+  options={[
+    'gRPC with a schema for each audio chunk',
+    'HTTP/2 with server-sent events',
+    'A WebSocket held open for the call',
+  ]}
+  correct={2}
+  optionFeedback={[
+    'Incorrect. gRPC streams in both directions, but it is designed for structured service-to-service messages. Raw audio from a client device suits an unstructured stream.',
+    'Incorrect. Server-sent events stream the response only. The client still cannot send new audio over the same exchange.',
+    'Correct. The pauses come from the request-and-wait pattern. A WebSocket lets the client stream audio and the server stream replies at the same time over one open connection.',
+  ]}
+/>
+
+<p class="ie-objective">Practices objective 9: diagnose the source of a latency problem</p>
+<MultipleChoice
+  id="kc_as_limit"
+  question="During a product launch, new callers to a WebSocket voice service wait several seconds before their call connects, while connected callers hear no delay. Every server shows its configured client limit in use. Which component should change?"
+  options={[
+    'The autoscaler, so replicas are added as client slots fill',
+    'The client, so it opens a fresh TLS session for each chunk',
+    'The protocol, so callers switch to HTTP request and response',
+  ]}
+  correct={0}
+  optionFeedback={[
+    'Correct. Each server holds a fixed number of clients. New connections wait until a slot frees or another replica comes online, so the autoscaler must add replicas as slots fill.',
+    'Incorrect. A fresh session per chunk adds handshake time for every caller. The wait here happens before connecting, because no slot is free.',
+    'Incorrect. Request and response cannot carry live audio in both directions. The bottleneck is the number of client slots, not the protocol.',
   ]}
 />

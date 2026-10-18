@@ -3,12 +3,17 @@
 </script>
 
 <script>
+  import { scrollable } from '$shared/scrollable.js';
+  import Term from '$shared/Term.svelte';
   import ArchitectureTimeline from '../../../components/ArchitectureTimeline.svelte';
 </script>
 
 <h1>NVIDIA Architecture Timeline</h1>
 
-<p>Since 1998, NVIDIA has named its GPU architectures after prominent scientists.</p>
+<p>
+  Since 1998, NVIDIA has named its GPU architectures after prominent scientists. The figure shows the
+  architectures from 2017 onward, and the table below adds the GPUs and typical use of each.
+</p>
 
 <ArchitectureTimeline />
 
@@ -18,9 +23,9 @@
   generations. Newer architectures perform better. Their efficiency also often makes them more cost-effective
   for large-scale traffic, even for cost-sensitive workloads.
 </p>
-<div class="ie-table-wrap">
+<div class="ie-table-wrap" role="region" aria-label="Where each architecture appears in practice, as of October 2026" use:scrollable>
   <table class="ie-table">
-    <caption>Where each architecture appears in practice</caption>
+    <caption>Where each architecture appears in practice, as of October 2026</caption>
     <thead>
       <tr><th scope="col">Architecture</th><th scope="col">Example GPUs</th><th scope="col">Typical use today</th></tr>
     </thead>
@@ -30,8 +35,8 @@
       <tr><th scope="row">Ada Lovelace</th><td>L4, L40</td><td>Low-cost inference on small models</td></tr>
       <tr><th scope="row">Hopper</th><td>H100, H200</td><td>Mainstream production inference</td></tr>
       <tr><th scope="row">Blackwell</th><td>B200, B300</td><td>Highest-performance production inference</td></tr>
-      <tr><th scope="row">Rubin</th><td>Not yet released</td><td>Expected in 2026</td></tr>
-      <tr><th scope="row">Feynman</th><td>Not yet released</td><td>Expected in 2028</td></tr>
+      <tr><th scope="row">Rubin</th><td>Vera <Term id="rubin">Rubin</Term> rack-scale systems</td><td>First systems scheduled for the second half of 2026</td></tr>
+      <tr><th scope="row">Feynman</th><td>Not yet announced in detail</td><td>Planned for 2028</td></tr>
     </tbody>
   </table>
 </div>

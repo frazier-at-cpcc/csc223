@@ -2,11 +2,19 @@
   export const pageConfig = { title: 'Self-Attention and Cross-Attention' };
 </script>
 
+<script>
+  import { scrollable } from '$shared/scrollable.js';
+  import Term from '$shared/Term.svelte';
+</script>
+
 <h1>Self-Attention and Cross-Attention</h1>
 
-<p>Attention comes in two main types, which differ in where Q, K, and V come from.</p>
+<p>
+  Attention comes in two main types, <Term id="self-attention">self-attention</Term> and
+  <Term id="cross-attention">cross-attention</Term>. They differ in where Q, K, and V come from.
+</p>
 
-<div class="ie-table-wrap">
+<div class="ie-table-wrap" role="region" aria-label="The two main types of attention" use:scrollable>
   <table class="ie-table">
     <caption>The two main types of attention</caption>
     <thead>
@@ -31,7 +39,8 @@
 
 <p>
   LLMs use self-attention with a <strong>causal mask</strong>. The mask prevents each token from
-  attending to tokens that come after it in the sequence. A causal language model must predict the next
+  attending to tokens that come after it in the sequence. A
+  <Term id="causal-language-model">causal language model</Term> must predict the next
   token from previous tokens only, and the mask enforces that rule during attention.
 </p>
 

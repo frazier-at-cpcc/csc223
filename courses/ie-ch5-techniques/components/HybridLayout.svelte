@@ -13,11 +13,11 @@
 <Figure
   number="5.15"
   caption="This deployment uses Tensor Parallelism for attention and Expert Parallelism for the sparse MoE layer."
-  description="One decoder layer of an 84-layer MoE model with 64 query heads, 8 KV heads, and 128 experts, served on eight GPUs. Every GPU holds the same share: 8 query heads and 1 KV head of attention, one eighth of the QKV and output weights, a full copy of the expert router, and 16 whole experts."
+  description="One decoder layer of an MoE model with 64 query heads, 8 KV heads, and 128 experts, served on eight GPUs. Every GPU holds the same share: 8 query heads and 1 KV head of attention, one eighth of the QKV and output weights, a full copy of the expert router, and 16 whole experts."
 >
   <div class="ie-table-wrap">
     <table class="ie-table">
-      <caption>What each of eight GPUs holds for one decoder layer (84 layers in total)</caption>
+      <caption>What each of eight GPUs holds for one decoder layer</caption>
       <thead>
         <tr>
           <th scope="col">Component</th>

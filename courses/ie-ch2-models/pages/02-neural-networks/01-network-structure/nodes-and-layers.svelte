@@ -5,6 +5,7 @@
 <script>
   import Figure from '../../../components/Figure.svelte';
   import NeuralNetworkDiagram from '../../../components/NeuralNetworkDiagram.svelte';
+  import Term from '$shared/Term.svelte';
 </script>
 
 <h1>Nodes and Layers</h1>
@@ -18,7 +19,9 @@
 
 <p>
   The fundamental unit of a neural network is a <strong>node</strong>, also called a neuron. A node is
-  a short program. It takes an input, multiplies it by weights, adds a bias, and returns the result.
+  a short program. It takes an input, multiplies it by <Term id="weights">weights</Term>, adds a bias, and
+  returns the result. The weights and biases are the model's <Term id="parameter">parameters</Term>, the
+  numbers that Chapter 0 counted when it sized weight memory.
 </p>
 
 <h2>The layer</h2>
@@ -29,7 +32,7 @@
   run between layers. The nodes in one layer receive the output of the previous layer.
 </p>
 
-<p>The neural networks behind LLMs contain dozens to hundreds of layers. Every layer is one of three types:</p>
+<p>The neural networks behind <Term id="llm">LLMs</Term> contain dozens to hundreds of layers. Every layer is one of three types:</p>
 
 <ul>
   <li><strong>Input layer:</strong> the first layer, which accepts and processes the input to the network.</li>

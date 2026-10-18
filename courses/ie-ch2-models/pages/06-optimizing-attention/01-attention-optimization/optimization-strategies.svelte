@@ -2,15 +2,20 @@
   export const pageConfig = { title: 'Why and How to Optimize Attention' };
 </script>
 
+<script>
+  import { scrollable } from '$shared/scrollable.js';
+  import Term from '$shared/Term.svelte';
+</script>
+
 <h1>Why and How to Optimize Attention</h1>
 
 <h2>Why attention is expensive</h2>
 
 <p>
-  For LLMs, attention scales quadratically with the length of the input sequence, because each
-  calculation depends on the K and V values of every previous token. During decode, the KV cache makes
-  attention a linear-time operation in practice. Even a linear-time algorithm becomes very expensive at
-  long sequence lengths.
+  For <Term id="llm">LLMs</Term>, <Term id="attention">attention</Term> scales quadratically with the length of the input sequence, because
+  each <Term id="token">token</Term> is compared with the keys of every previous token. During <Term id="decode">decode</Term>, the
+  <Term id="kv-cache">KV cache</Term> makes each step linear in the context length. Even a linear-time step
+  becomes very expensive at long sequence lengths.
 </p>
 
 <p>
@@ -35,7 +40,7 @@
 
 <h2>Two strategies</h2>
 
-<div class="ie-table-wrap">
+<div class="ie-table-wrap" role="region" aria-label="The two strategies for optimizing attention" use:scrollable>
   <table class="ie-table">
     <caption>The two strategies for optimizing attention</caption>
     <thead>
@@ -44,16 +49,21 @@
     <tbody>
       <tr>
         <th scope="row">Implementation improvements</th>
-        <td>Write higher-performance kernels that use memory and compute more efficiently.</td>
+        <td>Write higher-performance <Term id="kernel">kernels</Term> that use memory and compute more efficiently.</td>
         <td>Lossless. The output does not change.</td>
-        <td>Still quadratic, but long sequences become feasible on current hardware.</td>
+        <td>Still quadratic in time, but long sequences become feasible on current hardware.</td>
       </tr>
       <tr>
         <th scope="row">New algorithms</th>
         <td>Create attention algorithms that scale better than quadratic time.</td>
         <td>Some quality loss, which training techniques can minimize.</td>
-        <td>Better than quadratic in time and space.</td>
+        <td>Lower time or memory cost, often better than quadratic in time.</td>
       </tr>
     </tbody>
   </table>
 </div>
+
+<p>
+  The KV cache from Section 3 belongs to the first strategy. It removes recomputation during decode without
+  changing a single output token. The next page covers two more implementation improvements.
+</p>

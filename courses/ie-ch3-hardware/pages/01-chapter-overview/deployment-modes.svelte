@@ -37,6 +37,6 @@
   <p>
     Choosing the cloud does not end the hardware decision. Providers differ in how they build systems, and
     NVIDIA's naming conventions add further nuance. The rest of this chapter equips you to read those
-    differences.
+    differences. The Local Inference section adds a fourth option: running the model on the user's own device.
   </p>
 </Callout>

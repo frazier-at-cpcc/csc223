@@ -3,41 +3,42 @@
 </script>
 
 <script>
-  import { MultipleChoice } from 'tessera-learn';
+  import { Matching, MultipleChoice } from 'tessera-learn';
 </script>
 
 <h1>Knowledge Check: AI-Native Applications</h1>
 
-<p>Answer these practice questions. They do not count toward your score.</p>
+<p>Answer these practice questions. They do not count toward your score. Each item names the objective it practices.</p>
 
-<MultipleChoice
+<p class="ie-obj">Objective 3: Classify a workload as online or offline.</p>
+
+<Matching
   id="kc_apps_1"
-  question="Which builder must design its inference system to support any model and any use case?"
-  options={[
-    'A company building a coding assistant inside its own IDE',
-    'A company building a customer service agent for retailers',
-    'A company building an internal platform that serves all of its product teams',
+  question="Match each product to the measurement its inference system should protect first."
+  pairs={[
+    { left: 'A live interpreter for doctor visits', right: 'End-to-end latency of each spoken turn' },
+    { left: 'A nightly scan of forum posts for harassment', right: 'Throughput across the whole job' },
+    { left: 'A support chatbot that streams its replies', right: 'Time to first token' },
+    { left: 'Product suggestions on a busy shopping site', right: 'Consistent latency at high request volume' },
   ]}
-  correct={2}
-  optionFeedback={[
-    'Not quite. A coding assistant is a vertical application with a narrow, well-defined use case.',
-    'Not quite. A customer service agent is a vertical application that can add many constraints.',
-    'Correct. An inference platform must serve any model and any use case, so it cannot rely on narrow constraints.',
-  ]}
+  correctFeedback="Correct. Three of these products are online, so a user waits on each response. The nightly scan is offline, so throughput and cost lead."
+  incorrectFeedback="Not yet. First ask whether a user waits on each response. If no one waits, throughput leads. If someone waits, ask which part of the wait the user notices most."
 />
+
+<p class="ie-obj">Objective 3: Classify a workload as online or offline.</p>
 
 <MultipleChoice
   id="kc_apps_2"
-  question="In a sales prospecting agent, one click by the user triggers a chain of 12 inference calls. How does the latency of each call affect the user?"
+  question="In a sales prospecting agent, one click by the user starts a chain of 12 inference calls, each of which needs the result of the call before it. How does the latency of each call affect the user?"
   options={[
     'Each call adds to the total time the user waits for a result',
+    'Only the slowest call matters, because the calls overlap in time',
     "The first call's time to first token sets the entire wait",
-    'Per-call latency is irrelevant because agents run without a user',
   ]}
   correct={0}
   optionFeedback={[
-    'Correct. Many calls per action means per-call latency accumulates into the wait the user experiences.',
+    'Correct. The calls run in sequence, so per-call latency accumulates into the wait that the user experiences. The agent is an online workload.',
+    'Not quite. Each call needs the previous result, so the calls cannot overlap. Their latencies add up.',
     'Not quite. The user waits for the whole chain of calls, not only for the first token of the first call.',
-    'Not quite. A user starts the action and waits for its result, so latency still matters.',
   ]}
 />

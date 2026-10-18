@@ -2,25 +2,22 @@
   export const pageConfig = { title: 'From Neural Networks to Transformers' };
 </script>
 
+<script>
+  import { scrollable } from '$shared/scrollable.js';
+  import Term from '$shared/Term.svelte';
+</script>
+
 <h1>From Neural Networks to Transformers</h1>
 
 <p>
-  Generative AI models are compositions of large, complex neural networks. The research behind them
-  spans roughly seven decades.
+  Generative AI models are compositions of large, complex neural networks. The research behind them spans
+  about seven decades, from single-layer perceptrons in the 1950s to deep networks trained on
+  <Term id="gpu">GPUs</Term> in the 2010s. The decisive step came in 2017, when Vaswani and colleagues published
+  "Attention Is All You Need" and introduced the transformer.
 </p>
 
-<h2>A short history</h2>
-
-<ul>
-  <li>In the 1950s, researchers implemented the first perceptrons in hardware for simple binary classification.</li>
-  <li>Perceptrons fell out of favor and were later reinvented as multi-layer perceptrons. Back-propagation introduced hidden states between layers and a procedure that repeatedly adjusts the weights in the network.</li>
-  <li>In the 2000s, research began into deep neural networks with dozens of layers.</li>
-  <li>In 2012, AlexNet showed real-world capability from a deep network and demonstrated that GPUs are effective for deep learning. Word embedding models for text and Generative Adversarial Networks (GANs) for images followed.</li>
-  <li>In 2017, Vaswani and colleagues published "Attention Is All You Need," which introduced the transformer.</li>
-</ul>
-
 <p>
-  A <strong>transformer</strong> is a neural network with an attention mechanism that learns
+  A <strong>transformer</strong> is a neural network with an <Term id="attention">attention</Term> mechanism that learns
   relationships between the parts of a sequence. Transformers are the foundation of generative AI.
   They power every modality, from embeddings to voice to image and video generation.
 </p>
@@ -29,7 +26,7 @@
 
 <p>Transformer-based models generate output in one of two styles.</p>
 
-<div class="ie-table-wrap">
+<div class="ie-table-wrap" role="region" aria-label="The two generation styles covered in this chapter" use:scrollable>
   <table class="ie-table">
     <caption>The two generation styles covered in this chapter</caption>
     <thead>
@@ -39,13 +36,13 @@
       <tr>
         <th scope="row">Autoregressive token generation</th>
         <td>A tokenized sequence</td>
-        <td>Predict the most likely next token, append it, and repeat.</td>
-        <td>LLMs</td>
+        <td>Score every possible next token, select one, append it, and repeat.</td>
+        <td><Term id="llm">LLMs</Term></td>
       </tr>
       <tr>
         <th scope="row">Iterative denoising</th>
         <td>Random noise</td>
-        <td>Refine the noise toward the most likely output over many steps. This process is called diffusion.</td>
+        <td>Refine the noise toward the most likely output over many steps. This process is called <Term id="diffusion">diffusion</Term>.</td>
         <td>Image and video generation models</td>
       </tr>
     </tbody>

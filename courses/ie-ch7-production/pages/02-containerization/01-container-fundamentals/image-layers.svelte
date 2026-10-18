@@ -5,15 +5,15 @@
 <script>
   import Figure from '../../../components/Figure.svelte';
   import ContainerLayers from '../../../components/ContainerLayers.svelte';
+  import Term from '$shared/Term.svelte';
 </script>
 
 <h1>Image Layers</h1>
 
 <p>
-  Docker containers are built from layers. You start from a preconfigured base image and add layers of filesystem
-  changes on top of it. Three types of layers make up a running container.
+  A Docker <Term id="container-image">image</Term> is built from layers. You start from a preconfigured base image and
+  add layers of filesystem changes on top of it. Three types of layers make up a running container.
 </p>
-
 <ul>
   <li><strong>Base image:</strong> an operating system distribution such as Ubuntu, or a more complex image taken from a registry. The base image itself contains several layers.</li>
   <li><strong>Additional layers:</strong> filesystem changes that Dockerfile instructions specify, including dependencies, application code, and configuration files.</li>
@@ -28,10 +28,11 @@
   <ContainerLayers />
 </Figure>
 
-<h2>Start from a proven base image</h2>
-
+<h2>Choosing a Base Image</h2>
 <p>
-  Inference engines such as vLLM and SGLang publish official base images for their active releases. Starting from one
-  of these proven images is usually a better choice than building an image from scratch. A proven image gives the
-  rest of the build a known working foundation.
+  The base image is the first reproducibility decision, because every later layer depends on it. <Term id="inference-engine">Inference engines</Term>
+  such as <Term id="vllm" /> and <Term id="sglang" /> publish official base images for their active releases. Starting
+  from one of these proven images is usually a better choice than building an image from scratch. A proven image gives
+  the rest of the build a known working foundation. The Dependency Management lesson shows how to make sure that a
+  rebuild months later starts from exactly the same base.
 </p>

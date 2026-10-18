@@ -2,6 +2,11 @@
   export const pageConfig = { title: 'Long Context Handling' };
 </script>
 
+<script>
+  import Signal from '$shared/Signal.svelte';
+  import Term from '$shared/Term.svelte';
+</script>
+
 <h1>Long Context Handling</h1>
 
 <p>
@@ -11,39 +16,50 @@
   long-context requests.
 </p>
 
-<h2>Why long context strains decode</h2>
+<h2>Long context and decode memory</h2>
 <p>
-  Model labs use scaling techniques such as RoPE to extend context windows. Serving those windows creates new
-  challenges. With a KV cache, attention scales linearly with sequence length. Over long sequences, attention can
-  become the main consumer of VRAM, which is the resource that decode depends on.
+  Model labs extend <Term id="context-window">context windows</Term> with scaling methods built on
+  <Term id="rope">rotary positional embeddings (RoPE)</Term>. Serving those windows creates new challenges. The KV
+  cache grows linearly with sequence length, and over long sequences it can become the main consumer of <Term id="vram">VRAM</Term>. <Term id="decode">Decode</Term>
+  reads that whole cache at every step, so a long context also slows each decode step.
 </p>
 
 <h2>General optimizations</h2>
 <p>
-  Some models use sliding window, compressed, or sparse attention. Those solutions apply model by model. Three
-  general approaches optimize standard attention.
+  Some models use <Term id="sliding-window-attention">sliding window attention</Term> or other <Term id="attention">attention</Term> variants
+  that store less of the cache. Those solutions apply model by model. Three general approaches optimize standard
+  attention.
 </p>
+
+<Signal kind="recall" chapter={2} title="Attention kernels">
+  <p>
+    Chapter 2 introduced <Term id="flashattention" /> and <Term id="pagedattention" /> as attention optimizations.
+    The table below adds a third, <Term id="chunked-prefill">chunked prefill</Term>, which schedules work rather
+    than changing the kernel.
+  </p>
+</Signal>
+
 <table class="ie-table">
   <caption>General optimizations for long-context attention</caption>
   <thead>
-    <tr><th scope="col">Optimization</th><th scope="col">What it does</th></tr>
+    <tr><th scope="col">Optimization</th><th scope="col">Problem it solves</th></tr>
   </thead>
   <tbody>
     <tr>
       <th scope="row">FlashAttention</th>
-      <td>A series of optimized attention kernels that reduce reads from and writes to memory</td>
+      <td>Attention reads and writes too much memory. Optimized <Term id="kernel">kernels</Term> reduce those reads and writes.</td>
     </tr>
     <tr>
       <th scope="row">PagedAttention</th>
-      <td>Stores the KV cache in fixed-size pages, which reduces fragmentation and duplication</td>
+      <td>KV cache memory fragments and duplicates. Fixed-size pages reduce the waste.</td>
     </tr>
     <tr>
-      <th scope="row">Chunked prefill</th>
-      <td>Splits a long input into chunks that run alongside decode as resources allow, so one long sequence cannot overwhelm the engine</td>
+      <th scope="row">Chunked <Term id="prefill">prefill</Term></th>
+      <td>One long prefill stalls every other request. Splitting the input into chunks lets them run alongside decode.</td>
     </tr>
   </tbody>
 </table>
 <p>
   When a KV cache still needs more VRAM than one GPU offers after these optimizations, inference must spread across
-  multiple GPUs. Model parallelism is the subject of the next section.
+  multiple GPUs. <Term id="model-parallelism">Model parallelism</Term> is the subject of the next section.
 </p>

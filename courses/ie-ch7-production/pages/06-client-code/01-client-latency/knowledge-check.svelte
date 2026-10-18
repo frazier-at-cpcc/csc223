@@ -3,37 +3,42 @@
 </script>
 
 <script>
-  import { MultipleChoice } from 'tessera-learn';
+  import { MultipleChoice, Sorting } from 'tessera-learn';
 </script>
 
 <h1>Knowledge Check: Client Latency</h1>
+<p>These practice questions are ungraded. Each one gives feedback when you answer.</p>
 
-<p>These practice questions are ungraded. Select an answer to see feedback.</p>
-
-<MultipleChoice
-  id="kc_cl_1"
-  question="A custom client for a speech model opens a new TLS connection for every request. Server-side inference is fast, but end-to-end latency misses the SLA. Which client change helps most?"
-  options={[
-    'Increase the request timeout on the client.',
-    'Reuse the existing session for later requests.',
-    'Send each request to a different replica.',
+<p class="ie-objective">Practices objective 9: diagnose the source of a latency problem</p>
+<Sorting
+  id="kc_cl_where"
+  question="Sort each source of delay by where it occurs."
+  items={[
+    'A TLS handshake on every request',
+    'A round trip to a cluster on another continent',
+    'Waiting for a free replica slot',
+    'Prefill of a long prompt',
+    'Decoding 400 output tokens',
   ]}
-  correct={1}
-  optionFeedback={[
-    'Incorrect. A longer timeout lets slow requests finish but does not remove any latency.',
-    'Correct. Session reuse skips the repeated handshake, which can cost 10 percent or more of a tight latency budget.',
-    'Incorrect. Spreading requests across replicas is a server-side routing choice and does not remove the handshake.',
-  ]}
+  targets={['Outside the model server', 'Inside the model server']}
+  correct={[0, 0, 0, 1, 1]}
+  correctFeedback="Correct. The handshake, the network round trip, and queue time all happen before the model server starts work. Only prefill and decode run on the GPU."
+  incorrectFeedback="Ask whether a GPU is working on the request. During a handshake, a network trip, or a wait in the queue, no GPU has started. Prefill and decode are the model server's work."
 />
 
+<p class="ie-objective">Practices objective 9: diagnose the source of a latency problem</p>
 <MultipleChoice
-  id="kc_cl_2"
-  question="Which portion of end-to-end latency reflects work done on the GPU?"
-  options={['Model server time', 'Network time', 'Queue time']}
-  correct={0}
+  id="kc_cl_reuse"
+  question="A custom client for a speech model opens a new TLS connection for every request. Server-side inference meets its target, but end-to-end latency misses the SLO. Which client change helps most?"
+  options={[
+    'Raise the client’s request timeout limit.',
+    'Send each new request to a different replica.',
+    'Reuse the existing session for later calls.',
+  ]}
+  correct={2}
   optionFeedback={[
-    'Correct. Only the model server segment is on-server inference.',
-    'Incorrect. Network time covers travel between client and server on both legs of the request.',
-    'Incorrect. Queue time is spent waiting for a replica, before any GPU work begins.',
+    'Incorrect. A longer timeout lets slow requests finish but does not remove any latency.',
+    'Incorrect. Spreading requests across replicas is a server-side routing choice, and each new connection still pays the handshake.',
+    'Correct. Session reuse skips the repeated handshake, which can cost a tenth or more of a tight latency budget on every request.',
   ]}
 />

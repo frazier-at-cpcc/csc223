@@ -2,6 +2,10 @@
   export const pageConfig = { title: 'FlashAttention and PagedAttention' };
 </script>
 
+<script>
+  import Term from '$shared/Term.svelte';
+</script>
+
 <h1>FlashAttention and PagedAttention</h1>
 
 <p>Two well-known implementations improve attention without changing its result.</p>
@@ -10,15 +14,16 @@
 
 <p>
   <strong>FlashAttention</strong> is a series of papers and optimized attention kernels. The basic
-  algorithm fits in a handful of lines of code. FlashAttention uses tens of thousands of lines to
-  implement attention in hand-fused kernels for specific GPUs. FlashAttention for the H100 uses different
-  code from FlashAttention for the B200.
+  algorithm fits in a handful of lines of code. FlashAttention uses tens of thousands of lines to implement
+  attention in hand-fused <Term id="kernel">kernels</Term> for specific <Term id="gpu">GPUs</Term>. As of early 2026, FlashAttention 3
+  targets Hopper GPUs such as the <Term id="h100">H100</Term>, and FlashAttention 4 targets Blackwell GPUs such as
+  the <Term id="b200">B200</Term>.
 </p>
 
 <ul>
-  <li>It eliminates excess reads and writes to memory, such as the round trips of S and P in the standard algorithm.</li>
+  <li>It eliminates excess reads and writes to memory, such as the round trips of S and P in the standard algorithm. The worked example in Section 5 showed that this raises full-prompt attention from 62 to about 2,060 operations per byte.</li>
   <li>It lays out the attention algorithm to fit the GPU's capabilities precisely.</li>
-  <li>It is especially useful for compute-bound operations such as LLM prefill and video generation.</li>
+  <li>It is especially useful for <Term id="compute-bound">compute-bound</Term> operations such as LLM <Term id="prefill">prefill</Term> and video generation.</li>
 </ul>
 
 <h2>PagedAttention</h2>

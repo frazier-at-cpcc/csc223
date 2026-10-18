@@ -2,6 +2,11 @@
   export const pageConfig = { title: 'Internal Representations' };
 </script>
 
+<script>
+  import { scrollable } from '$shared/scrollable.js';
+  import Term from '$shared/Term.svelte';
+</script>
+
 <h1>Internal Representations</h1>
 
 <p>
@@ -37,7 +42,7 @@
   in sequence as a pipeline. Three common combinations appear in production models:
 </p>
 
-<div class="ie-table-wrap">
+<div class="ie-table-wrap" role="region" aria-label="Encoder and decoder combinations" use:scrollable>
   <table class="ie-table">
     <caption>Encoder and decoder combinations</caption>
     <thead>
@@ -45,8 +50,8 @@
     </thead>
     <tbody>
       <tr><th scope="row">Decoder-only</th><td>Standard for modern LLMs</td><td>Generative LLMs</td></tr>
-      <tr><th scope="row">Encoder-only</th><td>Somewhat rare today</td><td>Older text embedding models in the BERT family</td></tr>
-      <tr><th scope="row">Encoder-decoder</th><td>Common in other modalities</td><td>Whisper, which encodes audio input and decodes text tokens</td></tr>
+      <tr><th scope="row">Encoder-only</th><td>Somewhat rare today</td><td>Older text embedding models in the BERT family, which Google released in 2018</td></tr>
+      <tr><th scope="row">Encoder-decoder</th><td>Common in other modalities</td><td><Term id="whisper">Whisper</Term>, which encodes audio input and decodes text <Term id="token">tokens</Term></td></tr>
     </tbody>
   </table>
 </div>

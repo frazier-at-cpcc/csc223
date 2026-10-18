@@ -1,54 +1,95 @@
 <script>
+  // Profile of one prefill forward pass behind a 350 ms time to first token.
+  // Time is summed per operation type across all layers. The activation row is the anomaly.
   const ops = [
-    { label: 'QKᵀ matmul', x: 30, w: 160 },
-    { label: 'softmax(S)', x: 200, w: 160 },
-    { label: 'PV matmul', x: 370, w: 160 },
+    { label: 'Embedding and normalization', ms: 20 },
+    { label: 'Attention kernels', ms: 110 },
+    { label: 'MLP matrix multiplications', ms: 120 },
+    { label: 'Activation function', ms: 80, flag: 'Unexpectedly long for an elementwise operation' },
+    { label: 'Sampling and other', ms: 20 },
   ];
-  const ticks = Array.from({ length: 26 }, (_, i) => 30 + i * 20);
+  const max = Math.max(...ops.map((o) => o.ms));
+  const total = ops.reduce((s, o) => s + o.ms, 0);
 </script>
 
 <figure class="figure">
-  <svg
-    class="diagram"
-    viewBox="0 0 560 170"
-    role="img"
-    aria-labelledby="kp-title kp-desc"
-  >
-    <title id="kp-title">Kernel profile of an attention kernel</title>
-    <desc id="kp-desc">
-      A timeline for one attention kernel is divided into three consecutive
-      operations: the QK transpose matrix multiplication, the softmax over the
-      score matrix S, and the PV matrix multiplication. The width of each block
-      shows how long that operation takes.
-    </desc>
-    <rect x="20" y="10" width="520" height="110" rx="6" fill="#f9fafb" stroke="#1e40af" stroke-width="2" />
-    <rect x="215" y="20" width="130" height="28" rx="4" fill="#ffffff" stroke="#1e40af" />
-    <text x="280" y="39" text-anchor="middle" font-size="14" font-weight="700" fill="#1f2937">Kernel profile</text>
-    <line x1="20" y1="58" x2="540" y2="58" stroke="#1e40af" />
-    {#each ops as op (op.label)}
-      <rect x={op.x} y="70" width={op.w} height="38" rx="4" fill="#dbeafe" stroke="#1e40af" stroke-width="1.5" />
-      <text x={op.x + op.w / 2} y="94" text-anchor="middle" font-size="15" fill="#1f2937">{op.label}</text>
-    {/each}
-    <line x1="30" y1="138" x2="530" y2="138" stroke="#1f2937" />
-    {#each ticks as t (t)}
-      <line x1={t} y1="133" x2={t} y2="143" stroke="#1f2937" />
-    {/each}
-    <text x="530" y="162" text-anchor="end" font-size="13" fill="#1f2937">Time &#8594;</text>
-  </svg>
-  <details>
-    <summary>Text description</summary>
-    <p>
-      The figure shows a kernel profile for an attention kernel laid out along a
-      time axis. Three blocks sit side by side in execution order. The first
-      block is the matrix multiplication of Q by the transpose of K. The second
-      block is the softmax over the resulting score matrix, S. The third block
-      is the matrix multiplication of the probabilities by V. In a real
-      profiler, a block that is wider than expected points to the operation
-      that is slowing the kernel down.
-    </p>
-  </details>
+  <table class="prof">
+    <caption>GPU time per operation type in one prefill pass, total {total} ms</caption>
+    <thead>
+      <tr>
+        <th scope="col">Operation</th>
+        <th scope="col">Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {#each ops as o (o.label)}
+        <tr class:flagged={o.flag}>
+          <th scope="row">
+            {o.label}
+            {#if o.flag}<span class="flag">{o.flag}</span>{/if}
+          </th>
+          <td>
+            <span class="bar-wrap" aria-hidden="true"><span class="bar" style="width: {(o.ms / max) * 100}%"></span></span>
+            <span class="val">{o.ms} ms</span>
+          </td>
+        </tr>
+      {/each}
+    </tbody>
+  </table>
   <figcaption>
-    Figure 4.7, recreated. A kernel profiler shows how long each operation
-    within a kernel takes to execute, which reveals bottlenecks.
+    Figure 4.7, adapted. A profiler splits a 350 ms time to first token into the
+    operations that produced it. The activation function takes 80 ms, far more
+    than an elementwise operation should, which points to excess memory reads.
   </figcaption>
 </figure>
+
+<style>
+  .prof {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  .prof caption {
+    text-align: left;
+    font-weight: 600;
+    margin-bottom: var(--tessera-spacing-sm);
+  }
+  .prof th,
+  .prof td {
+    padding: 0.4rem 0.5rem;
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--tessera-border);
+  }
+  .prof tbody th {
+    font-weight: 600;
+    width: 45%;
+  }
+  .flag {
+    display: block;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 0.85rem;
+  }
+  .bar-wrap {
+    display: block;
+    height: 1rem;
+    background: var(--tessera-bg);
+    border: 1px solid var(--tessera-border);
+    border-radius: 3px;
+  }
+  .bar {
+    display: block;
+    height: 100%;
+    background: var(--tessera-primary-light);
+    border-right: 2px solid var(--tessera-primary-dark);
+  }
+  .flagged .bar {
+    background: repeating-linear-gradient(45deg, #fde68a, #fde68a 4px, #f59e0b 4px, #f59e0b 8px);
+    border-right-color: #92400e;
+  }
+  .val {
+    display: block;
+    margin-top: 0.2rem;
+  }
+</style>

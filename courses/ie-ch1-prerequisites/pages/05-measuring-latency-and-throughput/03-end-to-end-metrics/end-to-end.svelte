@@ -3,21 +3,27 @@
 </script>
 
 <script>
+  import { scrollable } from '$shared/scrollable.js';
   import { Callout } from 'tessera-learn';
+  import Signal from '$shared/Signal.svelte';
+  import Term from '$shared/Term.svelte';
 </script>
 
 <h1>Inference Time and End-to-End Time</h1>
 
-<p>The second key distinction in latency metrics is what the measurement covers.</p>
+<p>The second key distinction in <Term id="latency">latency</Term> metrics is what the measurement covers.</p>
 
 <ul>
-  <li><strong>Inference time</strong> is the on-GPU time required to generate tokens.</li>
-  <li><strong>End-to-end latency</strong> is the full time a user waits, including network latency and any time the request spends in a queue.</li>
+  <li><dfn><strong>Inference time</strong></dfn> is the on-GPU time required to generate tokens.</li>
+  <li>
+    <Term id="end-to-end-latency">End-to-end latency</Term>, from Chapter 0, is the full time a user waits.
+    It adds network time and any time the request spends in a <Term id="queue">request queue</Term> to the inference time.
+  </li>
 </ul>
 
 <h2>What each measurement tells you</h2>
 
-<div class="ie-table-wrap">
+<div class="ie-table-wrap" role="region" aria-label="Inference-only and end-to-end measurements" use:scrollable>
   <table class="ie-table">
     <caption>Inference-only and end-to-end measurements</caption>
     <thead>
@@ -48,17 +54,25 @@
   <li>When inference time accounts for most of the end-to-end latency, model performance optimization is the right focus.</li>
 </ul>
 
-<h2>Worked example</h2>
-
-<pre><code>Inference time      =   200 ms
+<Signal kind="worked" title="Finding where the wait goes">
+  <pre class="ie-steps"><code>Inference time      =   200 ms
 End-to-end latency  = 1,400 ms
-Outside the GPU     = 1,400 ms - 200 ms = 1,200 ms</code></pre>
-
-<p>
-  More than 85 percent of the user's wait happens outside the GPU.
-  Making the model twice as fast would save only 100 milliseconds.
-  The team gains far more by fixing network latency and queue time.
-</p>
+Outside the GPU     = 1,400 ms − 200 ms = 1,200 ms
+Share outside GPU   = 1,200 ÷ 1,400 = about 86 percent</code></pre>
+  <div
+    class="ie-bar"
+    role="img"
+    aria-label="A bar for 1,400 milliseconds of end-to-end latency. Network and queue time fill 1,200 milliseconds, about 86 percent of the bar. Inference time fills the remaining 200 milliseconds."
+  >
+    <span class="ie-bar-out" style="width: 85.7%">Network and queue: 1,200 ms</span>
+    <span class="ie-bar-gpu" style="width: 14.3%">GPU</span>
+  </div>
+  <p>
+    About 86 percent of the user's wait happens outside the GPU.
+    Making the model twice as fast would save only 100 milliseconds.
+    The team gains far more by fixing network latency and queue time.
+  </p>
+</Signal>
 
 <Callout type="info">
   <p>Track both measurements. Inference time alone can show excellent results while users still experience a slow product.</p>

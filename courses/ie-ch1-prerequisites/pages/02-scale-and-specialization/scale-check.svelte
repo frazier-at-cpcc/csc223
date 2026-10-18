@@ -3,32 +3,37 @@
 </script>
 
 <script>
-  import { MultipleChoice } from 'tessera-learn';
+  import { MultipleChoice, Sorting } from 'tessera-learn';
 </script>
 
 <h1>Knowledge Check: Scale and Specialization</h1>
 
-<p>Answer these practice questions. They do not count toward your score.</p>
+<p>Answer these practice questions. They do not count toward your score. Each item names the objective it practices.</p>
 
-<MultipleChoice
+<p class="ie-obj">Objective 2: Evaluate whether a product should move to a dedicated deployment.</p>
+
+<Sorting
   id="kc_scale_1"
-  question="How does a provider charge for shared inference?"
-  options={[
-    'A fixed monthly fee for reserved GPU nodes',
-    'A rate per hour of rented GPU time',
-    'A rate per million tokens or another consumption metric',
+  question="Sort each product situation by the option it favors."
+  items={[
+    'Traffic is low and arrives in unpredictable bursts',
+    'The product runs a fine-tuned model that no endpoint offers',
+    'The monthly token bill exceeds the full cost of GPUs that could serve it',
+    'The team is still choosing between several models',
+    'Each user turn chains three models hosted by three providers',
+    'No one on the team has operated GPUs, and the API meets every target',
   ]}
-  correct={2}
-  optionFeedback={[
-    'Not quite. Reserved GPU capacity is a dedicated arrangement. Shared inference has no fixed fee.',
-    'Not quite. Paying per GPU hour describes a dedicated deployment.',
-    'Correct. Shared inference bills by consumption, most often per million tokens.',
-  ]}
+  targets={['Favors shared inference', 'Favors a dedicated deployment']}
+  correct={[0, 1, 1, 0, 1, 0]}
+  correctFeedback="Correct. Scale, specialization, and orchestration favor dedicated deployments. Uncertainty, low volume, and a lack of need favor shared inference."
+  incorrectFeedback="Not yet. A situation favors a dedicated deployment only when it shows scale, specialization, or orchestration. Low or uncertain demand, an unsettled model, or no unmet need favors shared inference."
 />
+
+<p class="ie-obj">Objective 2: Evaluate whether a product should move to a dedicated deployment.</p>
 
 <MultipleChoice
   id="kc_scale_2"
-  question="A product runs a speech model, an LLM, and a voice model for every user turn. Network hops between three providers add delay to each turn. Which reason for a dedicated deployment does this situation match?"
+  question="A product runs speech recognition, a language model, and speech synthesis for every user turn, each from a different provider. Network hops between the three providers add delay to each turn. Which reason for a dedicated deployment does this situation match?"
   options={['Orchestration', 'Scale', 'Specialization']}
   correct={0}
   optionFeedback={[

@@ -2,11 +2,15 @@
   export const pageConfig = { title: 'Benchmarks Versus Evals' };
 </script>
 
+<script>
+  import Term from '$shared/Term.svelte';
+</script>
+
 <h1>Benchmarks Versus Evals</h1>
 
 <p>
-  An <strong>intelligence benchmark</strong> measures a model's ability to answer questions correctly or take appropriate actions on common tasks.
-  MMLU and SWE-bench are examples.
+  An <dfn><strong>intelligence benchmark</strong></dfn> measures a model's ability to answer questions correctly or take appropriate actions on common tasks.
+  MMLU, which tests broad knowledge, and SWE-bench, which tests software engineering, are two widely used <Term id="benchmark-suite">benchmark suites</Term>.
   Evals, by contrast, are tailored to one product, domain, and set of tasks.
 </p>
 
@@ -17,13 +21,13 @@
   Many popular benchmarks, however, have become saturated, and some have been gamed.
 </p>
 <p>
-  <strong>Goodhart's Law</strong> states: "When a measure becomes a target, it ceases to be a good measure."
+  <dfn><strong>Goodhart's Law</strong></dfn> states: "When a measure becomes a target, it ceases to be a good measure."
   Frontier labs have a strong incentive to post record benchmark scores with each model release.
   That incentive turns the benchmark into a target, and the scores lose meaning.
 </p>
 <p>
   Better measures of overall intelligence exist.
-  An <strong>Elo rating</strong> scores models by their head-to-head win rate against other models.
+  An <dfn><strong>Elo rating</strong></dfn> scores models by their head-to-head win rate against other models, usually in comparisons where people pick the better of two outputs.
   No general measure, though, replaces a direct measurement of how a model performs for your application.
 </p>
 
@@ -36,3 +40,8 @@
 </ul>
 
 <p>Appendix B of the book recommends eval tools and further reading.</p>
+
+<p>
+  The word benchmark has a second meaning in this series.
+  Chapter 4 uses a <Term id="performance-benchmark">performance benchmark</Term> to measure the <Term id="latency">latency</Term> and <Term id="throughput">throughput</Term> of a deployment, not the intelligence of a model.
+</p>

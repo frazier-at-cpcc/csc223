@@ -27,3 +27,63 @@
 .ie-objectives li {
   margin-bottom: 0.4rem;
 }
+.ie-obj {
+  margin: var(--tessera-spacing-lg) 0 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--tessera-text-light);
+}
+.ie-steps {
+  margin: var(--tessera-spacing-sm) 0;
+  padding: var(--tessera-spacing-sm) var(--tessera-spacing-md);
+  background: var(--tessera-bg);
+  border: 1px solid var(--tessera-border);
+  border-radius: 4px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.ie-answer {
+  margin: var(--tessera-spacing-lg) 0;
+  padding: var(--tessera-spacing-sm) var(--tessera-spacing-md);
+  border: 1px solid var(--tessera-border);
+  border-radius: 6px;
+}
+.ie-answer summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--tessera-primary-dark);
+}
+.ie-bar {
+  display: flex;
+  margin: var(--tessera-spacing-md) 0;
+  min-height: 2.75rem;
+  border: 2px solid var(--tessera-text);
+  border-radius: 4px;
+  overflow: hidden;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.ie-bar span {
+  display: flex;
+  align-items: center;
+  padding: 0 0.4rem;
+}
+.ie-bar-out {
+  background: repeating-linear-gradient(45deg, var(--tessera-bg-secondary) 0 6px, var(--tessera-border) 6px 12px);
+  color: var(--tessera-text);
+}
+.ie-bar-gpu {
+  justify-content: center;
+  background: var(--tessera-primary-dark);
+  color: #fff;
+}
+/* Let wide formula blocks and tables scroll inside the content column instead of widening the page. */
+.tessera-main {
+  min-width: 0;
+}
+/* On phones, tables with three or more columns keep readable columns and scroll inside their wrapper. */
+@media (max-width: 40rem) {
+  .ie-table:has(thead th:nth-child(3)) {
+    min-width: 34rem;
+  }
+}

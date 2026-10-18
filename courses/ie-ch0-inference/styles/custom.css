@@ -3,3 +3,22 @@
  * default theme. For deeper customisation, see the "Styling" section in
  * AGENTS.md.
  */
+
+/* Let the content column shrink below the min-content width of a wide table, so tables
+ * scroll inside their own region instead of widening the page on phones. */
+.tessera-main {
+  min-width: 0;
+}
+
+/* Narrow screens: tighter cells and hyphenation let three-column tables fit at 360 px. */
+@media (max-width: 640px) {
+  .tessera-content table {
+    font-size: 0.875rem;
+  }
+  .tessera-content th,
+  .tessera-content td {
+    padding: 0.4rem 0.45rem;
+    hyphens: auto;
+    overflow-wrap: break-word;
+  }
+}

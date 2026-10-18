@@ -3,40 +3,57 @@
 </script>
 
 <script>
-  import { MultipleChoice } from 'tessera-learn';
+  import { MultipleChoice, Sorting } from 'tessera-learn';
 </script>
 
 <h1>Knowledge Check: Deploying Disaggregation</h1>
-<p>These questions are ungraded.</p>
+<p>These questions are ungraded. All three practice objective 9: evaluating disaggregated serving and its bottlenecks.</p>
 
-<MultipleChoice
+<Sorting
   id="kc_deploy_1"
-  question="A 4P4D deployment shows a prefill queue that keeps growing while decode engines sit partly idle. Which change addresses the bottleneck?"
-  options={[
-    'Disable conditional disaggregation',
-    'Reconfigure to 5P3D',
-    'Reconfigure to 3P5D',
+  question="Sort each remedy by the disaggregation bottleneck it relieves."
+  items={[
+    'Shift one engine from decode to prefill',
+    'Raise the input length that decode engines may prefill locally',
+    'Store the KV cache in FP8',
+    'Offload cold KV cache blocks to host memory',
   ]}
-  correct={1}
-  optionFeedback={[
-    'Incorrect. Disabling the conditional check would send even more requests to the saturated prefill engines.',
-    'Correct. Shifting one engine from decode to prefill gives the queued prefill work more capacity.',
-    'Incorrect. Adding decode engines and removing a prefill engine makes the prefill queue worse.',
-  ]}
+  targets={['Prefill queue grows too large', 'Decode engines run out of KV cache memory']}
+  correct={[0, 0, 1, 1]}
+  correctFeedback="Correct. More prefill capacity or more local prefill drains the queue. A smaller or partly offloaded KV cache frees decode memory."
+  incorrectFeedback="The prefill queue shrinks when more work can be prefilled, either by more prefill engines or by letting decode engines handle more inputs locally. Decode memory recovers when each cache entry is smaller or when cold blocks move out of VRAM."
 />
 
 <MultipleChoice
   id="kc_deploy_2"
-  question="Under heavy load, decode engines in a disaggregated deployment run out of KV cache memory. Which remedy fits this bottleneck?"
+  question="A 3P5D deployment shows a prefill queue that keeps growing while the decode engines run at 40 percent utilization. Which change addresses the bottleneck?"
   options={[
-    'Lower the local prefill threshold on the decode engines',
-    'Quantize the KV cache and offload it to other storage tiers',
-    'Increase the number of prefill engines',
+    'Reconfigure to 2P6D',
+    'Reconfigure to 4P4D',
+    'Quantize the KV cache on the decode engines',
+    'Turn off conditional disaggregation',
   ]}
   correct={1}
   optionFeedback={[
-    'Incorrect. The local prefill threshold controls the prefill queue, not decode memory.',
-    'Correct. Quantization shrinks each cache entry, and offloading moves less-used blocks out of VRAM.',
-    'Incorrect. More prefill engines add prefill capacity, which does not relieve memory on the decode engines.',
+    'Incorrect. Removing a prefill engine makes the prefill queue grow faster.',
+    'Correct. Decode has spare capacity, so shifting one engine to prefill drains the queue without starving decode.',
+    'Incorrect. KV cache quantization relieves decode memory, which is not the bottleneck here.',
+    'Incorrect. Without the conditional check, even short and cached inputs would join the prefill queue.',
+  ]}
+/>
+
+<MultipleChoice
+  id="kc_deploy_3"
+  question="A team serves a 70-billion-parameter model at 20 million tokens per day of long-document summaries. Should the team adopt disaggregated serving?"
+  options={[
+    'No, because the model size and the volume both fall short',
+    'No, because summarization traffic is mostly decode-heavy',
+    'Yes, because long documents make the traffic prefill-heavy',
+  ]}
+  correct={0}
+  optionFeedback={[
+    'Correct. The traffic is prefill-heavy, but a 70-billion-parameter model and 20 million tokens per day both sit below the thresholds, so extra replicas serve better.',
+    'Incorrect. Long documents with short summaries are prefill-heavy, so this condition actually holds.',
+    'Incorrect. Prefill-heavy traffic is only one of three conditions. The model size and the volume both fail.',
   ]}
 />

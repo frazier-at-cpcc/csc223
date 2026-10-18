@@ -3,37 +3,39 @@
 </script>
 
 <script>
-  import { MultipleChoice } from 'tessera-learn';
+  import { Matching, MultipleChoice } from 'tessera-learn';
 </script>
 
 <h1>Knowledge Check: Multi-Cloud Architecture</h1>
+<p>These practice questions are ungraded. Each one gives feedback when you answer.</p>
 
-<p>These practice questions are ungraded. Select an answer to see feedback.</p>
-
-<MultipleChoice
-  id="kc_ma_1"
-  question="In a multi-cloud inference architecture, which component handles live inference traffic inside a single cluster?"
-  options={['Global control plane', 'Global load balancer', 'Workload plane']}
-  correct={2}
-  optionFeedback={[
-    'Incorrect. The control plane handles model deployment and global scaling decisions, not direct inference traffic.',
-    'Incorrect. A global load balancer distributes requests among clusters. It does not run inference.',
-    'Correct. Each workload plane handles inference traffic and in-cluster scaling, and reports utilization and demand.',
+<p class="ie-objective">Practices objective 6: select multi-cloud measures</p>
+<Matching
+  id="kc_ma_benefits"
+  question="Match each situation to the multi-cloud benefit that addresses it."
+  pairs={[
+    { left: 'One provider has no H100s left in any region the team uses', right: 'Capacity' },
+    { left: 'A provider-wide outage must not stop the service', right: 'Redundancy' },
+    { left: 'Users in Sydney wait on a round trip to Virginia', right: 'Latency' },
+    { left: 'A hospital requires processing inside its own country', right: 'Compliance' },
   ]}
+  correctFeedback="Correct. Pooling providers supplies capacity, splitting across providers supplies redundancy, placing inference near users cuts latency, and placing it in permitted locations meets compliance rules."
+  incorrectFeedback="Match the constraint to the benefit. A shortage of GPUs is a capacity problem. Surviving a provider outage is redundancy. Distance to users is latency. A legal rule on where data is processed is compliance."
 />
 
+<p class="ie-objective">Practices objective 6: select multi-cloud measures</p>
 <MultipleChoice
-  id="kc_ma_2"
-  question="A company runs separate inference silos on two clouds. One cloud has spare GPUs while the other is overloaded. What limitation of siloed multi-cloud does this expose?"
+  id="kc_ma_outage"
+  question="The global control plane of a multi-cloud deployment goes offline for 20 minutes during steady traffic. What happens to inference requests during the outage?"
   options={[
-    'Compute cannot flow between clouds, so the spare GPUs cannot absorb the overload.',
-    'Each silo needs its own model weights, so the spare GPUs cannot load the model.',
-    'Siloed clouds cannot use autoscaling, so neither silo can add replicas.',
+    'Every workload plane stops, because it waits on control plane decisions.',
+    'Workload planes keep serving and scaling, and new deployments pause.',
+    'Traffic fails over to a passive standby copy of each workload plane.',
   ]}
-  correct={0}
+  correct={1}
   optionFeedback={[
-    'Correct. Siloed setups cannot use inter-cloud compute fluidly. True multi-cloud treats the pools as interchangeable.',
-    'Incorrect. Loading weights is possible on any cloud. The problem is the lack of a scheduler that moves work between silos.',
-    'Incorrect. Each silo can still autoscale within its own cluster. The limitation is between clouds.',
+    'Incorrect. Workload planes handle inference traffic and in-cluster scaling on their own. The split exists so that a control plane failure does not stop serving.',
+    'Correct. The control plane makes deployment and global scaling decisions. Each workload plane keeps serving and autoscaling within its cluster, so only global changes wait.',
+    'Incorrect. Active-passive failover is a posture for a failed workload plane or region. A control plane outage leaves the workload planes healthy.',
   ]}
 />

@@ -18,7 +18,7 @@
   <rect x="130" y="180" width="140" height="40" rx="4" fill="var(--ie-accent-soft)" stroke="var(--ie-accent)" stroke-width="2" />
   <text class="ie-svg-text" x="200" y="205" text-anchor="middle" font-size="14" font-weight="600">Whisper</text>
   {#each mig as [col, row]}
-    <rect x={135 + col * 68} y={130 - row * 42} width="62" height="36" rx="3" fill="#ffffff" stroke="var(--ie-accent)" stroke-dasharray="4 3" />
+    <rect x={135 + col * 68} y={130 - row * 42} width="62" height="36" rx="3" fill="var(--ie-surface)" stroke="var(--ie-accent)" stroke-dasharray="4 3" />
     <text class="ie-svg-text" x={166 + col * 68} y={152 - row * 42} text-anchor="middle" font-size="11">H100 MIG</text>
   {/each}
   <line x1="270" y1="200" x2="320" y2="200" stroke="var(--ie-line)" stroke-width="2" marker-end="url(#ie-arrow-cs)" />
@@ -26,12 +26,12 @@
   <rect x="326" y="180" width="140" height="40" rx="4" fill="var(--ie-accent-soft)" stroke="var(--ie-accent)" stroke-width="2" />
   <text class="ie-svg-text" x="396" y="205" text-anchor="middle" font-size="14" font-weight="600">LLM</text>
   {#each [0, 1] as n}
-    <rect x={331 + n * 68} y="130" width="62" height="36" rx="3" fill="#ffffff" stroke="var(--ie-accent)" stroke-dasharray="4 3" />
+    <rect x={331 + n * 68} y="130" width="62" height="36" rx="3" fill="var(--ie-surface)" stroke="var(--ie-accent)" stroke-dasharray="4 3" />
     <text class="ie-svg-text" x={362 + n * 68} y="152" text-anchor="middle" font-size="11">B200 node</text>
   {/each}
   <line x1="466" y1="200" x2="506" y2="200" stroke="var(--ie-line)" stroke-width="2" marker-end="url(#ie-arrow-cs)" />
   <!-- Output document -->
-  <path d="M512,175 h26 l12,12 v38 h-38 z" fill="#ffffff" stroke="var(--ie-ink)" stroke-width="2" />
+  <path d="M512,175 h26 l12,12 v38 h-38 z" fill="var(--ie-surface)" stroke="var(--ie-ink)" stroke-width="2" />
   <text class="ie-svg-text" x="530" y="244" text-anchor="middle" font-size="12">Document</text>
   <defs>
     <marker id="ie-arrow-cs" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">

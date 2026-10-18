@@ -16,7 +16,7 @@
   function status(i) {
     if (i < shared) return 'match';
     if (i === shared) return 'miss';
-    return 'discarded';
+    return 'recomputed';
   }
 </script>
 

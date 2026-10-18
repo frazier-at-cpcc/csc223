@@ -23,7 +23,7 @@
   const label = $derived(
     autoscaled
     ? 'Line chart with autoscaling. Provisioned GPU count steps up and down close to the traffic curve through the lull, the peak, and the decline.'
-    : 'Line chart without autoscaling. A flat GPU count sits above traffic during the early and late lulls, labeled wasted spend, and below traffic during the midday peak, labeled missed SLAs.',
+    : 'Line chart without autoscaling. A flat GPU count sits above traffic during the early and late lulls, labeled wasted spend, and below traffic during the midday peak, labeled missed latency targets.',
   );
 </script>
 
@@ -36,7 +36,7 @@
   <path d={gpuPath} fill="none" stroke="var(--ie-ink)" stroke-width="2" stroke-dasharray="6 4" />
   {#if !autoscaled}
     <text class="ie-svg-text" x={x(3)} y={y(fixed) + 22} font-size="12">Wasted spend</text>
-    <text class="ie-svg-text" x={x(13)} y={y(fixed) - 10} text-anchor="middle" font-size="12" font-weight="600">Missed SLAs</text>
+    <text class="ie-svg-text" x={x(13)} y={y(fixed) - 10} text-anchor="middle" font-size="12" font-weight="600">Missed targets</text>
     <text class="ie-svg-text" x={x(20)} y={y(fixed) + 22} font-size="12">Wasted spend</text>
   {/if}
   <text class="ie-svg-text" x={(left + W) / 2} y={top + plotH + 22} text-anchor="middle" font-size="12">Time</text>

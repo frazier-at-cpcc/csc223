@@ -2,6 +2,11 @@
   export const pageConfig = { title: 'Containerization Terms' };
 </script>
 
+<script>
+  import { scrollable } from '$shared/scrollable.js';
+  import Term from '$shared/Term.svelte';
+</script>
+
 <h1>Containerization Terms</h1>
 
 <p>
@@ -9,16 +14,15 @@
   standardize deployment in production. A container turns a program into a packaged artifact that runs the same way
   on any compatible host. The familiar complaint that code "works on my machine" stops applying.
 </p>
-
 <p>
   Containers are lightweight because they share the host operating system kernel. In this context, kernel means the
-  Linux kernel, not a CUDA kernel. That light footprint makes containers a good fit for packaging inference services.
+  Linux kernel, not a <Term id="cuda-kernel">CUDA kernel</Term>. That light footprint makes containers a good fit for
+  packaging inference services.
 </p>
 
-<h2>Core vocabulary</h2>
-
+<h2>Core Vocabulary</h2>
 <p>For most developers, containerization means Docker. Docker work uses four terms.</p>
-
+<div class="ie-table-wrap" role="region" aria-label="Core Vocabulary table" use:scrollable>
 <table class="ie-table">
   <thead>
     <tr><th scope="col">Term</th><th scope="col">Definition</th></tr>
@@ -30,16 +34,15 @@
     <tr><td>Registry</td><td>A central repository for managing, storing, sharing, and distributing images.</td></tr>
   </tbody>
 </table>
-
+</div>
 <p>
   An image is the static package. A container is a running instance of that image. A Dockerfile is the recipe that
   produces the image, and a registry is where finished images are published and retrieved.
 </p>
 
 <h2>Registries</h2>
-
 <p>
   NVIDIA, several cloud providers, and Docker itself operate container registries. Docker Hub is a popular registry
-  for AI work. Docker Hub plays the same role for images that Hugging Face plays for model weights and that PyPI plays
-  for Python packages.
+  for AI work. Docker Hub plays the same role for images that <Term id="hugging-face" /> plays for model <Term id="weights">weights</Term> and
+  that the Python Package Index (PyPI) plays for Python packages.
 </p>

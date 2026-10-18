@@ -15,8 +15,8 @@
 </script>
 
 <Figure
-  caption="NVIDIA GPU architecture names from 2017 through all announced future architectures."
-  description="A horizontal timeline runs from 2017 to 2028. Volta appears at 2017, Turing at 2018, and Ampere at 2020. Hopper and Ada Lovelace both appear at 2022, with Hopper stacked above Ada Lovelace. Blackwell appears at 2024. Rubin at 2026 and Feynman at 2028 have dashed outlines because they are announced but not yet released."
+  caption="NVIDIA GPU architecture names from 2017 through the architectures announced as of October 2026."
+  description="A horizontal timeline runs from 2017 to 2028. Volta appears at 2017, Turing at 2018, and Ampere at 2020. Hopper and Ada Lovelace both appear at 2022, with Hopper stacked above Ada Lovelace. Blackwell appears at 2024. Rubin at 2026 and Feynman at 2028 have dashed outlines because, as of October 2026, Rubin systems are scheduled for the second half of 2026 and Feynman is planned for 2028."
 >
   <svg viewBox="0 0 720 190" role="img" aria-labelledby="arch-timeline-title">
     <title id="arch-timeline-title">NVIDIA GPU architecture timeline, 2017 to 2028</title>
@@ -36,6 +36,6 @@
       <text x={x(a.i)} y={a.y + 19} text-anchor="middle" class="ie-svg-small">{a.name}</text>
     {/each}
     <rect x="200" y="168" width="22" height="14" class="ie-svg-future" />
-    <text x="230" y="180" class="ie-svg-small">Dashed outline: announced, not yet released</text>
+    <text x="230" y="180" class="ie-svg-small">Dashed outline: scheduled or planned as of October 2026</text>
   </svg>
 </Figure>

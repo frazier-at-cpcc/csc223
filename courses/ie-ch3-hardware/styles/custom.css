@@ -66,3 +66,21 @@
 .ie-table-wrap {
   overflow-x: auto;
 }
+
+/* Objective tag above each practice item */
+.ie-obj {
+  margin: var(--tessera-spacing-xl) 0 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--tessera-text-light);
+}
+
+/* Worked steps */
+.ie-steps li { margin-bottom: var(--tessera-spacing-sm); }
+
+/* Let wide tables scroll inside their wrapper instead of widening the page on phones. */
+.tessera-main,
+.tessera-content { min-width: 0; max-width: 100%; }
+.ie-table-wrap { max-width: 100%; }
+.ie-obj-inline { display: block; margin-top: 0.25rem; font-size: 0.85rem; color: var(--tessera-text-light); }
+button.term { text-align: inherit; }

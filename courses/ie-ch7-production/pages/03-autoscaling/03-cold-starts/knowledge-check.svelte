@@ -3,41 +3,51 @@
 </script>
 
 <script>
-  import { MultipleChoice } from 'tessera-learn';
+  import { Matching, MultipleChoice } from 'tessera-learn';
+  import NumericQuestion from '$shared/NumericQuestion.svelte';
 </script>
 
 <h1>Knowledge Check: Cold Starts</h1>
+<p>These practice questions are ungraded. Each one gives feedback when you answer.</p>
 
-<p>These practice questions are ungraded. Select an answer to see feedback.</p>
+<p class="ie-objective">Practices objective 3: recommend cold start techniques</p>
+<Matching
+  id="kc_cs_stages"
+  question="Match each cold start stage to the technique that shortens it."
+  pairs={[
+    { left: 'GPU procurement', right: 'A warm node pool, or a contract term for node start time' },
+    { left: 'Image loading', right: 'An image that includes only necessary dependencies' },
+    { left: 'Model loading', right: 'A weight cache in the same datacenter as the GPUs' },
+    { left: 'Engine startup', right: 'A cached, prebuilt engine for the same GPU and CUDA version' },
+  ]}
+  correctFeedback="Correct. Each stage has its own lever: procurement depends on the provider or a warm pool, image loading on image size, model loading on weight source bandwidth, and engine startup on caching the compiled engine."
+  incorrectFeedback="Ask what each stage waits for. Procurement waits for a machine, image loading for the image bytes, model loading for the weight bytes, and engine startup for compilation. Pick the technique that shrinks that wait."
+/>
 
+<p class="ie-objective">Practices objective 3: recommend cold start techniques</p>
+<NumericQuestion
+  id="kc_cs_load"
+  question="A model's FP8 weights total 405 GB. A cache in the same datacenter delivers 4.5 GB/s to a new instance. How many seconds does model loading take?"
+  answer={90}
+  tolerance={1}
+  unit="seconds"
+  correctFeedback="Correct. 405 GB ÷ 4.5 GB/s = 90 seconds. The same weights in FP16 would be 810 GB and take twice as long."
+  incorrectFeedback="Load time is size divided by bandwidth: 405 ÷ 4.5 = 90 seconds."
+/>
+
+<p class="ie-objective">Practices objective 3: recommend cold start techniques</p>
 <MultipleChoice
-  id="kc_cs_1"
-  question="New replicas of a 400-billion-parameter model spend most of their cold start downloading weights from a third-party model hub. Which change most directly shortens that stage?"
+  id="kc_cs_overnight"
+  question="A team keeps 6 replicas running all night for traffic that needs only 2, because a new replica takes 15 minutes to start and morning traffic arrives quickly. Profiling shows 12 of the 15 minutes go to downloading weights from object storage in another region. Which change lets the team lower min replicas safely?"
   options={[
     'Bake the weights into the container image.',
-    'Cache the weights in the same datacenter as the GPU instances.',
-    'Switch the inference engine to one with a compilation step.',
+    'Cache the weights in the GPUs’ own datacenter.',
+    'Raise the concurrency target above the batch size.',
   ]}
   correct={1}
   optionFeedback={[
-    'Incorrect. Weights for a model this large dwarf the image. Baking them in makes the image huge without adding bandwidth.',
-    'Correct. A cache physically near the GPU instance provides the gigabytes per second of bandwidth that large models need.',
-    'Incorrect. A compilation step adds engine startup time and does nothing for weight loading.',
-  ]}
-/>
-
-<MultipleChoice
-  id="kc_cs_2"
-  question="Why does slow cold start performance lead to over-provisioning?"
-  options={[
-    'Slow cold starts force the provider to reserve extra GPUs for each cluster.',
-    'Slow replica startup makes the inference engine run smaller batches.',
-    'Teams cannot scale down with confidence when new replicas are slow to come online.',
-  ]}
-  correct={2}
-  optionFeedback={[
-    'Incorrect. Provider reservations are a procurement decision, not a consequence of cold start speed.',
-    'Incorrect. Batch size is an engine setting. Startup speed does not change it.',
-    'Correct. If the system cannot add replicas quickly when traffic returns, it keeps extra replicas running instead.',
+    'Incorrect. The weights would still cross the same network inside a much larger image, so image loading would absorb the time that model loading loses.',
+    'Correct. A nearby cache raises the bandwidth of the slowest stage. With a cold start of a few minutes, the autoscaler can add replicas as morning traffic rises, so fewer replicas need to stay warm overnight.',
+    'Incorrect. A target above the batch size makes requests queue inside replicas. It hides demand from the autoscaler instead of making replicas start faster.',
   ]}
 />

@@ -3,40 +3,138 @@
 </script>
 
 <script>
-  import { Callout } from 'tessera-learn';
+  import { scrollable } from '$shared/scrollable.js';
+  import Signal from '$shared/Signal.svelte';
+  import Term from '$shared/Term.svelte';
+  import NumericQuestion from '$shared/NumericQuestion.svelte';
+  import MemoryFit from '$shared/sims/MemoryFit.svelte';
 </script>
 
 <h1>Sizing VRAM for a Model</h1>
 
+<p>Total VRAM limits the size of the model a GPU can serve. Sizing starts with the weights.</p>
+
+<h2>Step 1: weight memory</h2>
 <p>
-  Total VRAM limits the size of the model a GPU can serve. The VRAM must hold two things:
+  Each <Term id="parameter">parameter</Term> occupies a fixed number of bytes set by its
+  <Term id="precision">precision</Term>. Weight memory therefore follows one formula:
 </p>
-<ol>
-  <li>The model weights.</li>
-  <li>
-    Headroom for the <strong>KV cache</strong>, the stored key and value tensors for each token. Plan for at
-    least 50 percent of the weight size. Long contexts, high batch sizes, and video generation models need
-    more.
-  </li>
-</ol>
+<p><code>weight memory (GB) = parameters (billions) × bytes per parameter</code></p>
+<div class="ie-table-wrap" role="region" aria-label="Bytes per parameter at common precisions" use:scrollable>
+  <table class="ie-table">
+    <caption>Bytes per parameter at common precisions</caption>
+    <thead>
+      <tr><th scope="col">Precision</th><th scope="col">Bytes per parameter</th><th scope="col">70 billion parameters occupy</th></tr>
+    </thead>
+    <tbody>
+      <tr><th scope="row">FP16 or BF16</th><td>2</td><td>140 GB</td></tr>
+      <tr><th scope="row">FP8</th><td>1</td><td>70 GB</td></tr>
+      <tr><th scope="row">FP4</th><td>0.5</td><td>35 GB</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>This chapter uses 1 GB = 10<sup>9</sup> bytes, so one billion parameters at one byte each occupy one gigabyte.</p>
+
+<h2>Step 2: the planning factor</h2>
+<p>
+  VRAM must also hold <Term id="kv-cache-headroom" />: room for the <Term id="kv-cache">KV cache</Term>, the
+  activations, and the runtime's own overhead. The series expresses that room as a
+  <strong>planning factor</strong>, a multiplier on weight memory:
+</p>
+<p><code>minimum VRAM = planning factor × weight memory</code></p>
+<p>
+  Use a planning factor of at least 1.5, which reserves headroom equal to half the weight size. Long contexts,
+  many concurrent requests, and video generation models need more. Chapter 5's Sizing and Strategy lesson
+  raises the factor to 1.8 for long-context, high-concurrency production workloads.
+</p>
 
 <h2>What happens when VRAM runs short</h2>
 <ul>
-  <li>If VRAM cannot hold the weights, loading the model fails with an out-of-memory (OOM) error.</li>
+  <li>If VRAM cannot hold the weights, loading the model fails with an <Term id="out-of-memory">out-of-memory (OOM) error</Term>.</li>
   <li>If VRAM holds the weights but lacks headroom, inference runs slowly or crashes with an OOM error.</li>
 </ul>
 
-<h2>Worked example</h2>
-<p>A model's weights occupy 50 GB. Apply the guideline in three steps.</p>
-<ol>
-  <li>Compute the minimum headroom: 50 GB × 0.5 = 25 GB.</li>
-  <li>Add the weights and the headroom: 50 GB + 25 GB = 75 GB.</li>
-  <li>Compare against candidate GPUs. An 80 GB H100 meets the 75 GB minimum. A 48 GB L40 cannot even load the weights.</li>
-</ol>
+<Signal kind="worked" title="A 32-billion-parameter model in FP16">
+  <ol class="ie-steps">
+    <li>Weight memory: 32 billion parameters × 2 bytes = 64 GB.</li>
+    <li>Minimum VRAM: 1.5 × 64 GB = 96 GB.</li>
+    <li>
+      Compare against candidate GPUs. One 80 GB H100 falls short of 96 GB, although it can load the weights.
+      One 141 GB H200 meets the minimum. Two H100s, with 160 GB together, also meet it.
+    </li>
+  </ol>
+</Signal>
 
-<Callout type="tip">
+<Signal kind="mistake" title="Reading parameters as gigabytes">
   <p>
-    Treat 1.5 times the weight size as a floor, not a target. A deployment that serves long documents or large
-    batches needs a larger margin for the KV cache.
+    The shortcut "one billion parameters is one gigabyte" holds only at one byte per parameter, which is <Term id="fp8">FP8</Term>. At
+    FP16 the same model needs twice as much memory, and at <Term id="fp4">FP4</Term> it needs half. Always multiply by the bytes per
+    parameter before you apply the planning factor.
   </p>
-</Callout>
+</Signal>
+
+<h2>Faded example: a 24-billion-parameter model in FP8</h2>
+<p>Step 1 is done: 24 billion parameters × 1 byte = 24 GB of weights.</p>
+<NumericQuestion
+  id="vram_faded"
+  question="Step 2: apply a planning factor of 1.5. What is the minimum VRAM for this model?"
+  answer={36}
+  unit="GB"
+  correctFeedback="Correct. 1.5 × 24 GB = 36 GB, so a 48 GB GPU meets the minimum and a 24 GB GPU does not."
+  incorrectFeedback="Multiply the weight memory by the planning factor: 1.5 × 24 GB = 36 GB."
+/>
+
+<h2>Practice: minimum VRAM</h2>
+
+<p class="ie-obj">Objective 4: Calculate the minimum VRAM for a model</p>
+<NumericQuestion
+  id="vram_practice_1"
+  question="A model has 13 billion parameters stored in FP16. Using a planning factor of 1.5, what is the minimum VRAM?"
+  answer={39}
+  unit="GB"
+  correctFeedback="Correct. Weights: 13 × 2 = 26 GB. Minimum VRAM: 1.5 × 26 = 39 GB."
+  incorrectFeedback="Find the weights first: 13 billion × 2 bytes = 26 GB. Then apply the factor: 1.5 × 26 GB = 39 GB."
+/>
+
+<p class="ie-obj">Objective 4: Calculate the minimum VRAM for a model</p>
+<NumericQuestion
+  id="vram_practice_2"
+  question="A model has 120 billion parameters quantized to FP4. Using a planning factor of 1.5, what is the minimum VRAM?"
+  answer={90}
+  unit="GB"
+  correctFeedback="Correct. FP4 uses half a byte per parameter: 120 × 0.5 = 60 GB of weights. Minimum VRAM: 1.5 × 60 = 90 GB."
+  incorrectFeedback="FP4 uses 0.5 bytes per parameter, so the weights occupy 120 × 0.5 = 60 GB. Then 1.5 × 60 GB = 90 GB."
+/>
+
+<h2>Exploring the full memory budget</h2>
+<p>
+  The planning factor is a first check. The calculator below also adds up the KV cache, which grows with
+  context length and with the number of concurrent sequences, so you can see where the headroom goes.
+</p>
+
+<Signal kind="try" title="Size a 70-billion-parameter model">
+  <ol class="ie-steps">
+    <li>
+      Load the scenario "70B in FP16 on H100s." Record how many H100s the planning factor requires. Notice that
+      the capacity arithmetic alone suggests three, but the calculator reports four, because <Term id="tensor-parallelism">tensor parallelism</Term>
+      needs a GPU count that divides the model's KV heads evenly.
+    </li>
+    <li>Load the scenario "70B in FP8 on H100s." Record the new minimum GPU count and explain the change.</li>
+    <li>
+      In the FP8 scenario, raise the context length to 32,768 tokens. Record the verdict and the largest number
+      of concurrent sequences the two GPUs can hold.
+    </li>
+  </ol>
+</Signal>
+
+<MemoryFit model="llama-70b" weightPrecision="fp16" kvPrecision="fp16" context={8192} sequences={16} gpu="h100" gpuCount={4} headingLevel={2} />
+
+<p class="ie-obj">Objective 4: Calculate the minimum VRAM for a model (calculator task)</p>
+<NumericQuestion
+  id="vram_sim"
+  question='In the calculator, load the scenario "70B in FP8 on H100s." Change the GPU to the H200 and the GPU count to 1, and keep a context length of 8,192 tokens. What is the largest number of concurrent sequences the calculator reports?'
+  answer={41}
+  unit="sequences"
+  correctFeedback="Correct. One H200 holds the 70.6 GB of FP8 weights with room for 41 sequences of 8,192 tokens after the 10 percent overhead reserve. The extra VRAM of the H200 buys concurrency."
+  incorrectFeedback="Load the FP8 scenario first so that both the weights and the KV cache use FP8. Then set the GPU to H200 and the count to 1. The status line reports the maximum: 41 concurrent sequences at 8,192 tokens."
+/>

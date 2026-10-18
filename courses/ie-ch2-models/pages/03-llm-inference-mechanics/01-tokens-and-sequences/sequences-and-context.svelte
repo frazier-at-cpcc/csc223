@@ -3,7 +3,8 @@
 </script>
 
 <script>
-  import { Callout } from 'tessera-learn';
+  import Signal from '$shared/Signal.svelte';
+  import Term from '$shared/Term.svelte';
 </script>
 
 <h1>Sequences and the Context Window</h1>
@@ -14,7 +15,7 @@
 
 <ul>
   <li><strong>Input sequence:</strong> the prompt, chat history, context, function definitions, and any other input passed to the LLM.</li>
-  <li><strong>Reasoning sequence:</strong> an optional intermediate output in which a reasoning model "thinks" before it answers.</li>
+  <li><strong>Reasoning sequence:</strong> an optional intermediate output in which a <Term id="reasoning-model">reasoning model</Term> generates reasoning tokens before it answers.</li>
   <li><strong>Output sequence:</strong> the response the LLM generates.</li>
 </ul>
 
@@ -26,12 +27,16 @@
   request may also cap the output length with a <code>max_tokens</code> argument.
 </p>
 
-<Callout type="info">
+<Signal kind="worked" title="The context window budget">
+  <pre><code>Context window:              32,000 tokens
+Input sequence:            - 30,000 tokens
+Left for reasoning + output:   2,000 tokens</code></pre>
   <p>
-    Example: a model has a 32,000-token context window. A request sends a 30,000-token input. At most
-    2,000 tokens remain for reasoning and output combined, even if <code>max_tokens</code> is set higher.
+    The request can produce at most 2,000 reasoning and output tokens combined, even if
+    <code>max_tokens</code> is set higher. A reasoning model that spends 1,500 of them thinking leaves 500
+    for the visible answer.
   </p>
-</Callout>
+</Signal>
 
 <h2>The chat template</h2>
 
@@ -44,7 +49,7 @@
 <p>
   The <strong>chat template</strong> performs that combination. It is the model-specific formatting of
   messages, roles, separators, and beginning-of-sequence and end-of-sequence tokens. Chat templates
-  differ subtly from model to model. The inference engine must implement each one exactly, or output
+  differ subtly from model to model. The <Term id="inference-engine">inference engine</Term> must implement each one exactly, or output
   quality suffers.
 </p>
 

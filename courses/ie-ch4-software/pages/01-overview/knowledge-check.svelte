@@ -3,45 +3,47 @@
 </script>
 
 <script>
-  import { MultipleChoice } from 'tessera-learn';
+  import { MultipleChoice, Sorting } from 'tessera-learn';
 </script>
 
 <h1>Knowledge Check: The Software Stack</h1>
 
-<p>These questions are ungraded. Use the feedback to confirm your understanding.</p>
+<p>
+  These questions are ungraded. Both practice objective 1: classify an inference
+  engineering task by the level of the software stack where it happens.
+</p>
 
-<MultipleChoice
-  id="kc_stack_1"
-  question="An engineer adjusts launch flags for a vLLM server so that it splits a model across eight GPUs. At which level of the software stack is the engineer working?"
-  options={[
-    'CUDA',
-    'Deep learning frameworks',
-    'Inference engines',
-    'NVIDIA Dynamo',
+<Sorting
+  id="kc_stack_sort"
+  question="Sort each task into the level of the software stack where it happens."
+  items={[
+    'Write a C++ function that doubles every value of an array on the GPU',
+    'Swap in a DeepGEMM kernel for one FP8 matrix multiplication',
+    'Define a network as a Python class with linear layers',
+    'Call torch.compile on a custom research model',
+    'Pass --tensor-parallel-size 8 to vllm serve',
+    'Turn on EAGLE speculation flags for an SGLang server',
+    'Set a planner target that scales decode workers when time to first token rises',
+    'Route each request to the node that already caches its prefix',
   ]}
-  correct={2}
-  optionFeedback={[
-    'CUDA is the lowest level. The engineer is not writing or selecting GPU kernels.',
-    'PyTorch is the framework that vLLM is built on, but the engineer is configuring vLLM itself, not writing PyTorch code.',
-    'Correct. vLLM is an inference engine, and configuring its server flags is inference engine work.',
-    'Dynamo orchestrates engines across a large deployment. Configuring one vLLM server does not involve Dynamo.',
-  ]}
+  targets={['CUDA', 'Deep learning frameworks', 'Inference engines', 'NVIDIA Dynamo']}
+  correct={[0, 0, 1, 1, 2, 2, 3, 3]}
+  correctFeedback="Kernel code and kernel choice sit at the CUDA level, Python model code at the framework level, launch flags at the engine level, and cluster-wide planning and routing at the Dynamo level."
+  incorrectFeedback="Ask which artifact each task changes. Kernel code or kernel choice is CUDA. Python model code is the framework. Engine launch flags are the engine. Scaling and routing across many workers is Dynamo."
 />
 
 <MultipleChoice
-  id="kc_stack_2"
-  question="Running a newly released open model on its first day can require nightly or prerelease builds of its dependencies. What explains this requirement?"
+  id="kc_stack_fix"
+  question="A team serves a model with vLLM on new GPUs. A profile shows that one attention kernel uses only a fraction of the new GPU's memory bandwidth, because the kernel was tuned for the previous generation. Where does the fix belong?"
   options={[
-    'GPU drivers need a reinstall for each new model.',
-    'Open models ship with their own proprietary runtime.',
-    'Support for new models lands in fast-moving releases.',
-    'Stable releases cannot load weights split across files.',
+    'A change at the CUDA level',
+    'A larger batch-size flag on vLLM',
+    'An NVIDIA Dynamo routing policy',
   ]}
-  correct={2}
+  correct={0}
   optionFeedback={[
-    'New models do not require a driver reinstall. The support gap is in the higher-level software.',
-    'Open models ship weights and configuration, not a proprietary runtime.',
-    'Correct. Software iterates quickly, so support for a new model often exists only in the newest builds.',
-    'Stable releases load multi-file weights routinely. File count is not the issue.',
+    'Correct. The problem lives in the kernel, so the fix belongs at the CUDA level: select or port a kernel tuned for the new architecture.',
+    'An engine flag changes how much work each step carries. It does not change how the kernel uses the new hardware.',
+    'Routing decides which worker receives a request. Every worker would still run the same poorly matched kernel.',
   ]}
 />

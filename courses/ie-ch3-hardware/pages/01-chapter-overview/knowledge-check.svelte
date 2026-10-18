@@ -3,32 +3,48 @@
 </script>
 
 <script>
-  import { MultipleChoice } from 'tessera-learn';
+  import { Matching, MultipleChoice } from 'tessera-learn';
 </script>
 
 <h1>Knowledge Check: Chapter Overview</h1>
-<p>These practice questions are ungraded. Each option explains why it is right or wrong.</p>
+<p>These practice items are ungraded. Each one gives feedback that explains the answer.</p>
 
+<p class="ie-obj">Objective 9: Recommend a deployment target</p>
+<Matching
+  id="kc_modes"
+  question="Match each deployment term to its description."
+  pairs={[
+    { left: 'Air-gapped', right: 'GPUs on-premise with no external network path' },
+    { left: 'Hyperscaler', right: 'A general-purpose cloud provider that also rents GPUs' },
+    { left: 'Neocloud', right: 'A cloud provider that specializes in GPU capacity' },
+    { left: 'On-premise', right: 'GPUs that you buy and run in a datacenter you control' },
+  ]}
+  correctFeedback="Correct. Cloud capacity comes from hyperscalers or neoclouds. On-premise and air-gapped deployments both use GPUs you own, and only the air-gapped one cuts every external network path."
+  incorrectFeedback="Review the pairs. Hyperscalers such as AWS and GCP sell many services, and neoclouds such as CoreWeave focus on GPUs. On-premise means you own and control the datacenter, and air-gapped adds the absence of any external network."
+/>
+
+<p class="ie-obj">Objective 9: Recommend a deployment target</p>
 <MultipleChoice
-  id="kc1"
-  question="A startup plans to serve a large language model to thousands of users and needs GPUs that can share one model across eight cards at high bandwidth. Which GPU segment fits this requirement?"
-  options={['Datacenter GPUs', 'Personal computing GPUs', 'Workstation GPUs']}
-  correct={0}
+  id="kc_mode_scenario"
+  question="A hospital network must keep patient records inside facilities that it owns. Its engineers operate the inference service remotely from offices across the region. Which deployment mode fits these requirements?"
+  options={['Air-gapped', 'Cloud, rented from a neocloud', 'On-premise']}
+  correct={2}
   optionFeedback={[
-    'Correct. Datacenter GPUs include high-bandwidth GPU-to-GPU interconnects and ship in standardized racked configurations built for inference at scale.',
-    'Incorrect. Personal computing GPUs, such as the GeForce RTX 5090, are individual desktop cards for everyday use. They lack datacenter interconnects.',
-    'Incorrect. Workstation GPUs serve professional desktop workflows. They are individual cards and lack the racked interconnects that serving at scale requires.',
+    'Incorrect. An air-gapped deployment has no external network path, so engineers in other offices could not operate it remotely.',
+    'Incorrect. A neocloud runs GPUs in its own datacenter, so patient records would leave facilities the hospital owns.',
+    'Correct. On-premise GPUs keep the data in a datacenter the hospital controls, and a network path still lets engineers operate the service remotely.',
   ]}
 />
 
+<p class="ie-obj">Objective 9: Recommend a deployment target</p>
 <MultipleChoice
-  id="kc2"
-  question="A defense agency installs GPUs in its own facility with no network path to the outside world. Operators must be physically present to run inference. Which deployment mode is this?"
-  options={['Air-gapped', 'Cloud', 'On-premise with remote access']}
+  id="kc_segment"
+  question="A startup will serve a large language model to thousands of users and needs to split the model across eight GPUs that exchange data at high bandwidth. Which GPU segment fits this requirement?"
+  options={['Datacenter GPUs', 'Personal computing GPUs, two per desktop', 'Workstation GPUs with the most VRAM available']}
   correct={0}
   optionFeedback={[
-    'Correct. An air-gapped deployment is installed on-premise and requires physical access to the GPUs to run inference.',
-    'Incorrect. Cloud deployments rent GPUs in another company\'s datacenter and are reached over the network.',
-    'Incorrect. A standard on-premise deployment sits in a datacenter you control, but it can be reached over a network. The absence of any external path makes this deployment air-gapped.',
+    'Correct. Datacenter GPUs include high-bandwidth GPU-to-GPU links and ship in standardized racked configurations built for inference at scale.',
+    'Incorrect. Personal computing GPUs such as the GeForce RTX 5090 are individual desktop cards. Two cards per desktop still lack the links that eight-GPU serving needs.',
+    'Incorrect. Workstation GPUs offer large memory for professional desktop work, but they are individual cards without the racked GPU-to-GPU links that serving at scale requires.',
   ]}
 />

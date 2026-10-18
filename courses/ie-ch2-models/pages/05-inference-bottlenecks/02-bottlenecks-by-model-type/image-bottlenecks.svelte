@@ -2,20 +2,26 @@
   export const pageConfig = { title: 'Image and Video Generation Bottlenecks' };
 </script>
 
+<script>
+  import { scrollable } from '$shared/scrollable.js';
+  import Term from '$shared/Term.svelte';
+</script>
+
 <h1>Image and Video Generation Bottlenecks</h1>
 
 <p>
-  Image and video models are relatively small. They have about a tenth as many parameters as frontier
+  Image and video models are relatively small. They have about a tenth as many <Term id="parameter">parameters</Term> as frontier
   language models. Their attention mechanism, however, is as computationally demanding as that of a large LLM.
 </p>
 
 <p>
-  Image and video models use iterative denoising, not autoregressive token generation. Each denoising
-  step considers the entire image or video at once, as represented in latent space. That workload
+  Image and video models use iterative denoising, not <Term id="autoregressive-generation">autoregressive
+  generation</Term>. Each denoising
+  step considers the entire image or video at once, as represented in <Term id="latent-space">latent space</Term>. That workload
   resembles LLM prefill, which processes the entire input sequence at once.
 </p>
 
-<div class="ie-table-wrap">
+<div class="ie-table-wrap" role="region" aria-label="Why image generation resembles prefill rather than decode" use:scrollable>
   <table class="ie-table">
     <caption>Why image generation resembles prefill rather than decode</caption>
     <thead>
@@ -30,6 +36,7 @@
 </div>
 
 <p>
-  Like LLM prefill, image and video generation are bottlenecked on compute. Sections 6.5 and 6.6 of the
-  book cover optimization techniques for these modalities.
+  Like LLM prefill, image and video generation are bottlenecked on compute. A 128 × 128 latent cut into 2 × 2
+  patches gives 4,096 patch tokens per pass, so each denoising step resembles a 4,096-token prefill. Chapter 6
+  covers optimization techniques for these modalities.
 </p>

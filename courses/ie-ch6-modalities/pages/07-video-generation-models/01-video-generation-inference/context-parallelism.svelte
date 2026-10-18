@@ -3,6 +3,7 @@
 </script>
 
 <script>
+  import Term from '$shared/Term.svelte';
   import ContextParallelism from '../../../components/ContextParallelism.svelte';
 </script>
 
@@ -10,13 +11,12 @@
 
 <p>
   Video generation models usually run on a full node of eight GPUs. They use Context Parallelism rather
-  than Tensor Parallelism.
+  than <Term id="tensor-parallelism">Tensor Parallelism</Term>.
 </p>
-
 <p>
   <strong>Context Parallelism (CP)</strong> replicates the model weights on every GPU and partitions
   the attention context across the GPUs. Video models are small enough that eight copies of the weights
-  take meaningful memory but still fit on B200 GPUs.
+  take meaningful memory but still fit on <Term id="b200">B200</Term> GPUs.
 </p>
 
 <ContextParallelism />
@@ -28,19 +28,28 @@
   <strong>ring attention</strong> coordinates the work. Each GPU holds one piece of the context and
   passes intermediate results to the next GPU in a ring.
 </p>
+<p>
+  <Term id="multi-head-attention">Multi-head attention</Term> offers a second split. Transformer
+  attention usually has eight or more heads. The heads are independent, so they can run separately and
+  combine their results afterward.
+</p>
+
+<h2>Why not Tensor Parallelism</h2>
 
 <p>
-  Multi-head attention offers a second split. Transformer attention usually has eight or more heads.
-  The heads are independent, so they can run separately and combine their results afterward.
+  Tensor Parallelism splits each layer's weights across GPUs. It solves two problems: weights too large
+  for one GPU, and memory-bound decode that benefits from more combined memory bandwidth. A video model
+  has neither problem. Its weights fit on each GPU, and its bottleneck is attention compute over a very
+  long sequence. Splitting the sequence puts that compute on all eight GPUs without sharding the weights.
 </p>
 
 <h2>Beyond attention</h2>
 
 <p>
-  Other steps parallelize too. The latent decoding step, which uses a variational autoencoder, takes 3 to
-  5 percent of total inference time and can also run across GPUs.
+  Other steps parallelize too. The latent decoding step, which uses a
+  <Term id="vae">variational autoencoder</Term>, takes 3 to 5 percent of total inference time and can
+  also run across GPUs.
 </p>
-
 <p>
   These parallelism techniques make AI video feasible. As video sequences grow longer and models grow
   larger, parallelism will remain the most critical technique for video generation inference.

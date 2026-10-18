@@ -1,4 +1,4 @@
 export default {
   title: 'Chapter Overview',
-  pages: ['overview', 'software-stack', 'knowledge-check'],
+  pages: ['overview', 'recall-earlier-chapters', 'software-stack', 'knowledge-check'],
 };

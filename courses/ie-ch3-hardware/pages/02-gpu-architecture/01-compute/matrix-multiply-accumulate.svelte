@@ -4,6 +4,7 @@
 
 <script>
   import MmaDiagram from '../../../components/MmaDiagram.svelte';
+  import Term from '$shared/Term.svelte';
 </script>
 
 <h1>Matrix Multiply and Accumulate</h1>
@@ -24,6 +25,10 @@
 <p>
   Large matrix multiplications are computed in tiles. Each tile's partial product adds onto the running total
   from earlier tiles. The accumulate step performs that addition inside the same instruction, so the hardware
-  never stores and reloads the intermediate product. Every layer of a transformer reduces to many MMA
-  operations of this form, which is why MMA throughput defines inference compute.
+  never stores and reloads the intermediate product.
+</p>
+<p>
+  Most of the work in every <Term id="transformer">transformer</Term> layer reduces to MMA operations of this form. The
+  normalization, softmax, and activation functions between them are not MMA work, but they
+  account for a small share of the operations. MMA throughput therefore defines inference compute.
 </p>

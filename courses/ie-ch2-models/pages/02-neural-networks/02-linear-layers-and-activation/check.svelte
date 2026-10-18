@@ -3,33 +3,47 @@
 </script>
 
 <script>
-  import { MultipleChoice } from 'tessera-learn';
+  import { MultipleChoice, Sorting } from 'tessera-learn';
+  import NumericQuestion from '$shared/NumericQuestion.svelte';
 </script>
 
 <h1>Knowledge Check: Linear Layers and Activation Functions</h1>
 
-<p>These questions are ungraded. Retry them as often as you like.</p>
+<p>
+  These questions are ungraded and practice objective 1, explaining why activation functions sit between
+  linear layers. Retry them as often as you like.
+</p>
 
-<MultipleChoice
+<NumericQuestion
   id="kc_linear_1"
-  question="A linear layer receives the input vector x = [1, 2]. Its weights matrix is W = [[2, 0], [1, 1]] and its bias vector is b = [0, 1]. What is the output y = xW + b?"
-  options={['[2, 3]', '[4, 3]', '[4, 2]']}
-  correct={1}
-  optionFeedback={[
-    'Incorrect. This result multiplies each input only by the diagonal weight. Each output is a weighted sum of every input: 1 × 2 + 2 × 1 = 4 for the first value.',
-    'Correct. xW = [1 × 2 + 2 × 1, 1 × 0 + 2 × 1] = [4, 2]. Adding b = [0, 1] gives [4, 3].',
-    'Incorrect. [4, 2] is xW before the bias is added. The linear layer adds b = [0, 1] to reach [4, 3].',
-  ]}
+  question="Layer 1 computes y = 3x + 1. Layer 2 computes z = 2y + 5. No activation function sits between them. The pair equals one layer z = wx + b. What is b?"
+  answer={7}
+  correctFeedback="z = 2(3x + 1) + 5 = 6x + 7, so the pair equals one layer with w = 6 and b = 7. This is the scalar form of b3 = b1W2 + b2."
+  incorrectFeedback="Substitute layer 1 into layer 2: z = 2(3x + 1) + 5 = 6x + 2 + 5 = 6x + 7. The first bias passes through the second weight before the second bias is added, so b = 1 × 2 + 5 = 7."
+/>
+
+<Sorting
+  id="kc_linear_2"
+  question="Sort each operation by whether stacking it with linear layers collapses into one linear layer."
+  items={['xW + b', 'ReLU(x) = max(0, x)', 'SiLU(x)', 'Multiplying by W1 and then by W2', 'Adding a constant bias vector']}
+  targets={['Linear: the stack collapses', 'Nonlinear: the stack stays deep']}
+  correct={[0, 1, 1, 0, 0]}
+  correctFeedback="Matrix products and bias additions compose into one linear map. ReLU and SiLU bend the function, which keeps the layers separate."
+  incorrectFeedback="Any chain of matrix multiplications and bias additions composes into a single xW + b. Only a nonlinear function such as ReLU or SiLU prevents that collapse."
 />
 
 <MultipleChoice
-  id="kc_linear_2"
-  question="ReLU returns x when x is greater than zero and returns zero otherwise. What is the output of ReLU for the input x = -3?"
-  options={['-3', '0', '3']}
-  correct={1}
+  id="kc_linear_3"
+  question="A team replaces every ReLU in a 12-layer network with the identity function f(x) = x. What can the modified network represent?"
+  options={[
+    'Only what a single linear layer can represent',
+    'Only what a 6-layer network with ReLU can represent',
+    'The same functions as before, at lower cost',
+  ]}
+  correct={0}
   optionFeedback={[
-    'Incorrect. ReLU passes through only positive values. A negative input does not pass through unchanged.',
-    'Correct. Every negative input maps to zero, which is how ReLU breaks linearity.',
-    'Incorrect. ReLU does not take the absolute value. A negative input maps to zero.',
+    'Correct. The identity function is linear, so the 12 matmuls and biases compose into one xW + b. The extra layers add parameters but no capacity.',
+    'Incorrect. Removing the nonlinearity does not halve the depth. All 12 layers collapse into the equivalent of one.',
+    'Incorrect. The identity function adds no nonlinearity. The network loses the ability to represent anything a single linear layer cannot.',
   ]}
 />

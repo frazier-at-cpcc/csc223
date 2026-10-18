@@ -55,6 +55,32 @@ viewed, success from the quiz at 70); change it in all eight or none.
 - Run `pnpm validate <course>` until it reports no errors and no warnings.
   `pnpm check` runs one course at a time (the a11y audit starts a server).
 
+### Shared teaching components (`shared/`, imported as `$shared/...`)
+
+- `Term.svelte`: `<Term id="..." />` shows the series definition from `glossary.js`, the single
+  source of truth for every definition. `node scripts/check-terms.mjs` must pass.
+- `Signal.svelte`: callouts for the recurring teaching moves (`worked`, `recall` with `chapter`, `try`,
+  `mistake`, `summary`).
+- `NumericQuestion.svelte`: a typed-number item for every calculation objective. It works in practice
+  checks and in graded quizzes.
+- `StackMap.svelte` and `GlossaryList.svelte`: the series map, and the chapter glossary page.
+- `sims/`: seven simulations (RequestTimeline, StreamingMetrics, RooflineExplorer, MemoryFit,
+  SpeculationSimulator, AutoscalingSimulator, CostCrossover). Each has a pure model in `<name>.js`
+  and a `node shared/sims/<name>.check.mjs` self-check. `sims/SPEC.md` is the standard for new ones.
+
+`scripts/build-site.sh` runs the term check and every simulation check before it builds.
+
+### Course standard (every chapter)
+
+- The overview carries a `StackMap`, 6 to 9 single-verb objectives, and "Content current as of".
+- Chapters 1 to 7 open with "Recall from Earlier Chapters". They retrieve earlier concepts and never re-teach them.
+- Each calculation skill follows the same sequence: a worked example, a faded example, two practice
+  numeric items, and a graded item with new numbers.
+- Each lesson ends with 2 or 3 practice items of varied types, each tied to an objective.
+- A synthesis page and a chapter glossary page come before the quiz.
+- Graded quizzes use `feedbackMode: 'never'` and `maxAttempts: 3`. Items are scenario-based, never
+  reuse practice scenarios, and have balanced key positions.
+
 ### Content rules
 
 - **Audience:** technically literate learners (software engineers, IT and CS

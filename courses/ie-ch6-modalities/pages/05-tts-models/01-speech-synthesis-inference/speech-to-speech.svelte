@@ -16,7 +16,7 @@
 <h2>The cascading approach</h2>
 
 <p>
-  Most voice systems today use a <strong>cascading</strong> approach. An ASR model, an LLM, and a TTS
+  At the book's publication in 2025, most voice systems used a <strong>cascading</strong> approach. An ASR model, an LLM, and a TTS
   model work as a pipeline to listen, think, and respond. Auxiliary components, such as VAD and
   embedding models, support natural turn-taking and add context.
 </p>
@@ -31,7 +31,7 @@
   similar architectures, especially in the decoder.
 </p>
 
-<p>At the time the book was published, the comparison favored cascades:</p>
+<p>The book's comparison of the two approaches favored cascades:</p>
 
 <ul>
   <li>No open speech-to-speech model was commercially viable.</li>

@@ -3,31 +3,36 @@
 </script>
 
 <script>
-  import { MultipleChoice } from 'tessera-learn';
+  import { MultipleChoice, Sorting } from 'tessera-learn';
 </script>
 
 <h1>Knowledge Check: The Engine Landscape</h1>
 
-<p>These questions are ungraded. Use the feedback to confirm your understanding.</p>
+<p>
+  These questions are ungraded. Both practice objective 6: select vLLM, SGLang,
+  or TensorRT-LLM by weighing hardware, model support, performance need, and
+  engineering effort. Here you weigh one constraint at a time. The next lesson
+  combines constraints that pull in different directions.
+</p>
 
-<MultipleChoice
-  id="kc_landscape_1"
-  question="A team must serve an image generation model and rules out TensorRT-LLM. What is the reason?"
-  options={[
-    'It lacks support for image and video models.',
-    'It needs a separate license for image models.',
-    'It requires AMD GPUs for image models.',
+<Sorting
+  id="kc_landscape_sort"
+  question="Sort each deployment constraint by the engines it favors when it is the only constraint."
+  items={[
+    'The fleet includes AMD GPUs',
+    'The model architecture was released yesterday',
+    'The team has no time to learn a complex engine',
+    'Every percent of throughput matters for a mature model on NVIDIA Blackwell GPUs',
+    'The team plans to serve through NVIDIA Dynamo and wants the deepest integration',
   ]}
-  correct={0}
-  optionFeedback={[
-    'Correct. TensorRT-LLM does not support image or video generation models. vLLM Omni, SGLang Diffusion, TensorRT, or PyTorch can serve them instead.',
-    'All three engines use the Apache 2.0 license, and no separate license applies to image models.',
-    'TensorRT-LLM runs on NVIDIA GPUs only. Hardware is not the reason it is ruled out.',
-  ]}
+  targets={['Favors vLLM or SGLang', 'Favors TensorRT-LLM']}
+  correct={[0, 0, 0, 1, 1]}
+  correctFeedback="Hardware breadth, day-zero model support, and ease of use favor the general engines. Peak performance on NVIDIA hardware and Dynamo integration favor TensorRT-LLM."
+  incorrectFeedback="Use the comparison table. vLLM and SGLang are broad and easy. TensorRT-LLM is narrow, NVIDIA-only, harder to use, and fastest on the hardware it targets."
 />
 
 <MultipleChoice
-  id="kc_landscape_2"
+  id="kc_landscape_principle"
   question="TensorRT-LLM achieves the best performance of the three engines. Which principle of inference engineering explains this result?"
   options={[
     'Broader model support produces better performance.',

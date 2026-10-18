@@ -4,57 +4,60 @@
 
 <script>
   import { Callout } from 'tessera-learn';
+  import StackMap from '$shared/StackMap.svelte';
+  import Term from '$shared/Term.svelte';
 </script>
 
 <h1>Chapter 5 Overview: Techniques</h1>
 
 <p>
   Chapter 5 of <cite>Inference Engineering</cite> presents five categories of applied research that accelerate
-  inference: quantization, speculative decoding, caching, model parallelism, and disaggregation. Each technique
-  comes with circumstances in which it pays off and with bottlenecks or tradeoffs that it introduces. This course
-  follows the same pattern for every technique.
+  inference: <Term id="quantization">quantization</Term>, <Term id="speculative-decoding">speculative decoding</Term>, caching,
+  <Term id="model-parallelism">model parallelism</Term>, and <Term id="disaggregation">disaggregation</Term>. Each technique pays off in
+  some circumstances and introduces bottlenecks or tradeoffs of its own. This course follows the same pattern for
+  every technique: the bottleneck it relieves, how it works, what it costs, and when it stops paying off.
 </p>
+<p>Content current as of October 2026.</p>
 
 <h2>How this chapter fits the book</h2>
 <p>
-  The earlier chapters establish the foundations. They cover the prefill and decode phases of inference, the
-  models being served, the GPUs and interconnects that run them, and the inference engines that schedule the work.
-  Chapter 5 builds on all four. It explains how to make a running deployment faster, cheaper, or both. Chapter 6
-  then extends these ideas to other modalities, and Chapter 7 addresses running inference in production.
+  The earlier chapters establish the foundations. Chapter 1 sets the latency, <Term id="throughput">throughput</Term>, and cost targets. Chapter
+  2 explains the <Term id="prefill">prefill</Term> and <Term id="decode">decode</Term> phases and their bottlenecks. Chapter 3 covers the GPUs and interconnects, and
+  Chapter 4 covers the inference engines that schedule the work. Chapter 5 sits in the runtime layer of the stack
+  and builds on all four. It explains how to make a running deployment faster, cheaper, or both. Chapter 6 extends
+  these ideas to other modalities, and Chapter 7 addresses running inference in production.
 </p>
+
+<StackMap highlight={5} />
 
 <h2>Learning objectives</h2>
 <p>After completing this chapter, you will be able to:</p>
 <ol>
-  <li>Explain how system constraints and traffic volume determine which inference optimizations are worth applying.</li>
   <li>
-    Compare number formats by precision, type, dynamic range, and granularity to select a quantization format for a
-    production workload.
+    Explain how system constraints, traffic volume, and interactions between techniques determine which
+    optimizations a deployment should apply.
   </li>
   <li>
-    Rank model components by quantization sensitivity and select checks that confirm a quantized model has no
-    perceptible quality loss.
+    Select a quantization format for a production workload by comparing precision, type, dynamic range, and
+    granularity.
   </li>
-  <li>
-    Explain how speculative decoding drafts, validates, and accepts tokens, and calculate the tokens produced in one
-    forward pass.
-  </li>
+  <li>Evaluate a post-training quantization plan for its expected speedup and its risk to output quality.</li>
+  <li>Calculate the expected number of tokens that one target-model <Term id="forward-pass">forward pass</Term> produces under speculative decoding.</li>
   <li>Select a speculative decoding algorithm for a described workload.</li>
-  <li>Predict prefix cache hits for a pair of prompts and restructure context to increase KV cache re-use.</li>
   <li>
-    Describe how KV cache allocation, storage tiers, cache-aware routing, and long-context optimizations extend the
-    value of the KV cache.
+    Choose the <Term id="kv-cache">KV cache</Term> technique that solves a described caching problem: context reordering, memory allocation,
+    offloading, <Term id="cache-aware-routing">cache-aware routing</Term>, or <Term id="chunked-prefill">chunked prefill</Term>.
   </li>
-  <li>
-    Estimate the minimum GPU count for a model and choose among tensor, expert, and pipeline parallelism for
-    single-node and multi-node deployments.
-  </li>
-  <li>Determine when disaggregated serving is appropriate and identify the bottlenecks it introduces.</li>
+  <li>Estimate the minimum GPU count for a model from its weight memory and a planning factor.</li>
+  <li>Choose a parallelism strategy for a single-node or multi-node deployment.</li>
+  <li>Evaluate disaggregated serving for a described workload, including the remedies for the bottlenecks it introduces.</li>
 </ol>
 
 <Callout type="info">
   <p>
-    Each lesson closes with an ungraded knowledge check. The final section holds a graded chapter quiz of twelve
-    items. You have three attempts at the quiz, and your best attempt counts. A score of 70 percent or higher passes the chapter.
+    The chapter opens with a short retrieval check on earlier chapters. Each lesson closes with an ungraded
+    knowledge check, and several pages include simulations with tasks to complete. A synthesis page and a chapter
+    glossary come before the graded quiz. The quiz has thirteen items. You have three attempts, and your best
+    attempt counts. A score of 70 percent or higher passes the chapter.
   </p>
 </Callout>

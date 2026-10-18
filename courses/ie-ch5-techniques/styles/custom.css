@@ -149,6 +149,11 @@ pre.ie-code {
   color: #4b5563;
   text-decoration: line-through;
 }
+.ie-token.is-recomputed {
+  border-style: dashed;
+  border-color: #6b7280;
+  color: #374151;
+}
 .ie-token.is-generated {
   background: #dbeafe;
   border-color: #1d4ed8;
@@ -224,4 +229,21 @@ pre.ie-code {
   border-radius: 0.5rem;
   padding: var(--tessera-spacing-sm);
   background: #ffffff;
+}
+
+/* Display formula */
+.ie-formula {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  background: #f3f4f6;
+  border-left: 4px solid #4b6a8f;
+  padding: 0.5rem 0.75rem;
+  overflow-x: auto;
+}
+
+/* Let the content column shrink to the viewport. Without this, the grid and flex items keep
+   their min-content width, so a wide table, code listing, or simulation chart widens the whole
+   page at phone widths instead of scrolling inside its own wrapper. */
+.tessera-main,
+.tessera-content {
+  min-width: 0;
 }

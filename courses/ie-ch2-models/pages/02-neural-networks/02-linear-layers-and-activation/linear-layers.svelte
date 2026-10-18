@@ -4,6 +4,8 @@
 
 <script>
   import Figure from '../../../components/Figure.svelte';
+  import Signal from '$shared/Signal.svelte';
+  import Term from '$shared/Term.svelte';
 </script>
 
 <h1>Linear Layers and Matmul</h1>
@@ -16,7 +18,7 @@
 
 <p>
   A <strong>linear layer</strong> is the simplest form of matmul in a neural network. Given an input
-  vector, the linear layer applies a weights matrix and adds a bias vector.
+  vector, the linear layer applies a <Term id="weights">weights</Term> matrix and adds a bias vector.
 </p>
 
 <Figure
@@ -26,11 +28,9 @@
   <pre><code>y = xW + b</code></pre>
 </Figure>
 
-<h2>Worked example</h2>
-
-<p>Take an input vector with two values and a layer that produces two outputs.</p>
-
-<pre><code>x = [2, 1]
+<Signal kind="worked" title="One small linear layer">
+  <p>Take an input vector with two values and a layer that produces two outputs.</p>
+  <pre><code>x = [2, 1]
 
 W = [[1, 3],
      [0, 2]]
@@ -39,15 +39,17 @@ b = [1, -4]
 
 xW     = [2*1 + 1*0,  2*3 + 1*2] = [2, 8]
 y      = xW + b                  = [3, 4]</code></pre>
-
-<p>
-  Each output value is a weighted sum of every input value plus a bias. A real LLM layer performs the
-  same arithmetic with vectors of thousands of values.
-</p>
+  <p>
+    Each output value is a weighted sum of every input value plus a bias. A real <Term id="llm">LLM</Term> layer performs the same
+    arithmetic with vectors of thousands of values. The next page uses this arithmetic to show why two linear
+    layers in a row behave like one.
+  </p>
+</Signal>
 
 <h2>Where the weights come from</h2>
 
 <p>
-  The weights of one linear layer are a small part of a generative AI model's total weights. Training
-  sets every individual value in each weights matrix. Inference uses those values unchanged.
+  The weights of one linear layer are a small part of a generative AI model's total
+  weights. Training sets every individual value in each weights matrix. Inference
+  uses those values unchanged.
 </p>

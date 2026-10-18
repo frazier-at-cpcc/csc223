@@ -1,1 +1,1 @@
-export default { title: 'Overview', pages: ['overview'] };
+export default { title: 'Overview', pages: ['overview', 'recall-from-earlier-chapters'] };

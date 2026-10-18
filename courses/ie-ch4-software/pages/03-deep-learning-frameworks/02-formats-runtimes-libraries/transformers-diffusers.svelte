@@ -4,14 +4,15 @@
 
 <script>
   import { Callout } from 'tessera-learn';
+  import Term from '$shared/Term.svelte';
 </script>
 
 <h1>Transformers and Diffusers</h1>
 
 <p>
   Hugging Face maintains two libraries built on PyTorch: <code>transformers</code>
-  for language and related models, and <code>diffusers</code> for diffusion
-  models. Neither library is designed for large-scale production inference.
+  for language and related models, and <code>diffusers</code> for
+  <Term id="diffusion">diffusion</Term> models. Neither library is designed for large-scale production inference.
   Both offer reference implementations that inference engineers study and adapt.
 </p>
 
@@ -27,8 +28,9 @@
     model weights, are widely used in inference servers.
   </li>
   <li>
-    Sample code: the model card for most popular open models on Hugging Face
-    includes <code>transformers</code> or <code>diffusers</code> sample code.
+    Sample code: for most popular open models, the model card includes
+    <code>transformers</code> or <code>diffusers</code> sample code. A model card
+    is the documentation page that accompanies a model on Hugging Face.
   </li>
 </ul>
 

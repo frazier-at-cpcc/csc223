@@ -6,6 +6,7 @@
   --ie-accent-soft: #dbeafe;
   --ie-line: #6b7280;
   --ie-panel: #f3f4f6;
+  --ie-surface: var(--tessera-bg, #ffffff);
 }
 
 .ie-figure {
@@ -13,7 +14,7 @@
   padding: 1rem;
   border: 1px solid var(--tessera-border, #e5e7eb);
   border-radius: 8px;
-  background: #fff;
+  background: var(--ie-surface);
 }
 
 .ie-figure-body svg {
@@ -116,7 +117,7 @@ pre.ie-code code {
 }
 
 .ie-segbar li.ie-seg-alt {
-  background: #ffffff;
+  background: var(--ie-surface);
   border-style: dashed;
 }
 
@@ -129,7 +130,7 @@ pre.ie-code code {
 
 .ie-canary-controls button {
   border: 2px solid var(--ie-accent);
-  background: #ffffff;
+  background: var(--ie-surface);
   color: var(--ie-accent);
   border-radius: 4px;
   padding: 0.35rem 0.75rem;
@@ -139,7 +140,7 @@ pre.ie-code code {
 
 .ie-canary-controls button[aria-pressed='true'] {
   background: var(--ie-accent);
-  color: #ffffff;
+  color: var(--ie-surface);
 }
 
 .ie-canary-row {
@@ -172,4 +173,58 @@ pre.ie-code code {
   .ie-canary-fill {
     transition: none;
   }
+}
+
+.ie-objective {
+  margin: 1.75rem 0 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ie-muted);
+  text-transform: none;
+}
+
+.ie-table-wrap {
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.ie-table-wrap .ie-table {
+  margin: 0;
+  min-width: 32rem;
+}
+
+.ie-table caption {
+  caption-side: top;
+  text-align: left;
+  font-weight: 600;
+  padding-bottom: 0.5rem;
+}
+
+.ie-decision {
+  margin: 1.5rem 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--tessera-border, #e5e7eb);
+  border-radius: 6px;
+  background: var(--tessera-bg-secondary, #f9fafb);
+}
+
+.ie-decision summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--ie-accent);
+}
+
+.ie-decision[open] summary {
+  margin-bottom: 0.5rem;
+}
+
+/* The main area and content column are grid and flex items. Without this, a wide table widens the whole page on phones. */
+.tessera-main,
+.tessera-content {
+  min-width: 0;
+}
+
+/* Glossary terms inside table cells wrap like the text around them. */
+.ie-table button.term {
+  text-align: inherit;
 }
