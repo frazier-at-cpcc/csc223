@@ -1,0 +1,175 @@
+/* Chapter 7 figure and diagram styles. */
+:root {
+  --ie-ink: #1f2937;
+  --ie-muted: #4b5563;
+  --ie-accent: #0066cc;
+  --ie-accent-soft: #dbeafe;
+  --ie-line: #6b7280;
+  --ie-panel: #f3f4f6;
+}
+
+.ie-figure {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border: 1px solid var(--tessera-border, #e5e7eb);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.ie-figure-body svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ie-figure > figcaption {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  color: var(--ie-ink);
+}
+
+.ie-figure-description {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.ie-figure-description summary {
+  cursor: pointer;
+  color: var(--ie-accent);
+}
+
+.ie-figure-description p {
+  margin: 0.5rem 0 0;
+}
+
+.ie-svg-text {
+  font-family: system-ui, sans-serif;
+  fill: var(--ie-ink);
+}
+
+pre.ie-code {
+  background: #1f2937;
+  color: #f9fafb;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+pre.ie-code code {
+  background: none;
+  color: inherit;
+  padding: 0;
+}
+
+.ie-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+}
+
+.ie-table th,
+.ie-table td {
+  border: 1px solid var(--tessera-border, #e5e7eb);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.ie-table th {
+  background: var(--ie-panel);
+}
+
+.ie-worked {
+  border-left: 4px solid var(--ie-accent);
+  background: var(--ie-panel);
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+}
+
+.ie-segbar-title {
+  text-align: center;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+
+.ie-segbar {
+  display: flex;
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ie-segbar li {
+  border: 2px solid var(--ie-accent);
+  background: var(--ie-accent-soft);
+  border-radius: 4px;
+  padding: 0.5rem 0.25rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--ie-ink);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.ie-segbar li.ie-seg-alt {
+  background: #ffffff;
+  border-style: dashed;
+}
+
+.ie-canary-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.ie-canary-controls button {
+  border: 2px solid var(--ie-accent);
+  background: #ffffff;
+  color: var(--ie-accent);
+  border-radius: 4px;
+  padding: 0.35rem 0.75rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+.ie-canary-controls button[aria-pressed='true'] {
+  background: var(--ie-accent);
+  color: #ffffff;
+}
+
+.ie-canary-row {
+  display: grid;
+  grid-template-columns: 9rem 1fr 4rem;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.ie-canary-track {
+  height: 1.5rem;
+  background: var(--ie-panel);
+  border: 1px solid var(--ie-line);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.ie-canary-fill {
+  height: 100%;
+  background: var(--ie-accent);
+  transition: width 0.3s ease;
+}
+
+.ie-canary-fill.ie-new {
+  background: repeating-linear-gradient(45deg, var(--ie-accent), var(--ie-accent) 6px, #4d94db 6px, #4d94db 12px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ie-canary-fill {
+    transition: none;
+  }
+}

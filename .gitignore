@@ -1,0 +1,13 @@
+node_modules
+dist
+a11y-report.json
+.DS_Store
+*.log
+.env
+.env.local
+*.zip
+
+# Book source text (copyrighted; never commit)
+source/
+_site
+exports

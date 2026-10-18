@@ -1,0 +1,29 @@
+/* Course-level CSS overrides for Inference Engineering, Chapter 1. */
+
+.ie-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--tessera-spacing-md) 0 var(--tessera-spacing-lg);
+  font-size: 0.95rem;
+}
+.ie-table caption {
+  text-align: left;
+  font-weight: 600;
+  margin-bottom: var(--tessera-spacing-sm);
+}
+.ie-table th,
+.ie-table td {
+  border: 1px solid var(--tessera-border);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+.ie-table thead th {
+  background: var(--tessera-bg-secondary);
+}
+.ie-table-wrap {
+  overflow-x: auto;
+}
+.ie-objectives li {
+  margin-bottom: 0.4rem;
+}

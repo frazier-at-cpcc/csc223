@@ -1,0 +1,211 @@
+/* Chapter 2 figure and diagram styles. */
+
+.ie-figure {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border: 1px solid var(--tessera-border);
+  border-radius: 8px;
+  background: var(--tessera-bg);
+}
+
+.ie-figure__body {
+  overflow-x: auto;
+}
+
+.ie-figure__body svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.ie-figure figcaption {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  color: var(--tessera-text);
+}
+
+.ie-figure__desc {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.ie-figure__desc summary {
+  cursor: pointer;
+  color: var(--tessera-primary-dark);
+}
+
+.ie-figure pre {
+  margin: 0;
+}
+
+/* Diagram text and strokes */
+.ie-svg-text {
+  font-family: var(--tessera-font-family);
+  font-size: 13px;
+  fill: var(--tessera-text);
+}
+
+.ie-svg-label {
+  font-family: var(--tessera-font-family);
+  font-size: 13px;
+  font-weight: 600;
+  fill: var(--tessera-primary-dark);
+}
+
+.ie-svg-line {
+  stroke: var(--tessera-text-light);
+  stroke-width: 1.25;
+  fill: none;
+}
+
+.ie-svg-box {
+  fill: var(--tessera-primary-light);
+  stroke: var(--tessera-primary-dark);
+  stroke-width: 1.5;
+}
+
+.ie-svg-box--plain {
+  fill: var(--tessera-bg);
+  stroke: var(--tessera-primary-dark);
+  stroke-width: 1.5;
+}
+
+/* Data tables */
+.ie-table-wrap {
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.ie-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.95rem;
+}
+
+.ie-table th,
+.ie-table td {
+  border: 1px solid var(--tessera-border);
+  padding: 0.45rem 0.6rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.ie-table thead th {
+  background: var(--tessera-bg-secondary);
+}
+
+.ie-table code {
+  white-space: nowrap;
+}
+
+/* Token chips (Figure 2.5) */
+.ie-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+
+.ie-stats li {
+  text-align: center;
+}
+
+.ie-stats .ie-stat-value {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--tessera-primary-dark);
+}
+
+.ie-tokens {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ie-tokens li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid var(--tessera-primary-dark);
+  margin: 0 -2px -2px 0;
+  min-width: 3.5rem;
+}
+
+.ie-tokens li:nth-child(odd) .ie-token-text {
+  background: var(--tessera-primary-light);
+}
+
+.ie-token-text {
+  display: block;
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-align: center;
+  white-space: pre;
+}
+
+.ie-token-id {
+  display: block;
+  width: 100%;
+  padding: 0.2rem 0.4rem;
+  border-top: 1px solid var(--tessera-border);
+  font-size: 0.85rem;
+  text-align: center;
+  color: var(--tessera-text);
+}
+
+/* Left-to-right flows (Figures 2.6 and 2.11) */
+.ie-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ie-flow > li {
+  position: relative;
+  flex: 1 1 8rem;
+  padding: 0.6rem 0.75rem;
+  border: 2px solid var(--tessera-primary-dark);
+  border-radius: 6px;
+  background: var(--tessera-bg);
+  font-size: 0.95rem;
+}
+
+.ie-flow > li.ie-flow__model {
+  background: var(--tessera-primary-light);
+}
+
+.ie-flow__step {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--tessera-primary-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.ie-flow__note {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+}
+
+/* Equation block (Figure 2.8) */
+.ie-equation {
+  padding: 1rem;
+  font-size: 1.35rem;
+  text-align: center;
+}

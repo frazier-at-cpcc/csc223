@@ -1,0 +1,91 @@
+/* Chapter 4 course styles: figures, code listings, tables, diagrams. */
+
+.figure {
+  margin: var(--tessera-spacing-lg) 0;
+  padding: var(--tessera-spacing-md);
+  border: 1px solid var(--tessera-border);
+  border-radius: 8px;
+  background: var(--tessera-bg-secondary);
+}
+
+.figure figcaption {
+  margin-top: var(--tessera-spacing-sm);
+  font-size: 0.95rem;
+  color: var(--tessera-text);
+}
+
+.figure details {
+  margin-top: var(--tessera-spacing-sm);
+  font-size: 0.95rem;
+}
+
+.figure summary {
+  cursor: pointer;
+  color: var(--tessera-primary-dark);
+  font-weight: 600;
+}
+
+.figure pre {
+  margin: 0;
+  padding: var(--tessera-spacing-md);
+  overflow-x: auto;
+  background: #1f2937;
+  color: #f9fafb;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+table.data {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--tessera-spacing-md) 0;
+  font-size: 0.95rem;
+}
+
+table.data caption {
+  text-align: left;
+  font-weight: 600;
+  margin-bottom: var(--tessera-spacing-sm);
+}
+
+table.data th,
+table.data td {
+  border: 1px solid var(--tessera-border);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+table.data thead th,
+table.data tbody th {
+  background: var(--tessera-bg-secondary);
+}
+
+.steps-compare {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--tessera-spacing-md);
+}
+
+.steps-compare section {
+  border: 1px solid var(--tessera-border);
+  border-radius: 8px;
+  padding: var(--tessera-spacing-md);
+}
+
+.steps-compare h3 {
+  margin-top: 0;
+}
+
+.mem-step {
+  font-weight: 600;
+}

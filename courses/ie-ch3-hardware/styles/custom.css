@@ -1,0 +1,68 @@
+/* Course-level CSS overrides for Inference Engineering, Chapter 3. */
+
+.ie-figure {
+  margin: var(--tessera-spacing-lg) 0;
+  padding: var(--tessera-spacing-md);
+  border: 1px solid var(--tessera-border);
+  border-radius: 6px;
+  background: var(--tessera-bg);
+}
+.ie-figure svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.ie-figure figcaption {
+  margin-top: var(--tessera-spacing-sm);
+  font-size: 0.9rem;
+  color: var(--tessera-text);
+}
+.ie-figure-desc {
+  margin-top: var(--tessera-spacing-sm);
+  font-size: 0.9rem;
+}
+.ie-figure-desc summary {
+  cursor: pointer;
+  color: var(--tessera-primary-dark);
+}
+
+/* SVG primitives: shape and labels carry meaning, color is reinforcement only. */
+.ie-svg-box { fill: #f3f7fc; stroke: #0066cc; stroke-width: 1.5; }
+.ie-svg-inner { fill: #ffffff; stroke: #0066cc; stroke-width: 1.2; }
+.ie-svg-accent { fill: #cfe2f7; stroke: #004a94; stroke-width: 1.5; }
+.ie-svg-future { fill: #ffffff; stroke: #004a94; stroke-width: 1.5; stroke-dasharray: 5 4; }
+.ie-svg-selected { stroke: #00264d; stroke-width: 3; }
+.ie-svg-chip { fill: #ffffff; stroke: none; }
+.ie-svg-line { stroke: #1f2937; stroke-width: 1.5; fill: none; }
+.ie-svg-thin { stroke: #0066cc; stroke-width: 1; fill: none; }
+.ie-svg-label { font-size: 15px; font-weight: 600; fill: #1f2937; }
+.ie-svg-small { font-size: 12px; fill: #1f2937; }
+.ie-svg-op { font-size: 28px; font-weight: 600; fill: #1f2937; }
+
+/* Spec tables */
+.ie-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--tessera-spacing-md) 0 var(--tessera-spacing-lg);
+  font-size: 0.95rem;
+}
+.ie-table caption {
+  text-align: left;
+  font-weight: 600;
+  margin-bottom: var(--tessera-spacing-sm);
+}
+.ie-table th,
+.ie-table td {
+  border: 1px solid var(--tessera-border);
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+  vertical-align: top;
+}
+.ie-table thead th {
+  background: var(--tessera-bg-secondary);
+}
+.ie-table-wrap {
+  overflow-x: auto;
+}
