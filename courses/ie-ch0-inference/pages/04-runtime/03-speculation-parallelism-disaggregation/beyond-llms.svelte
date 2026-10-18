@@ -66,7 +66,7 @@
     </tr>
     <tr>
       <th scope="row">Parallelism</th>
-      <td>Spreads one model across several GPUs without new bottlenecks.</td>
+      <td>Spreads one model across several GPUs, at the cost of communication between them.</td>
       <td>A model too large or too slow for one GPU</td>
     </tr>
     <tr>

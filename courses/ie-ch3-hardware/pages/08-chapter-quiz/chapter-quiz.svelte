@@ -19,19 +19,19 @@
 
 <MultipleChoice
   id="q1"
-  question="A vendor releases a GPU whose Streaming Multiprocessors contain twice as many CUDA Cores as its predecessor, while Tensor Core throughput stays the same. A team serves a transformer LLM on the new GPU. What change in inference throughput should the team expect?"
+  question="GPU T and GPU U have the same memory bandwidth and the same Tensor Core throughput. GPU T has 50 percent more CUDA Cores. A team runs FP8 prefill on long prompts, a compute-bound workload. How do the two GPUs compare?"
   options={[
-    'About double, because each SM can run twice as many scalar operations at once',
-    'About the same, because the matrix multiplications run on the Tensor Cores',
-    'Lower, because the extra CUDA Cores take memory bandwidth from the Tensor Cores',
-    'Somewhat higher, because softmax runs on the added CUDA Cores',
+    'GPU T, about 50 percent faster, because prefill is compute-bound',
+    'Both about the same, because prefill matrix math runs on Tensor Cores',
+    'GPU U, faster, because fewer CUDA Cores leave more bandwidth for Tensor Cores',
+    'GPU T, slightly faster, because its extra CUDA Cores add FP8 matrix throughput',
   ]}
   correct={1}
   optionFeedback={[
-    'Incorrect. Scalar throughput doubles, but the matrix multiplications that dominate a forward pass run on Tensor Cores, which did not change.',
-    'Correct. Matrix multiply and accumulate work dominates inference and runs on Tensor Cores, so unchanged Tensor Core throughput means about the same speed.',
-    'Incorrect. Adding CUDA Cores does not reduce the memory bandwidth available to Tensor Cores. Throughput stays about the same.',
-    'Incorrect. Softmax depends on exponentials, which Special Function Units accelerate, and it is a small share of the work in any case.',
+    'Incorrect. Prefill is compute-bound, but its compute is matrix multiply and accumulate work on the Tensor Cores, which are equal on both GPUs.',
+    'Correct. The matrix multiplications that dominate prefill run on Tensor Cores. Equal Tensor Core throughput gives about equal prefill speed.',
+    'Incorrect. CUDA Cores do not take memory bandwidth away from Tensor Cores, and the two GPUs have the same bandwidth.',
+    'Incorrect. CUDA Cores perform scalar arithmetic. FP8 matrix throughput comes from the Tensor Cores.',
   ]}
 />
 
@@ -63,19 +63,19 @@
 
 <MultipleChoice
   id="q4"
-  question="GPU M lists 1,800 teraFLOPS at FP16 with sparsity. GPU N lists 1,700 teraFLOPS at FP8, dense. Treat a sparse figure as twice the dense figure, and treat each halving of precision as doubling the rate. Which comparison of dense FP8 compute is correct?"
+  question="GPU M lists 1,300 teraFLOPS at FP16, dense. GPU N lists 2,500 teraFLOPS at FP4, dense. Treat each halving of precision as doubling the rate. Which comparison of dense FP8 compute is correct?"
   options={[
-    'GPU M leads, about 1,800 versus 1,700 teraFLOPS',
-    'GPU M leads, about 3,600 versus 1,700 teraFLOPS',
-    'GPU N leads, about 1,700 versus 450 teraFLOPS',
-    'GPU N leads, about 1,700 versus 900 teraFLOPS',
+    'GPU M leads, about 2,600 versus 1,250 teraFLOPS',
+    'GPU M leads, about 2,600 versus 2,500 teraFLOPS',
+    'GPU N leads, about 1,250 versus 650 teraFLOPS',
+    'GPU N leads, about 2,500 versus 1,300 teraFLOPS',
   ]}
   correct={0}
   optionFeedback={[
-    'Correct. GPU M: 1,800 ÷ 2 = 900 teraFLOPS dense FP16, then × 2 = 1,800 teraFLOPS dense FP8. GPU N is already dense FP8 at 1,700.',
-    'Incorrect. This doubles GPU M for the move to FP8 but leaves its sparsity in place. Remove sparsity as well.',
-    'Incorrect. This halves GPU M twice. Moving from FP16 to FP8 doubles the rate rather than halving it.',
-    'Incorrect. This removes sparsity from GPU M but leaves it at FP16. Converting it to FP8 doubles it to 1,800.',
+    'Correct. GPU M: FP8 halves the precision of FP16, so 1,300 × 2 = 2,600 teraFLOPS dense FP8. GPU N: FP8 doubles the precision of FP4, so 2,500 ÷ 2 = 1,250 teraFLOPS dense FP8.',
+    'Incorrect. This converts GPU M but leaves GPU N at FP4. Moving from FP4 to FP8 halves its figure to 1,250.',
+    'Incorrect. This halves GPU M. Moving from FP16 to FP8 halves the precision, which doubles the rate to 2,600.',
+    'Incorrect. These are the raw figures at two different precisions. Normalize both to dense FP8 before you compare.',
   ]}
 />
 
@@ -179,19 +179,19 @@
 
 <MultipleChoice
   id="q11"
-  question="A model is too large for one eight-GPU H100 node, so it runs on 16 H100s in two nodes linked by 400 Gb/s NICs. Which layout keeps the heaviest communication on the fastest links?"
+  question="A team needs one tensor-parallel group of 16 Blackwell GPUs and places all 16 inside one GB200 NVL72 rack. Which link carries the tensor-parallel traffic between any two GPUs in the group?"
   options={[
-    'Pipeline parallelism inside each node and tensor parallelism across the nodes',
-    'Tensor parallelism across all 16 GPUs as one group',
-    'Tensor parallelism inside each node and a full model copy on each node',
-    'Tensor parallelism inside each node and pipeline parallelism across the nodes',
+    'An 800 Gb/s NIC, because 16 GPUs exceed one eight-GPU node',
+    'NVLink Chip to Chip, because each GPU pairs with a Grace CPU',
+    'NVLink, because all 72 GPUs share one NVLink domain',
+    'PCIe Gen5, because the rack joins its servers through the host CPUs',
   ]}
-  correct={3}
+  correct={2}
   optionFeedback={[
-    'Incorrect. This reverses the placement. Tensor parallelism communicates in every layer, so placing it across nodes loads the slowest link most heavily.',
-    'Incorrect. A 16-GPU tensor-parallel group sends its per-layer traffic across the network between nodes.',
-    'Incorrect. The model is too large for one node, so a full copy cannot fit on each node.',
-    'Correct. Tensor parallelism uses NVLink inside each node, and pipeline parallelism sends only the activations between stages across the slower network.',
+    'Incorrect. Sixteen GPUs would need a network fabric in standard eight-GPU nodes, but the NVL72 extends NVLink across the whole rack.',
+    'Incorrect. NVLink Chip to Chip joins each Grace CPU to its GPUs. GPU-to-GPU traffic uses NVLink.',
+    'Correct. The NVL72 places 72 GPUs in a single NVLink domain, so the group communicates at NVLink speed, about 900 GB/s in each direction, with no network hop.',
+    'Incorrect. PCIe joins a CPU to a GPU in a standard server. The NVL72 joins its GPUs with NVLink.',
   ]}
 />
 
@@ -223,18 +223,18 @@
 
 <MultipleChoice
   id="q14"
-  question="A company serves a 1.5-billion-parameter reranking model to an internal search tool at about 20 requests per second. It already rents H100 nodes for other services. Which deployment best balances cost and performance?"
+  question="A search company serves a 1.5-billion-parameter reranking model. At peak, requests arrive fast enough to keep several H100s busy at batch sizes of several hundred inputs, and the company already rents H100 nodes. Which deployment best balances cost and performance?"
   options={[
     'A Cerebras WSE-3 system, chosen for its decode speed',
-    'A dedicated eight-GPU H100 node with tensor parallelism',
-    'A full H100 reserved for this model alone',
-    'An H100 MIG slice, such as the 1g.10gb profile',
+    'A dedicated eight-GPU node with tensor parallelism',
+    'H100 MIG slices of the 1g.10gb profile, seven per GPU',
+    'Separate full-H100 replicas, one model copy per GPU',
   ]}
   correct={3}
   optionFeedback={[
     'Incorrect. A reranking model runs one forward pass per input, much like prefill, so a decode-speed edge brings little benefit for its cost.',
-    'Incorrect. A 1.5-billion-parameter model needs about 3 GB of weights and fits on one GPU, so splitting it across eight wastes nearly the whole node.',
-    'Incorrect. A full H100 runs the model, but at modest traffic most of its compute and memory sit idle.',
-    'Correct. The model needs about 3 GB of weights and little compute at this traffic, so a MIG slice gives it enough while the rest of the GPU serves other work.',
+    'Incorrect. The model needs about 3 GB of weights and fits on one GPU, so tensor parallelism adds per-layer communication without adding memory the model needs.',
+    'Incorrect. MIG helps when a model cannot fill a GPU. This traffic fills whole GPUs, and seven 1g.10gb slices leave the leftover SMs idle, so they deliver less throughput per GPU than one full copy.',
+    'Correct. A small model that saturates whole GPUs needs no partitioning. One copy per GPU uses every SM, and the replicas scale independently with traffic.',
   ]}
 />

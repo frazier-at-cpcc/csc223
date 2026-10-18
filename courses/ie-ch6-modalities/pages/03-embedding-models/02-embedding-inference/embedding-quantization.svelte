@@ -24,8 +24,9 @@
   <li>Confirm that the similarity is at least 99 percent.</li>
 </ol>
 <p>
-  <strong>Cosine similarity</strong> measures how closely two vectors point in the same direction. A
-  value of 100 percent means the vectors are identical in direction. A result of 99 percent or higher
+  <strong>Cosine similarity</strong> measures how closely two vectors point in the same direction. It
+  runs from -1 to 1 and is often written as a percentage. A value of 1, or 100 percent, means the vectors
+  point in exactly the same direction. A result of 99 percent or higher
   gives confidence that quantization preserved the model's behavior.
 </p>
 

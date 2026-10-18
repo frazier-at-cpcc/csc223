@@ -38,7 +38,7 @@
   Those round trips are pure memory traffic.
 </p>
 
-<h2>Two strategies</h2>
+<h2>Implementation improvements and new algorithms</h2>
 
 <div class="ie-table-wrap" role="region" aria-label="The two strategies for optimizing attention" use:scrollable>
   <table class="ie-table">

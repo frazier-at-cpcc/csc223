@@ -29,7 +29,7 @@
 <LongAudioPipeline />
 
 <p>
-  In Figure 6.5, the chunker replicas run on CPUs, and the Whisper replicas run on H100 MIG slices. The
+  In Figure 6.4, the chunker replicas run on CPUs, and the Whisper replicas run on H100 MIG slices. The
   two stages scale independently, and any chunker can send work to any Whisper replica.
 </p>
 

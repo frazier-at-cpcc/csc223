@@ -45,7 +45,7 @@
 <NumericQuestion
   id="rf_a100"
   question="Select the A100 80GB SXM and the Decode (linear layers) workload. Set the batch size to 64. What attainable throughput, in TFLOPS, does the simulation report?"
-  answer={130.5}
+  answer={130}
   tolerance={1}
   unit="TFLOPS"
   correctFeedback="At batch 64 the intensity is 64 operations per byte, below the A100 ridge of about 153. Attainable throughput is bandwidth × intensity = 2.039 × 64 ≈ 130 TFLOPS, about 42 percent of the 312 TFLOPS peak."

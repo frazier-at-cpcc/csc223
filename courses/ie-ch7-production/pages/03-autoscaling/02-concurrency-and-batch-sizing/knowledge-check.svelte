@@ -12,23 +12,6 @@
 
 <p class="ie-objective">Practices objective 2: configure autoscaling parameters</p>
 <MultipleChoice
-  id="kc_cb_strategy"
-  question="An embedding service receives short requests of similar length at random times. Each request may wait up to 20 milliseconds before work starts, and the team wants full batches whenever traffic allows. Which batching approach fits?"
-  options={[
-    'Continuous batching, swapping requests in at each decode step',
-    'Dynamic batching, with a 20-millisecond cutoff',
-    'Static batching, with a fixed batch of 32',
-  ]}
-  correct={1}
-  optionFeedback={[
-    'Incorrect. Continuous batching exists for LLMs, whose requests decode for different numbers of steps. Embedding requests run one forward pass and finish together, so there is no decode loop to swap into.',
-    'Correct. The cutoff fills batches when traffic is heavy and caps each wait at 20 milliseconds when traffic is light. Similar-length requests finish together, which suits batch-at-a-time processing.',
-    'Incorrect. Static batching waits for a full batch with no time limit. At light traffic, the first request could wait far longer than 20 milliseconds.',
-  ]}
-/>
-
-<p class="ie-objective">Practices objective 2: configure autoscaling parameters</p>
-<MultipleChoice
   id="kc_cb_mismatch"
   question="A deployment runs a batch size of 16 with a concurrency target of 32. During a traffic rise, latency climbs for several minutes before any new replica is requested. Which setting is wrong?"
   options={[

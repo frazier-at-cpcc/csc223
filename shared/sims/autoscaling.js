@@ -106,8 +106,10 @@ export function simulate(p) {
     if (queued > 0) {
       if (target > batch && ready * target >= demand[t]) cause = 'mismatch';
       else if (ready + pending.length >= max && desired >= max) cause = 'max';
-      else if (pending.length > 0) cause = 'coldstart';
-      else cause = 'window';
+      // Too few replicas requested for this minute's demand: the window averaged the rise away.
+      // Enough requested but not yet serving: the cold start is the delay.
+      else if (ready + pending.length < desiredReplicas(demand[t], target, min, max)) cause = 'window';
+      else cause = 'coldstart';
     }
     rows.push({ t, demand: demand[t], avg, desired, ready, starting: pending.length, capacity, queued, cause });
   }

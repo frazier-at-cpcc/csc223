@@ -40,7 +40,7 @@
 <Signal kind="recall" chapter={3} title="The planning factor">
   <p>
     Chapter 3 sized GPU memory with a planning factor: required <Term id="vram">VRAM</Term> is at least the factor times the weight memory.
-    Section 5.4 of this chapter raises the factor for production concurrency.
+    The Model Parallelism section of this chapter raises the factor for production concurrency.
   </p>
   <NumericQuestion
     id="rc_planning"

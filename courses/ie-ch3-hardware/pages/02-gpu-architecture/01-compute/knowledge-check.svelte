@@ -43,7 +43,7 @@
 <MultipleChoice
   id="kc_video_spec"
   question="Your team runs a video generation model and must choose between two GPUs. Which specification should drive the decision?"
-  options={['Dense Tensor Core FLOPS at the serving precision', 'Host CPU core count', 'Memory bandwidth']}
+  options={['Dense FLOPS at the serving precision', 'Host CPU core count', 'Memory bandwidth']}
   correct={0}
   optionFeedback={[
     'Correct. Video generation is compute-bound, so the accelerator with more dense FLOPS at the same precision runs it faster.',

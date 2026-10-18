@@ -10,9 +10,9 @@
 <h1>Knowledge Check: Kernel Fusion</h1>
 
 <p>
-  These questions are ungraded. All three practice objective 4: calculate the
-  bytes of memory traffic that kernel fusion removes from a chain of elementwise
-  kernels. Use 1 MB = 10<sup>6</sup> bytes, 2 bytes per FP16 value, and 1 byte
+  These questions are ungraded. The two numeric items practice objective 4:
+  calculate the bytes of memory traffic that kernel fusion removes from a chain of
+  elementwise kernels. The third checks which accesses fusion removes. Use 1 MB = 10<sup>6</sup> bytes, 2 bytes per FP16 value, and 1 byte
   per FP8 value.
 </p>
 

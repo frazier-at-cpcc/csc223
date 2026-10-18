@@ -13,8 +13,8 @@
   problem: a GPU that is too large for the model.
 </p>
 <p>
-  <Term id="hopper">Hopper</Term> and <Term id="blackwell">Blackwell</Term> are available only as large GPUs such as the <Term id="h100" /> and the
-  <Term id="b200" />, which have large compute and memory allocations. Such a GPU is hard to use effectively
+  Datacenter <Term id="hopper">Hopper</Term> and <Term id="blackwell">Blackwell</Term> GPUs such as the <Term id="h100" /> and the
+  <Term id="b200" /> are large GPUs, with large compute and memory allocations. Such a GPU is hard to use effectively
   for a model with a couple of billion <Term id="parameter">parameters</Term> or fewer. At modest traffic, much of the GPU's compute and
   memory sits idle. A small model can fill the GPU only when it runs at very large <Term id="batch-size">batch sizes</Term>, and many
   services never see that much traffic.

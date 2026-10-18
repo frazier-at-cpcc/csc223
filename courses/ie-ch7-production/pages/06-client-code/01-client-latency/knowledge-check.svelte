@@ -16,7 +16,7 @@
   items={[
     'A TLS handshake on every request',
     'A round trip to a cluster on another continent',
-    'Waiting for a free replica slot',
+    'Waiting in the request queue before reaching a replica',
     'Prefill of a long prompt',
     'Decoding 400 output tokens',
   ]}

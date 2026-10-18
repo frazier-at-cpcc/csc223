@@ -54,7 +54,7 @@
   <li>Hosted model providers price their APIs per million input tokens and per million output tokens.</li>
 </ul>
 
-<p>Chapter 2 explains how tokenizers build their vocabularies.</p>
+<p>Chapter 2 covers tokenizers, vocabularies, and how token efficiency affects latency.</p>
 
 <style>
   .tokens {

@@ -39,13 +39,13 @@
   options={[
     'Raise the scale down delay to about 5 minutes.',
     'Shorten the autoscaling window to 15 seconds.',
-    'Raise the concurrency target above the batch size.',
+    'Raise max replicas to twice the peak of each round.',
   ]}
   correct={0}
   optionFeedback={[
     'Correct. With a 1-minute delay, replicas leave during the 3-minute gap and the next round waits for a 2-minute cold start. A delay longer than the gap keeps them warm between rounds, and they still leave once rounds stop.',
     'Incorrect. A shorter window registers the burst faster, but each new replica still needs 2 minutes to start, longer than the 1-minute burst.',
-    'Incorrect. A target above the batch size makes requests queue inside replicas and delays scale-ups even further.',
+    'Incorrect. The replica count never reaches its ceiling. Replicas leave between rounds, and each round waits for a new cold start.',
   ]}
 />
 
@@ -55,13 +55,13 @@
   options={[
     'Raise max replicas from 8 to 12.',
     'Lower the concurrency target to 24.',
-    'Shorten the autoscaling window to 30 seconds.',
+    'Spread requests more evenly across the 6 replicas.',
   ]}
   correct={1}
   optionFeedback={[
     'Incorrect. The autoscaler never asked for more than 6 replicas, so the ceiling is not what blocks it.',
     'Correct. Each engine serves 24 requests, so the other 6 on each replica wait inside it. With the target at 24, the autoscaler sees 180 requests against 144 slots and adds replicas.',
-    'Incorrect. A faster window still compares demand with the wrong per-replica figure of 32, so the autoscaler still sees spare room.',
+    'Incorrect. Each replica already holds 30 requests, so the load is even. A different spread still leaves every engine 6 requests over its batch size, and the autoscaler never requests a seventh replica.',
   ]}
 />
 
@@ -70,7 +70,7 @@
   question="New replicas of an 8B chat model take 11 minutes to start. A trace shows 9 minutes waiting for the cloud provider to deliver a GPU node, then 40 seconds of image loading, 50 seconds of weight loading, and 30 seconds of engine startup. Which change shortens the cold start the most?"
   options={[
     'Quantize the weights from FP16 to FP8.',
-    'Cache the compiled engine for the GPU type.',
+    'Cache the compiled engine for the target GPU type.',
     'Keep a warm pool of nodes for new replicas.',
   ]}
   correct={2}
@@ -86,13 +86,13 @@
   question="During sudden surges, clients of an LLM service receive immediate 503 errors for about 3 minutes, until newly started replicas come online. The router and load balancer are healthy, and the errors stop once the new replicas are ready. Which missing component explains the errors?"
   options={[
     'A queue that holds requests until replicas have room',
-    'A router that sends each request to the least-busy replica',
+    'A router that sends each request to the replica holding its prefix',
     'A load balancer that weights replicas by request size',
   ]}
   correct={0}
   optionFeedback={[
     'Correct. When every replica is full, something must hold the excess while autoscaling adds capacity. Without a queue, the service rejects that traffic.',
-    'Incorrect. Choosing among replicas cannot help when every replica is already full, and spreading by load is a load balancer’s job.',
+    'Incorrect. Choosing the replica that holds a prefix cannot help when every replica is already full.',
     'Incorrect. Weighting by request size balances load more evenly, but it adds no capacity and holds no requests while new replicas start.',
   ]}
 />
@@ -131,17 +131,17 @@
 
 <MultipleChoice
   id="q8"
-  question="A service needs 400 GPUs around the clock and 650 GPUs during its daily peak. The team wants the lowest cost without risking the capacity that serves its always-present load. Which procurement plan fits?"
+  question="A service runs 300 reserved GPUs for its baseline. Its 2-hour evening peak needs 120 more GPUs. Spot capacity in its region is often reclaimed in blocks of up to 60 GPUs, and the service can lose at most 40 GPUs at once while autoscaling finds replacements. Which mix covers the peak at the lowest cost?"
   options={[
-    'Reserve 400, and cover the peak’s extra 250 with on-demand and spot.',
-    'Reserve all 650, so that peak capacity never depends on the market.',
-    'Buy all 650 as spot capacity, at the lowest hourly price.',
+    'Cover 40 with spot capacity and 80 with on-demand capacity.',
+    'Cover all 120 GPUs with spot capacity at the lowest hourly price.',
+    'Cover all 120 GPUs with on-demand capacity at the full price.',
   ]}
   correct={0}
   optionFeedback={[
-    'Correct. Discounted reserved capacity carries the 400-GPU baseline, and flexible capacity covers the 250 extra GPUs only while the peak lasts.',
-    'Incorrect. Reserving for the peak pays for 250 idle GPUs for most of every day.',
-    'Incorrect. Spot capacity can be reclaimed on short notice, which puts the always-present load at risk.',
+    'Correct. A reclaim can take at most the 40 spot GPUs, which the service tolerates, and on-demand capacity cannot be reclaimed. This is the cheapest mix that keeps the worst reclaim within the limit.',
+    'Incorrect. One reclaim of 60 spot GPUs would exceed the 40 GPUs the service can lose at once.',
+    'Incorrect. On-demand capacity is safe, but pricing all 120 GPUs at the full rate pays more than the reclaim limit requires.',
   ]}
 />
 
@@ -203,15 +203,15 @@
 
 <MultipleChoice
   id="q13"
-  question="Users in São Paulo report slow answers from an assistant hosted in Virginia. P95 model-server time is 350 milliseconds and queue depth is near zero, but P95 end-to-end latency is 1,100 milliseconds. Client logs show a new TLS 1.3 connection for every request, and the round trip between the cities is about 120 milliseconds. Where does most of the 750-millisecond gap originate?"
+  question="Users in São Paulo report slow answers from an assistant hosted in Virginia. P95 model-server time is 350 milliseconds and queue depth is near zero, but P95 end-to-end latency is 850 milliseconds. Client logs show a new TLS 1.3 connection for every request, and the round trip between the cities is about 120 milliseconds. Where does most of the 500-millisecond gap originate?"
   options={[
-    'In the model server, which needs a faster engine',
+    'In the model server, which needs a faster inference engine',
     'Outside the server, in handshakes and distance',
     'In the queue, which needs more replicas',
   ]}
   correct={1}
   optionFeedback={[
-    'Incorrect. The model server accounts for only 350 of the 1,100 milliseconds, and the gap is measured outside it.',
+    'Incorrect. The model server accounts for only 350 of the 850 milliseconds, and the gap is measured outside it.',
     'Correct. Each new connection spends 2 × 120 = 240 milliseconds on handshakes, and the request and response add at least another round trip. Session reuse and a nearer region attack the gap. A faster engine cannot.',
     'Incorrect. Queue depth is near zero, so requests reach a replica at once.',
   ]}

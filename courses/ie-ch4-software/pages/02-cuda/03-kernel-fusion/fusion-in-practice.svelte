@@ -56,7 +56,7 @@
   <ol>
     <li>Select the scenario "Single-user decode on H100." Record the attainable throughput as a percentage of peak.</li>
     <li>Select "Same decode on B200." Compare the percentage of peak with the H100 value.</li>
-    <li>Return to the H100 and drag the batch-size slider until the verdict changes to compute bound. Note the batch size at the crossover.</li>
+    <li>Return to the H100 and read the crossover batch size from the status line. Drag the batch-size slider past that value and confirm that the verdict changes to compute bound.</li>
   </ol>
 </Signal>
 

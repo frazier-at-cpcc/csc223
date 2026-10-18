@@ -55,14 +55,14 @@
   question="A two-person startup is comparing three open models in its writing assistant and changes models every few weeks. Its per-token API bill is $1,200 a month, and its traffic is small and uneven. The cheapest dedicated setup it could run would cost $2,200 a month in always-on GPU time before any engineering work. What should the team do?"
   options={[
     'Move to GPUs bought on-premises, to avoid paying hourly rent',
-    'Move to dedicated, because open models allow unrestricted inference',
+    'Stay on the API, because shared endpoints give lower latency than dedicated GPUs',
     'Move to dedicated, to gain control over latency and rate limits',
     'Stay on the API until its model choice and traffic settle',
   ]}
   correct={3}
   optionFeedback={[
     'Incorrect. Buying hardware locks in cost before the team knows its model or its traffic, which is the opposite of what this stage needs.',
-    'Incorrect. Open weights make dedicated inference possible. They do not make it necessary or cheaper.',
+    'Incorrect. Staying is right, but not for this reason. Shared endpoints do not guarantee lower latency, and the team has no latency target yet. The unsettled model and traffic are the reason to stay.',
     'Incorrect. The team has stated no latency or rate-limit need, and dedicated GPUs would nearly double its bill.',
     'Correct. The requirements are still unclear, and dedicated GPUs would cost more than the API before any engineering work. No clear business need exists yet.',
   ]}
@@ -72,14 +72,14 @@
   id="q4"
   question="Which workload can run on a deployment tuned for throughput at the expense of per-request latency?"
   options={[
-    'Writing alt text for 2 million archived photos over a weekend',
+    'Summarizing 40,000 closed support tickets for a quarterly report',
     'Captioning a product photo while a seller fills in a listing form',
     'Translating each chat message in bulk as support agents type them',
     'Summarizing a long contract while a lawyer waits on the review screen',
   ]}
   correct={0}
   optionFeedback={[
-    'Correct. No person waits on any single photo in an archive job, so the work is offline and favors throughput.',
+    'Correct. No person waits on any single ticket summary, so the work is offline and favors throughput.',
     'Incorrect. The seller waits for the caption while filling in the form, so the work is online.',
     'Incorrect. The word bulk does not make a workload offline. Agents wait on each translation as they type, so the work is online.',
     'Incorrect. The lawyer waits on the screen for the summary, so the work is online.',
@@ -108,14 +108,14 @@
   id="q6"
   question="A telehealth company must process patient conversations only inside Canada. Its current shared API serves the model from GPUs in the United States. A second provider serves the same open model from GPUs in Toronto. Which plan meets the requirement?"
   options={[
-    'Keep the current API and encrypt all traffic in transit',
+    'Keep the current API and route all traffic through a proxy server in Montreal',
     'Keep the current API and delete all logs after 30 days',
     "Move traffic to the second provider's GPUs in Toronto",
     'Route each request to whichever region answers fastest',
   ]}
   correct={2}
   optionFeedback={[
-    'Incorrect. Encryption protects privacy in transit, but the conversations would still be processed in the United States.',
+    'Incorrect. A proxy in Canada changes where traffic passes, not where the GPUs process it. The conversations would still be processed in the United States.',
     'Incorrect. Deleting logs limits storage time, but the conversations would still be processed in the United States.',
     'Correct. Only GPUs located in Canada satisfy a rule about where the data is processed.',
     'Incorrect. A latency rule could send requests to the United States, which the requirement forbids.',
@@ -129,14 +129,14 @@
     'Test a much smaller model against the product evals',
     'Enable speculative decoding on the current model',
     'Move the current model to a newer generation of GPUs',
-    'Switch the current model to a faster inference engine',
+    'Replace the model with whichever smaller model has the best public benchmark score',
   ]}
   correct={0}
   optionFeedback={[
     'Correct. Model choice is the largest lever. A smaller model that passes the evals is faster and cheaper on any hardware and any engine.',
     'Incorrect. Speculative decoding speeds up the current model, but it cannot match the savings of running a far smaller model.',
     'Incorrect. Newer GPUs speed up the same large model at a higher hourly price, which leaves the main lever untouched.',
-    'Incorrect. Engine choice matters, but it matters less than model choice for speed and cost.',
+    'Incorrect. A smaller model is the right lever, but a public benchmark does not test this feature. Only the product evals show whether the smaller model can review contracts.',
   ]}
 />
 

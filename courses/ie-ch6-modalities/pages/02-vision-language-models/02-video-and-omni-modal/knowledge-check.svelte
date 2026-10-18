@@ -27,14 +27,14 @@
   id="kc_video_motion"
   question="A sports app asks a VLM whether a player's foot crossed a line during a 10-second clip. At full frame rate and resolution, the clip exceeds the model's context window. Which approach keeps the answer about motion accurate?"
   options={[
+    'Downsample the clip, then send all of it in one request',
     'Keep only the first and last frames at full resolution',
-    'Reduce the resolution and frame rate, then send the whole clip in one request',
     'Send each frame as its own request and combine the answers',
   ]}
-  correct={1}
+  correct={0}
   optionFeedback={[
-    'Two frames cannot show the moment the foot crossed the line. The model needs the frames in between to see the motion.',
     'Correct. Downsampling shrinks the sequence so it fits, and one request lets the model see motion across frames, which is what the question asks about.',
+    'Two frames cannot show the moment the foot crossed the line. The model needs the frames in between to see the motion.',
     'Separate requests show the model static images. The motion between frames disappears, so the model cannot judge when the foot crossed.',
   ]}
 />

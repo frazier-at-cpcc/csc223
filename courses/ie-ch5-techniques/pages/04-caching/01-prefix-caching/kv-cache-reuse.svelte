@@ -3,6 +3,8 @@
 </script>
 
 <script>
+  import { Video } from 'tessera-learn';
+  import kvCacheGrowthTranscript from '$assets/videos/kv-cache-growth.txt?raw';
   import RequestTimeline from '$shared/sims/RequestTimeline.svelte';
   import NumericQuestion from '$shared/NumericQuestion.svelte';
   import Signal from '$shared/Signal.svelte';
@@ -19,6 +21,13 @@
     inference engine uses the KV cache within each request by default.
   </p>
 </Signal>
+
+<h2>Video: How the KV Cache Grows</h2>
+<Video src="$assets/videos/kv-cache-growth.mp4" title="How the KV Cache Grows, explainer video" transcript={kvCacheGrowthTranscript} />
+<details class="video-answer">
+  <summary>Check your answer to the question at the end of the video</summary>
+  <p>The cache holds 2,500 entries after prefill and 2,800 entries after 300 decode steps. Each decode step adds one entry.</p>
+</details>
 
 <h2>Caching between requests</h2>
 <p>
@@ -49,7 +58,7 @@
 
 <Signal kind="try" title="Watch a prefix cache hit">
   <ol>
-    <li>Select the "Prefix cache hit" scenario and press Step once. Record the TTFT and how many prompt tokens prefill computed.</li>
+    <li>The simulator opens on a different example. Select the "Prefix cache hit" scenario first, then press Step once. Record the TTFT and how many prompt tokens prefill computed.</li>
     <li>Press Reset, move the prefix cache slider to 0 tokens, and press Step once. Record the new TTFT.</li>
     <li>Step to the end of the request. Record how many KV cache entries the request holds, and explain why the cached entries count toward it.</li>
   </ol>

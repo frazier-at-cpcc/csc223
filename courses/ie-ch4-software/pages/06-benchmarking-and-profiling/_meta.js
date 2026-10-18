@@ -1,1 +1,1 @@
-export default { title: 'Performance Benchmarking and Load Testing' };
+export default { title: 'Benchmarking and Profiling' };

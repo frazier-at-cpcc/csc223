@@ -14,14 +14,15 @@
 <Signal kind="recall" title="Concepts this chapter builds on">
   <p>
     Production work reuses ideas from every earlier chapter. Chapter 0 introduced replicas, <Term id="continuous-batching">continuous batching</Term>, and the
-    split between a <Term id="control-plane">control plane</Term> and <Term id="workload-plane">workload planes</Term>. Chapter 1 defined <Term id="latency-percentile">latency percentiles</Term>, <Term id="end-to-end-latency">end-to-end latency</Term>, and
-    service targets. Chapter 2 showed that prefill is <Term id="compute-bound">compute-bound</Term> and decode is <Term id="memory-bound">memory-bound</Term>. Chapter 5 taught
+    split between a <Term id="control-plane">control plane</Term> and <Term id="workload-plane">workload planes</Term>. Chapter 1 defined <Term id="latency-percentile">latency percentiles</Term>, <Term id="end-to-end-latency">end-to-end latency</Term>, and the
+    <Term id="latency-budget">latency budget</Term>. Chapter 2 showed that prefill is <Term id="compute-bound">compute-bound</Term> and decode is <Term id="memory-bound">memory-bound</Term>. Chapter 5 taught
     <Term id="cache-aware-routing">cache-aware routing</Term>.
   </p>
   <p>
     Answer the four questions below from memory before you continue. This chapter extends each idea instead of
-    teaching it again. One extension starts here: Chapter 1 described a cold start as scaling a replica up from zero.
-    This chapter uses the broader sense, the time to bring any new replica from nothing to its first response.
+    teaching it again. One idea returns in depth: Chapter 1 defined a cold start as the time to bring a new replica from
+    nothing to its first response. This chapter divides that time into stages and shows how each stage affects
+    autoscaling.
   </p>
 </Signal>
 
@@ -69,16 +70,16 @@
 
 <p class="ie-objective">From Chapter 1</p>
 <Sorting
-  id="rc_sla_slo"
-  question="Sort each statement as a service level agreement (SLA) or a service level objective (SLO)."
+  id="rc_requirements"
+  question="Sort each product statement by the Chapter 1 requirement it defines."
   items={[
-    'A contract promises customers 99.9 percent monthly uptime, with service credits if it is missed.',
-    'The team aims to keep P95 time to first token under 400 milliseconds on its own dashboard.',
-    'An enterprise contract refunds fees when P99 latency exceeds 2 seconds.',
-    'The on-call engineer is paged when P99 end-to-end latency passes 900 milliseconds.',
+    'Replies must start streaming within 500 milliseconds at P95.',
+    'Each request must cost the business less than one cent.',
+    'Traffic doubles every Monday morning.',
+    'The whole wait, including the network, must stay under 2 seconds.',
   ]}
-  targets={['SLA: a contractual promise', 'SLO: an internal target']}
-  correct={[0, 1, 0, 1]}
-  correctFeedback="Correct. An SLA is a contractual promise to a customer, usually with penalties. An SLO is an internal target, usually stricter, so the contract is met with margin. This chapter uses SLO for internal latency targets."
-  incorrectFeedback="Look for a contract. The uptime promise with credits and the refund clause are SLAs. The dashboard target and the paging threshold are internal SLOs, which a team sets tighter than its SLAs."
+  targets={['Latency budget', 'Unit economics', 'Usage patterns']}
+  correct={[0, 1, 2, 0]}
+  correctFeedback="Correct. The streaming deadline and the 2-second limit on the whole wait are latency budgets. The one-cent ceiling is unit economics, the cost to serve one request. The Monday surge is a usage pattern, which tells the autoscaler when demand will rise."
+  incorrectFeedback="Ask what each statement limits. A limit on time, whether to the first token or to the whole wait, is a latency budget. A limit on cost per request is unit economics. A description of when traffic rises and falls is a usage pattern."
 />

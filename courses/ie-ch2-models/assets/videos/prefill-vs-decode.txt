@@ -1,0 +1,11 @@
+Every response a language model streams to you comes from two different jobs. Learn to tell them apart, and you can say which job is making a user wait.
+
+Two terms first. A token is the unit of text a model reads and writes. A forward pass is one trip of data through every layer of the model.
+
+The first job is prefill. The model takes every token of the prompt in parallel, in one forward pass. Along the way, it stores each token's keys and values in the KV cache. Prefill ends with the first output token.
+
+The second job is decode. Each forward pass produces one new token. That token joins the sequence, its keys and values join the cache, and the loop runs again until the model stops.
+
+That split tells you where the time goes. Prefill sets time to first token. Decode sets tokens per second.
+
+Pause and sort these two requests. Request A sends a 50-token question and asks for a long essay. Request B sends a 3,000-token contract and asks for a one-line summary. Which one spends most of its time in prefill, and which in decode?

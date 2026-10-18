@@ -22,8 +22,8 @@
     'Define a network as a Python class with linear layers',
     'Call torch.compile on a custom research model',
     'Pass --tensor-parallel-size 8 to vllm serve',
-    'Turn on EAGLE speculation flags for an SGLang server',
-    'Set a planner target that scales decode workers when time to first token rises',
+    'Raise the maximum batch size flag on an SGLang server',
+    'Set a planner target that scales prefill workers when time to first token rises',
     'Route each request to the node that already caches its prefix',
   ]}
   targets={['CUDA', 'Deep learning frameworks', 'Inference engines', 'NVIDIA Dynamo']}

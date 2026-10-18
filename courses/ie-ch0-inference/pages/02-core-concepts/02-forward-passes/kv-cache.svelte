@@ -3,6 +3,8 @@
 </script>
 
 <script>
+  import { Video } from 'tessera-learn';
+  import kvCacheGrowthTranscript from '$assets/videos/kv-cache-growth.txt?raw';
   import Term from '$shared/Term.svelte';
   import Signal from '$shared/Signal.svelte';
 </script>
@@ -11,8 +13,8 @@
 
 <p>
   Inside each layer, <Term id="attention">attention</Term> lets every token draw information from the tokens before it. For each token,
-  attention computes three vectors: a query, a key, and a value. The new token's query is compared with the keys of
-  earlier tokens, and the resulting scores weight a sum of their values. Chapter 2 explains
+  attention computes three vectors: a query, a key, and a value. The new token's query is compared with its own key
+  and the keys of earlier tokens, and the resulting scores weight a sum of their values. Chapter 2 explains
   <Term id="query-key-value">queries, keys, and values</Term> in detail.
 </p>
 
@@ -21,6 +23,13 @@
   waste work. The <dfn><strong>KV cache</strong></dfn> stores the key and value tensors for every token already
   processed, so later forward passes reuse them instead of recomputing them.
 </p>
+
+<h2>Video: How the KV Cache Grows</h2>
+<Video src="$assets/videos/kv-cache-growth.mp4" title="How the KV Cache Grows, explainer video" transcript={kvCacheGrowthTranscript} />
+<details class="video-answer">
+  <summary>Check your answer to the question at the end of the video</summary>
+  <p>The cache holds 2,500 entries after prefill and 2,800 entries after 300 decode steps. Each decode step adds one entry.</p>
+</details>
 
 <h2>How the Cache Grows</h2>
 

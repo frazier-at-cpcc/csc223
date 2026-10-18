@@ -3,6 +3,8 @@
 </script>
 
 <script>
+  import { Video } from 'tessera-learn';
+  import speculativeDecodingTranscript from '$assets/videos/speculative-decoding.txt?raw';
   import { Callout } from 'tessera-learn';
   import SpeculationSteps from '../../../components/SpeculationSteps.svelte';
   import Term from '$shared/Term.svelte';
@@ -26,10 +28,17 @@
   explains why it works and how to calculate its payoff.
 </p>
 
+<h2>Video: How Speculative Decoding Verifies Drafts</h2>
+<Video src="$assets/videos/speculative-decoding.mp4" title="How Speculative Decoding Verifies Drafts, explainer video" transcript={speculativeDecodingTranscript} />
+<details class="video-answer">
+  <summary>Check your answer to the question at the end of the video</summary>
+  <p>Drafts 4, 5, and 6 are discarded, so three drafts are discarded. The pass produces three tokens: the two accepted drafts plus the target model&#x27;s own token in place of the rejected third draft.</p>
+</details>
+
 <h2>Three shared steps</h2>
 <p>Every speculative decoding algorithm follows the same mechanism.</p>
 <ol>
-  <li>A cheap <strong>speculator</strong> proposes k <strong>draft tokens</strong>, one after another.</li>
+  <li>A cheap <strong>speculator</strong> proposes k <strong>draft tokens</strong>. A draft model produces them one after another, while other speculators produce them in a single step.</li>
   <li>
     The <strong>target model</strong>, which is the model you are accelerating, checks all k drafts in a single
     forward pass. That one pass computes the target model's own prediction at every draft position, plus one
@@ -69,14 +78,6 @@
     at large <Term id="batch-size">batch sizes</Term>, the extra positions are no longer free and the speedup disappears.
   </p>
 </Signal>
-
-<h2>Acceptance under sampling</h2>
-<p>
-  With greedy decoding, the target model accepts a draft when the draft matches the token it would have chosen.
-  Most services sample with a <Term id="temperature">temperature</Term> above zero. Under sampling, the target model accepts each
-  draft with a probability set by comparing the two models' token probabilities. This rule keeps the distribution of
-  outputs identical to the distribution the target model would produce alone, which is why speculation is lossless.
-</p>
 
 <Callout type="important">
   <p>

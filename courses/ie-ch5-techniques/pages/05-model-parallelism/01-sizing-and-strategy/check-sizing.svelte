@@ -36,13 +36,13 @@
   question="A team splits a dense model across eight GPUs in one node with Tensor Parallelism. Profiling shows that the GPUs spend a large share of each decode step waiting on communication. Which explanation fits?"
   options={[
     'Decode is compute bound, so the GPUs finish their math too quickly',
-    'The all-reduce after every layer moves data over links slower than VRAM',
     'Tensor Parallelism copies the full model to every GPU',
+    'The per-layer all-reduce runs over links slower than VRAM',
   ]}
-  correct={1}
+  correct={2}
   optionFeedback={[
     'Incorrect. Decode is memory bound at typical batch sizes, not compute bound.',
-    'Correct. Every split layer ends in an all-reduce, and even NVLink runs at a fraction of VRAM speed, so communication can dominate a short decode step.',
     'Incorrect. Tensor Parallelism gives each GPU a slice of each layer, not a full copy.',
+    'Correct. Every split layer ends in an all-reduce, and even NVLink runs at a fraction of VRAM speed, so communication can dominate a short decode step.',
   ]}
 />

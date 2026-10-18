@@ -4,6 +4,7 @@
 
 <script>
   import Signal from '$shared/Signal.svelte';
+  import Term from '$shared/Term.svelte';
   import NumericQuestion from '$shared/NumericQuestion.svelte';
 </script>
 
@@ -23,6 +24,14 @@
     drafts proposed, measured over many passes.
   </li>
 </ul>
+
+<h2>Acceptance under sampling</h2>
+<p>
+  With greedy decoding, the target model accepts a draft when the draft matches the token it would have chosen.
+  Most services sample with a <Term id="temperature">temperature</Term> above zero. Under sampling, the target model accepts each
+  draft with a probability set by comparing the two models' token probabilities. This rule keeps the distribution of
+  outputs identical to the distribution the target model would produce alone, which is why speculation is lossless.
+</p>
 
 <h2>The expected-tokens formula</h2>
 <p>

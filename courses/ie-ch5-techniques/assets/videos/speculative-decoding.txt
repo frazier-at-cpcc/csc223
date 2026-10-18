@@ -1,0 +1,13 @@
+Speculative decoding can turn one forward pass into four tokens. It works because checking a guess costs far less than making one.
+
+Recall that decode is memory-bound. Each pass reads all the weights to produce one token, while compute sits idle. Speculation puts that idle compute to work.
+
+A speculator, such as a small draft model, proposes draft tokens. The target model is the model you are accelerating, and only its output counts.
+
+The text so far reads 'Once upon a'. The speculator drafts five tokens: 'time', a comma, 'there', 'lived', and 'a'.
+
+The target model checks all five drafts in one forward pass, in parallel. It accepts 'time', the comma, and 'there'. It rejects 'lived', because it would have written 'was'. It discards the final 'a', because it follows a rejection. Then it adds its own token, 'was'.
+
+One forward pass produced four tokens instead of one. If every draft fails, the pass still yields one token, the same as ordinary decode.
+
+Pause and trace. A speculator drafts six tokens. The target accepts the first two and rejects the third. How many drafts are discarded, and how many tokens does the pass produce?

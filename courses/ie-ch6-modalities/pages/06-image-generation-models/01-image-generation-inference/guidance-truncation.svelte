@@ -16,7 +16,7 @@
   technique, guidance truncation, that saves work without reducing the number of steps.
 </p>
 
-<h2>Step count drives latency</h2>
+<h2>Step count and latency</h2>
 
 <p>
   Image generation time grows linearly with the number of denoising steps. Few-step models and latent

@@ -23,6 +23,7 @@
     <Term id="decode">Decode</Term> then generates each remaining output token with one <Term id="forward-pass">forward pass</Term> per token.
     This lesson attaches one metric to each phase.
   </p>
+  <p>Chapter 0 also named the two metrics attached to these phases, time to first token and inter-token latency. This lesson defines them precisely and calculates them.</p>
 </Signal>
 
 <div class="ie-table-wrap" role="region" aria-label="The two core LLM latency metrics" use:scrollable>
@@ -62,7 +63,7 @@
 </p>
 
 <p>
-  Prefill is limited by arithmetic, so a longer prompt raises TTFT.
+  Prefill is limited by arithmetic, and its arithmetic grows with every prompt token, so a longer prompt raises TTFT.
   Decode is limited by how fast the GPU can read the model's weights from memory, a rate called <Term id="memory-bandwidth">memory bandwidth</Term>.
   Chapter 2 explains why each phase has its limit, and Chapter 3 connects those limits to GPU specifications.
 </p>

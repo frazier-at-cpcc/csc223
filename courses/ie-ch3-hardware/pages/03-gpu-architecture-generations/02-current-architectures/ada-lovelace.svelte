@@ -15,9 +15,9 @@
   six months after Hopper.
 </p>
 
-<div class="ie-table-wrap" role="region" aria-label="Ada Lovelace GPU specifications, from NVIDIA datasheets" use:scrollable>
+<div class="ie-table-wrap" role="region" aria-label="Ada Lovelace GPU specifications, from NVIDIA datasheets as of October 2026" use:scrollable>
   <table class="ie-table">
-    <caption>Ada Lovelace GPU specifications, from NVIDIA datasheets</caption>
+    <caption>Ada Lovelace GPU specifications, from NVIDIA datasheets as of October 2026</caption>
     <thead>
       <tr><th scope="col">GPU</th><th scope="col">FP8 compute (dense)</th><th scope="col">Memory</th><th scope="col">Bandwidth</th></tr>
     </thead>
@@ -30,20 +30,20 @@
 </div>
 <p>The L40S is a higher-throughput version of the L40 with the same memory, and many clouds offer it.</p>
 
-<h2>A counterpart to Hopper, not a successor</h2>
+<h2>Lovelace Compared with Hopper</h2>
 <p>
   Lovelace and Hopper are similar, and Lovelace also supports FP8 inference. Hopper focuses on AI applications.
   Lovelace GPUs lean toward graphics.
 </p>
 
-<h2>The missing NVLink</h2>
+<h2>Multi-GPU Communication Without NVLink</h2>
 <p>
   Lovelace GPUs do not support <Term id="nvlink" />, NVIDIA's high-bandwidth GPU-to-GPU link, which the
   Instances section covers. This is a major limitation. A <Term id="node">node</Term>, the standard server of
   eight datacenter GPUs, uses NVLink to connect its Hopper or <Term id="blackwell">Blackwell</Term> GPUs for efficient parallelism.
 </p>
 <p>
-  Without NVLink, Lovelace GPUs communicate over <Term id="pcie">PCIe</Term>, the standard expansion bus that
+  Without NVLink, Lovelace GPUs communicate over PCIe, the standard expansion bus that
   connects a card to its host computer. Bandwidth-hungry methods such as
   <Term id="tensor-parallelism">tensor parallelism</Term> run poorly over PCIe. Multi-GPU Lovelace deployments
   therefore fall back on <Term id="pipeline-parallelism">pipeline parallelism</Term>, which needs far less

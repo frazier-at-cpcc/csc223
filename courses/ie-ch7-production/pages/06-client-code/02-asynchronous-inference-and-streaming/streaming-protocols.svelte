@@ -21,8 +21,9 @@
 <h2>HTTP Request and Response</h2>
 <p>
   A basic HTTP exchange carries one request and one response. The server can stream that response in pieces, which is
-  how server-sent events deliver LLM tokens as they are generated. The client cannot stream new input over the same
-  exchange, because its request is already complete. The connection itself does not have to close. HTTP/1.1 keep-alive
+  how server-sent events deliver LLM tokens as they are generated. In the request-and-response pattern that chat APIs
+  and browsers use, the client cannot stream new input over the same exchange, because its request is already
+  complete. The connection itself does not have to close. HTTP/1.1 keep-alive
   and HTTP/2 reuse one connection for many exchanges.
 </p>
 <Figure
@@ -35,9 +36,9 @@
 
 <Signal kind="mistake" title="Believing HTTP closes after every response">
   <p>
-    An HTTP exchange ends after its response, but the connection usually stays open for the next exchange. HTTP's
-    limit for live audio is not a closing connection. It is that each exchange flows one way at a time: the client
-    finishes its request before the server answers.
+    An HTTP exchange ends after its response, but the connection usually stays open for the next exchange. The limit for live audio
+    is not a closing connection. It is the request-and-response pattern, in which the client finishes its request
+    before the server answers. Bidirectional protocols remove that pattern, and gRPC does so on top of HTTP/2.
   </p>
 </Signal>
 

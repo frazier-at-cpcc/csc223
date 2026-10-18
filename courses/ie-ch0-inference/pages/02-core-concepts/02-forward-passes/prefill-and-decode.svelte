@@ -3,6 +3,8 @@
 </script>
 
 <script>
+  import { Video } from 'tessera-learn';
+  import prefillVsDecodeTranscript from '$assets/videos/prefill-vs-decode.txt?raw';
   import Term from '$shared/Term.svelte';
   import Signal from '$shared/Signal.svelte';
 </script>
@@ -14,13 +16,13 @@
 <dl>
   <dt><dfn><strong>Prefill</strong></dfn></dt>
   <dd>
-    The first phase. One <Term id="forward-pass">forward pass</Term> processes every prompt token in parallel and produces the first output
-    token.
+    The first phase of a request, in which one <Term id="forward-pass">forward pass</Term> processes every prompt token in parallel and
+    produces the first output token.
   </dd>
   <dt><dfn><strong>Decode</strong></dfn></dt>
   <dd>
-    The second phase. Each forward pass processes the newest output token and produces the next one, until the response is
-    complete.
+    The second phase of a request, in which each forward pass processes the newest output token and produces the next one
+    until the response is complete.
   </dd>
 </dl>
 
@@ -28,6 +30,13 @@
   A request with a 1,000-token prompt and a 200-token response runs one prefill pass and then 199 decode passes. The
   prefill pass produces output token 1, and each decode pass produces one of tokens 2 through 200.
 </p>
+
+<h2>Video: Prefill and Decode</h2>
+<Video src="$assets/videos/prefill-vs-decode.mp4" title="Prefill and Decode, explainer video" transcript={prefillVsDecodeTranscript} />
+<details class="video-answer">
+  <summary>Check your answer to the question at the end of the video</summary>
+  <p>Request B spends most of its time in prefill, because its input is long and its output is short. Request A spends most of its time in decode, because it generates many tokens one forward pass at a time.</p>
+</details>
 
 <h2>Different Limits on the GPU</h2>
 

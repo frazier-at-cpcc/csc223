@@ -1,0 +1,11 @@
+When a model needs more than one GPU, you decide how to cut it. Cut it the wrong way, and the links between GPUs become the bottleneck.
+
+Picture a model as a stack of layers. There are two basic cuts.
+
+Tensor parallelism cuts through every layer. Each GPU holds a slice of every weight matrix, so the GPUs share each layer's weight reads and math. After every layer, they combine partial results in an all-reduce. That traffic needs fast NVLink inside one node. The payoff is the lowest latency.
+
+Pipeline parallelism cuts between layers. Each GPU holds whole layers as one stage. GPUs talk only at the stage boundaries, so the traffic suits slower links between nodes. The cost is that stages wait on each other, and per-request latency rises.
+
+Production systems combine the two. Tensor parallelism runs inside each node, and pipeline stages span nodes. TP8PP2 means eight-way tensor parallelism in each of two stages.
+
+Pause and choose. Case one: a model fits on the eight GPUs of one node, and users want the fastest responses. Case two: a dense model needs two nodes linked over InfiniBand. Which plan fits each case?

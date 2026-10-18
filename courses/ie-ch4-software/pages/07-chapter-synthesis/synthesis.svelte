@@ -85,8 +85,9 @@
 </ol>
 
 <p>
-  Two habits carry across all four levels. First, decide at the lowest level that
-  can fix the problem, and no lower: most services never need a custom kernel.
+  Two habits carry across all four levels. First, fix the problem at the highest level
+  that can fix it. Move down the stack only when configuration cannot close the
+  gap, because most services never need a custom kernel.
   Second, trust a decision only after a realistic benchmark confirms it.
 </p>
 

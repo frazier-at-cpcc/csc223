@@ -41,9 +41,9 @@
 <!-- q2: objective 2 (Apply, estimate visual tokens) -->
 <NumericQuestion
   id="q2"
-  question="A VLM request carries a 150-token question and a 3-second clip at 30 frames per second. After downsampling, each frame takes about 500 tokens. How many input tokens does the request carry in total?"
-  answer={45150}
-  incorrectFeedback="Frames: 3 × 30 = 90. Visual tokens: 90 × 500 = 45,000. Total with the question: 45,000 + 150 = 45,150 tokens."
+  question="A VLM request carries a 120-token question and a 3-second clip at 30 frames per second. After downsampling, each frame takes about 500 tokens. How many input tokens does the request carry in total?"
+  answer={45120}
+  incorrectFeedback="Frames: 3 × 30 = 90. Visual tokens: 90 × 500 = 45,000. Total with the question: 45,000 + 120 = 45,120 tokens."
 />
 
 <!-- q3: objective 3 (Apply, select VLM optimization) -->
@@ -68,19 +68,19 @@
 <!-- q4: objective 4 (Apply, embedding design by traffic profile) -->
 <MultipleChoice
   id="q4"
-  question="A retailer re-embeds its 40-million-item catalog every night and serves a live search box that must respond within 100 ms. Both carry heavy traffic. One shared deployment handles both today, and search latency spikes every night. Which design fits?"
+  question="A developer-tools company is indexing 30,000 code repositories for a new semantic code-search feature, a bulk job that will run for a week. The same embedding deployment already serves an in-editor search that must answer within 150 ms. Since the bulk job started, in-editor searches time out. Both workloads carry heavy traffic. Which design fits?"
   options={[
-    'Add Tensor Parallelism so one shared deployment finishes both jobs faster',
-    'Keep one deployment and raise its batch size so the nightly job ends sooner',
-    "Run the nightly job with prefix caching to shorten each document's prefill",
-    'Split into a queued backfill system and a separate search replica pool',
+    'Add Tensor Parallelism so the shared deployment finishes the bulk job sooner',
+    'Keep one deployment and raise its batch size so the bulk job ends sooner',
+    "Run the bulk job with prefix caching to shorten each file's prefill",
+    'Move the bulk job to a queued backfill system apart from search',
   ]}
   correct={3}
   optionFeedback={[
-    'Embedding models are too small to gain from Tensor Parallelism, and a shared deployment still makes search queries wait behind the backfill.',
-    'Larger batches raise throughput for the backfill but make each search query wait longer for its batch.',
+    'Embedding models are too small to gain from Tensor Parallelism, and a shared deployment still makes searches wait behind the bulk job.',
+    'Larger batches raise throughput for the bulk job but make each search wait longer for its batch.',
     'Embedding models read all tokens in one pass and generate nothing, so prefix caching is not relevant.',
-    'Correct. The two traffic profiles conflict, and the traffic justifies two systems. The backfill runs from a queue with large batches, and search gets its own low-latency replicas.',
+    'Correct. The bulk job is a high-throughput backfill and the in-editor search is a low-latency lookup. Heavy traffic on both justifies two systems: a queued backfill with large batches, and separate low-latency replicas for search.',
   ]}
 />
 
@@ -119,40 +119,40 @@
     'It suits both, because both products already use VAD to cut audio into chunks',
     'It suits neither, because Whisper cannot transcribe separate chunks in parallel',
     'It suits the lectures; live captions need in-order chunks on one GPU for prefix context',
-    'It suits the live captions; lectures need in-order chunks so each reuses the prior transcript',
+    'It suits both, if each live chunk is re-run at a higher temperature to make up for the prefix',
   ]}
   correct={2}
   optionFeedback={[
     'Both pipelines use VAD, but they differ in how chunks are scheduled. Live audio arrives in order and is judged by per-chunk latency.',
     'The long-file pipeline transcribes chunks in parallel across GPUs or MIG slices, which is how it reaches a high real-time factor.',
     'Correct. A finished lecture can be transcribed in parallel and repaired with hallucination checks. Live audio arrives in order, so keeping a stream on one GPU gives each chunk the previous transcript as a prefix.',
-    'This reverses the two pipelines. Lectures arrive as finished files, which suits parallel chunks, while live captions arrive in order.',
+    'A higher temperature repairs a looping chunk in a finished file. It does not restore the previous words that live captions lose when chunks land on different GPUs.',
   ]}
 />
 
-<!-- q8: objective 6 (Apply, long-file repair) -->
+<!-- q8: objective 9 (Evaluate, image generation plan) -->
 <MultipleChoice
   id="q8"
-  question="In a parallel long-file pipeline, one chunk's transcript repeats the same phrase eight times, and its words-per-minute rate is far above normal speech. Which repair fits this pipeline?"
+  question="A team serves a popular diffusion transformer image model on new B200 nodes. It runs the model card's diffusers code, which uses a generic attention kernel and 16-bit linear layers. The team must cut latency without changing the model or the step count. Which plan best fits the workload?"
   options={[
-    'Merge the chunk with its neighbor into one 60-second chunk',
-    'Re-run the chunk at a higher temperature',
-    'Re-run the chunk at a lower temperature',
-    "Re-run the chunk with the previous chunk's transcript as a prefix",
+    'Raise the batch size so that each weight load serves more images',
+    'Use a Blackwell attention kernel and FP8 GEMMs, compiled on a B200',
+    'Quantize the KV cache to FP8 so that each denoising step loads less data',
+    'Add speculative decoding with a small draft model of the denoiser',
   ]}
   correct={1}
   optionFeedback={[
-    'Whisper accepts at most 30 seconds per chunk. The other repair splits audio into smaller chunks, not larger ones.',
-    'Correct. A higher temperature is counterintuitive, but it breaks the cycle of repeated words and produces a different output.',
-    'Lower temperature makes the output more deterministic, which tends to reproduce the same loop.',
-    'Chunks in a parallel pipeline run at the same time, so the previous transcript is not available as a prefix.',
+    'Shared weight loads help memory-bound LLM decode. A denoising step is compute bound, so a larger batch takes proportionally longer per request.',
+    'Correct. A compute-bound step speeds up when its arithmetic runs faster. The attention kernel should match the GPU generation, FP8 GEMMs double Tensor Core FLOPS for the linear layers, and a compiled engine targets the GPU that compiled it.',
+    'A denoiser keeps no autoregressive KV cache, and memory traffic is not the bottleneck. Compute is.',
+    'Speculative decoding drafts tokens for an autoregressive decoder. A denoiser refines the whole image at every step, so there are no tokens to draft and verify.',
   ]}
 />
 
 <!-- q9: objective 7 (Evaluate, TTS deployment) -->
 <MultipleChoice
   id="q9"
-  question="A voice agent's TTS model needs 85 audio tokens per second for real-time speech. Two configurations were load-tested at full batch on one GPU. Configuration P: 120 ms TTFB, 1.1 s to first sentence, 95 tokens per second per stream, 30 streams. Configuration Q: 90 ms TTFB, 1.4 s to first sentence, 70 tokens per second per stream, 42 streams. Which configuration should the team deploy?"
+  question="A voice agent's TTS model needs 82 audio tokens per second for real-time speech. Two configurations were load-tested at full batch on one GPU. Configuration P: 120 ms TTFB, 1.1 s to first sentence, 95 tokens per second per stream, 30 streams. Configuration Q: 90 ms TTFB, 1.4 s to first sentence, 70 tokens per second per stream, 42 streams. Which configuration should the team deploy?"
   options={[
     'Configuration P, because each stream stays above the real-time threshold',
     'Configuration Q, because its 90 ms TTFB starts audio sooner for every user',
@@ -161,7 +161,7 @@
   ]}
   correct={0}
   optionFeedback={[
-    'Correct. At 70 tokens per second, Q falls below the 85-token threshold, so playback outruns generation and listeners hear gaps. P also reaches the first sentence sooner. Its 42 streams make Q look cheaper, but none of them is real time.',
+    'Correct. At 70 tokens per second, Q falls below the 82-token threshold, so playback outruns generation and listeners hear gaps. P also reaches the first sentence sooner. Its 42 streams make Q look cheaper, but none of them is real time.',
     'The first byte of audio carries no meaning, and Q is slower to the first sentence. Q also cannot keep up with playback.',
     'Streams below the real-time threshold are not usable streams. Q\'s 42 streams all stall during playback.',
     'The first sentence is only the start. Q generates audio slower than it plays, so its speech breaks up after the first sentence.',
@@ -171,9 +171,9 @@
 <!-- q10: objective 7 (Apply, real-time stream capacity) -->
 <NumericQuestion
   id="q10"
-  question="A TTS model needs 85 audio tokens per second for real-time speech. At full batch, one GPU produces 5,200 audio tokens per second across all streams. How many real-time streams can the GPU sustain?"
-  answer={61}
-  incorrectFeedback="Divide aggregate throughput by the real-time threshold and round down: 5,200 ÷ 85 = 61.2, so 61 streams."
+  question="A TTS model needs 82 audio tokens per second for real-time speech. At full batch, one GPU produces 5,200 audio tokens per second across all streams. How many real-time streams can the GPU sustain?"
+  answer={63}
+  incorrectFeedback="Divide aggregate throughput by the real-time threshold and round down: 5,200 ÷ 82 = 63.4, so 63 streams."
 />
 
 <!-- q11: objective 8 (Apply, calculate forward passes) -->
@@ -198,7 +198,7 @@
   optionFeedback={[
     'Denoising steps depend on each other in order, so they cannot run at once on different GPUs.',
     'Video models run at a batch size of one. All eight GPUs cooperate on a single video.',
-    'Correct. The weights fit on each B200, so sharding them buys nothing. The bottleneck is attention over a long three-dimensional latent, and splitting that sequence puts the attention compute on all eight GPUs.',
+    'Correct. The weights fit on each B200, so sharding them gains nothing, and Tensor Parallelism would add an activation exchange for the whole long sequence at every layer. Splitting the sequence spreads the attention compute across all eight GPUs, and the ring transfer overlaps with that compute.',
     'This describes Tensor Parallelism. Context Parallelism replicates the weights on every GPU.',
   ]}
 />
@@ -206,19 +206,19 @@
 <!-- q13: objective 9 (Evaluate, justify caching and quantization) -->
 <MultipleChoice
   id="q13"
-  question="A team must cut video generation latency by about a third on Blackwell GPUs without visible quality loss. Which plan best fits the workload's compute-bound, attention-heavy profile?"
+  question="A team must cut video generation latency on Blackwell GPUs without visible quality loss. Tests show that quantizing the early denoising steps or the first and last transformer layers visibly changes the output. Which plan best fits the workload's compute-bound, attention-heavy profile?"
   options={[
     'Quantize attention in every step and layer with MXFP8, since microscaling protects outliers',
     'Quantize the linear-layer weights to FP8, since weights take most of the memory bandwidth',
     'Raise the batch size to four clips per node, since larger batches raise GPU utilization',
-    'Reuse cached attention results and quantize only later steps and hidden layers',
+    'Quantize only later steps and hidden layers, since early steps set the outline',
   ]}
   correct={3}
   optionFeedback={[
     'Microscaling helps, but uniform quantization ignores which steps and layers are sensitive. Early steps and the first and last layers should stay at full precision.',
     'Weight quantization targets memory bandwidth, the bottleneck of LLM decode. In video models, attention takes most of the compute, so the linear layers offer little speedup.',
     'Video generation is compute bound, so a larger batch takes proportionally longer and does not lower latency.',
-    'Correct. Caching can make video generation 30 to 40 percent faster, and selective quantization speeds attention while protecting the steps and layers that matter most. Test both on the team\'s own prompts.',
+    'Correct. Attention takes most of the compute, so lower-precision attention speeds each step. Keeping the early steps and the first and last layers at full precision protects the parts the tests showed to be sensitive.',
   ]}
 />
 

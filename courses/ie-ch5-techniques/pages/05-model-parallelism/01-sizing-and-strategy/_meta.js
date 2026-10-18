@@ -1,1 +1,1 @@
-export default { title: 'Sizing and Strategy', pages: ['sizing-gpus', 'parallelism-forms', 'check-sizing'] };
+export default { title: 'Sizing and Strategy', pages: ['sizing-gpus', 'practice-gpu-count', 'parallelism-forms', 'check-sizing'] };

@@ -1,1 +1,1 @@
-export default { title: 'Chapter Synthesis', pages: ['requirements-sheet'] };
+export default { title: 'Chapter Synthesis', pages: ['requirements-sheet', 'second-sheet'] };

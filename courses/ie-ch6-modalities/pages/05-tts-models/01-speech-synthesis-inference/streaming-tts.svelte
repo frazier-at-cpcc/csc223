@@ -13,14 +13,14 @@
   TensorRT-LLM, quantization, and a compiled SNAC decoder. Further gains come from infrastructure.
 </p>
 
-<h2>Stream over WebSockets</h2>
+<h2>WebSocket streaming</h2>
 
 <p>
   Streaming over <Term id="websocket">WebSockets</Term> is the largest performance unlock. The client
   receives audio as it is generated, instead of sending text and waiting for each complete audio chunk.
 </p>
 
-<h2>Match batch size to stream count</h2>
+<h2>Batch size and stream count</h2>
 
 <ol>
   <li>Test the inference engine to find how many concurrent real-time streams it sustains.</li>

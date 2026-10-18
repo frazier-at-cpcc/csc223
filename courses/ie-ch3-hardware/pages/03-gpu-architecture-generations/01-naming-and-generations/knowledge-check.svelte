@@ -9,7 +9,7 @@
 <h1>Knowledge Check: Naming and Generations</h1>
 <p>These practice items are ungraded. Each one gives feedback that explains the answer.</p>
 
-<p class="ie-obj">Objective 6: Differentiate GPU generations by name</p>
+<p class="ie-obj">Objective 6: Differentiate NVIDIA GPU generations by inference features</p>
 <Matching
   id="kc_letters"
   question="Match each NVIDIA datacenter GPU to its architecture generation."
@@ -24,13 +24,13 @@
   incorrectFeedback="Read only the letter. T is Turing, A is Ampere, L is Ada Lovelace, H is Hopper, and B is Blackwell. The number identifies the model within that generation."
 />
 
-<p class="ie-obj">Objective 6: Differentiate GPU generations by name</p>
+<p class="ie-obj">Objective 6: Differentiate NVIDIA GPU generations by inference features</p>
 <MultipleChoice
   id="kc_same_letter"
   question="An engineer compares the H100 and the H200. What does their shared letter H tell the engineer?"
   options={[
     'Both GPUs have the same memory capacity',
-    'Both GPUs support the same architecture features, such as FP8',
+    'Both GPUs share one feature set, such as FP8',
     'Both GPUs were released in the same quarter',
   ]}
   correct={1}
@@ -41,7 +41,7 @@
   ]}
 />
 
-<p class="ie-obj">Objective 6: Differentiate GPU generations by name</p>
+<p class="ie-obj">Objective 6: Differentiate NVIDIA GPU generations by inference features</p>
 <MultipleChoice
   id="kc_newer_gen"
   question="A team serves steady, high-volume LLM traffic and must choose between Ampere A100 GPUs and a newer generation. Why do inference engineers often favor the newer generation even for cost-sensitive work?"

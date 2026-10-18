@@ -75,7 +75,7 @@
 
 <p>
   DeepSeek-V3 illustrates the problem. Its
-  <Term id="multi-latent-attention">Multi-head Latent Attention (MLA)</Term>, as
+  <Term id="multi-latent-attention" />, as
   implemented in PyTorch, is hard to export. The rest of the architecture is
   simple enough that engineers can fuse its kernels by hand instead.
 </p>

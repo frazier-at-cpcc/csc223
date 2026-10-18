@@ -59,7 +59,8 @@
 
 <h2>Lossless and lossy techniques</h2>
 <p>
-  Quantization is the only technique in this chapter that can reduce output quality, because it changes the numbers
-  the model computes with. Speculative decoding, caching, model parallelism, and disaggregation are lossless: they
-  change where and when the model computes, not what it computes.
+  Quantization can reduce output quality, because it changes the numbers the model computes with. Speculative
+  decoding with standard verification, prefix caching, model parallelism, and disaggregation are lossless. They
+  change where and when the model computes, not what it computes. The Medusa page describes one looser verification
+  rule that trades exactness for speed.
 </p>

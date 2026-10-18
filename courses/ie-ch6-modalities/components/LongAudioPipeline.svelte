@@ -1,5 +1,5 @@
 <script>
-  // Figure 6.5: two-stage pipeline for long audio file transcription.
+  // Figure 6.4: two-stage pipeline for long audio file transcription.
   import Figure from './Figure.svelte';
   const uid = $props.id();
   const chunkers = [115, 225];
@@ -9,7 +9,7 @@
     'Two audio files arrive as request 1 and request 2. In the chunker stage, each request goes to its own chunker replica running on a CPU, labeled chunker replica 1 and chunker replica 2. Each chunker splits its audio into chunks and sends them to all three replicas in the Whisper stage. The Whisper replicas, labeled 1, 2 and 3, each run on an H100 Multi-Instance GPU slice. Because every chunker feeds every Whisper replica, chunks from one file are transcribed in parallel.';
 </script>
 
-<Figure number="6.5" caption="A two-stage pipeline for long audio file transcription parallelizes chunk transcription to improve end-to-end request time." {description}>
+<Figure number="6.4" caption="A two-stage pipeline for long audio file transcription parallelizes chunk transcription to improve end-to-end request time." {description}>
   <svg viewBox="0 0 760 310" role="img" aria-label="Two chunker replicas on CPUs fan audio chunks out to three Whisper replicas on H100 MIG slices">
     <defs>
       <marker id="arrow-{uid}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">

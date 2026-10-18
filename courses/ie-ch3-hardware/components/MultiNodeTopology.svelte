@@ -9,7 +9,7 @@
 </script>
 
 <Figure
-  caption="Figure 3.4: NVLink and NVSwitch connect GPUs inside a node, and a network fabric such as InfiniBand or RoCE Ethernet connects nodes."
+  caption="Figure 3.6: NVLink and NVSwitch connect GPUs inside a node, and a network fabric such as InfiniBand or RoCE Ethernet connects nodes."
   description="Two nodes are stacked vertically. Each node holds eight B200 GPUs, four on the left and four on the right, with two NVSwitch chips in the middle. Every GPU has an NVLink line to each NVSwitch, so any GPU in a node can reach any other GPU in that node at NVLink speed, about 1,800 GB/s per GPU counting both directions. A single dashed box labeled network fabric, InfiniBand or RoCE Ethernet, sits between the two nodes and joins them at 400 to 800 Gb/s per NIC, which is 50 to 100 GB/s in each direction. Traffic between a GPU in node 1 and a GPU in node 2 crosses the network fabric, which is about an order of magnitude slower than NVLink."
 >
   <svg viewBox="0 0 640 530" role="img" aria-labelledby="topology-title">

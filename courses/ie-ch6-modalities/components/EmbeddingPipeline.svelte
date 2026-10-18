@@ -1,12 +1,12 @@
 <script>
-  // Figure 6.3: high-performance embedding inference pipeline.
+  // Figure 6.2: high-performance embedding inference pipeline.
   import Figure from './Figure.svelte';
   const uid = $props.id();
   const description =
     'A client request arrives over HTTP at a model server, which handles input and output. The model server forwards requests to a multi-worker tokenizer, where four tokenizer workers run in parallel. The tokenizer passes tokenized sentences to a batch manager that holds a token queue. The batch manager sends batches to TensorRT-LLM for inference and receives the results. The batch manager returns the vector outputs to the model server, which sends them back to the client over HTTP.';
 </script>
 
-<Figure number="6.3" caption="A high-performance embedding inference pipeline adds parallel tokenization and batch management in front of an optimized inference engine." {description}>
+<Figure number="6.2" caption="A high-performance embedding inference pipeline adds parallel tokenization and batch management in front of an optimized inference engine." {description}>
   <svg viewBox="0 0 800 270" role="img" aria-label="Embedding inference pipeline: request, model server, multi-worker tokenizer, batch manager, and TensorRT-LLM">
     <defs>
       <marker id="arrow-{uid}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">

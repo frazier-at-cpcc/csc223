@@ -3,6 +3,8 @@
 </script>
 
 <script>
+  import { Video } from 'tessera-learn';
+  import prefillVsDecodeTranscript from '$assets/videos/prefill-vs-decode.txt?raw';
   import { scrollable } from '$shared/scrollable.js';
   import Signal from '$shared/Signal.svelte';
   import Term from '$shared/Term.svelte';
@@ -25,6 +27,13 @@
   of input through every layer of the model. The phases differ in how many tokens each forward pass
   processes and in what it does with the <Term id="kv-cache">KV cache</Term>.
 </p>
+
+<h2>Video: Prefill and Decode</h2>
+<Video src="$assets/videos/prefill-vs-decode.mp4" title="Prefill and Decode, explainer video" transcript={prefillVsDecodeTranscript} />
+<details class="video-answer">
+  <summary>Check your answer to the question at the end of the video</summary>
+  <p>Request B spends most of its time in prefill, because its input is long and its output is short. Request A spends most of its time in decode, because it generates many tokens one forward pass at a time.</p>
+</details>
 
 <h2>What each phase computes</h2>
 
@@ -81,9 +90,9 @@
 
 <Signal kind="try" title="Step through a request">
   <ol>
-    <li>Select the Short chat reply scenario and press Step once. Record the number of KV cache entries and the output token that appeared.</li>
-    <li>Press Step until the request completes. Record the forward passes and the final KV cache entries, then explain why the cache holds one entry fewer than the prompt plus output tokens.</li>
-    <li>Select Long prompt, short answer. Compare its TTFT and its number of decode passes with the first scenario.</li>
+    <li>Select Short chat reply and raise the inter-token latency from 30 ms to 90 ms. Record which counters change and which stay fixed, and name the phase that sets each one.</li>
+    <li>Select Long prompt, short answer and double the prefill time. Record the new TTFT, and explain why no inter-token gap changes.</li>
+    <li>Select Long prompt, short answer again to restore its defaults. Compare its TTFT and its number of decode passes with Short chat reply.</li>
   </ol>
 </Signal>
 

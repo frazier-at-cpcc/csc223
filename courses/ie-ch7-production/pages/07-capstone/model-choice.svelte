@@ -16,7 +16,7 @@
   <p>
     <Term id="prefill">Prefill</Term> processes the whole input in parallel and is compute-bound, so it sets time to first token.
     <Term id="decode">Decode</Term> generates one token per <Term id="forward-pass">forward pass</Term> and reads every weight from memory on each pass, so it is
-    memory-bound and sets tokens per second. A model with more parameters reads more bytes for every output token.
+    memory-bound and sets tokens per second. A model with more parameters reads more bytes on every decode step.
   </p>
 </Signal>
 
@@ -39,7 +39,7 @@
 <p class="ie-objective">Decision 2a, drawing on Chapter 2</p>
 <NumericQuestion
   id="cap_bytes"
-  question="In FP16, each parameter takes 2 bytes. How many gigabytes of weights does the 70B candidate read from memory for every output token it decodes?"
+  question="In FP16, each parameter takes 2 bytes. How many gigabytes of weights does the 70B candidate read from memory on every decode step?"
   answer={141.2}
   tolerance={0.5}
   unit="GB"
@@ -59,8 +59,8 @@
   correct={1}
   optionFeedback={[
     'Incorrect. The 8B model would decode quickly, but it resolves only 71 percent of tickets and fails the quality requirement. Speed cannot rescue a model that gets the answer wrong.',
-    'Correct. Only the 70B model meets the quality bar. Its decode reads about nine times more bytes per token, so the hardware and techniques in the next steps must supply enough memory bandwidth to reach 30 tokens per second.',
-    'Incorrect. A larger model reads more weight bytes for every output token, not fewer. That extra traffic is what makes it harder to serve quickly.',
+    'Correct. Only the 70B model meets the quality bar. It reads about nine times more bytes per decode step, so the hardware and techniques in the next steps must supply enough memory bandwidth to reach 30 tokens per second.',
+    'Incorrect. A larger model reads more weight bytes on every decode step, not fewer. That extra traffic is what makes it harder to serve quickly.',
   ]}
 />
 

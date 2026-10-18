@@ -14,8 +14,8 @@
   secure and compliant before AI models can power mission-critical applications.
 </p>
 
-<h2>Three Areas of Concern</h2>
-<div class="ie-table-wrap" role="region" aria-label="Three Areas of Concern table" use:scrollable>
+<h2>Security Concerns for Inference</h2>
+<div class="ie-table-wrap" role="region" aria-label="Security Concerns for Inference table" use:scrollable>
 <table class="ie-table">
   <thead>
     <tr><th scope="col">Area</th><th scope="col">Concern</th></tr>

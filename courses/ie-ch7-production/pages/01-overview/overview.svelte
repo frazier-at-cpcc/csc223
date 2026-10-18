@@ -43,14 +43,14 @@
   <li>Configure autoscaling parameters for a described traffic pattern, with the <Term id="concurrency-target">concurrency target</Term> set to the replica <Term id="batch-size">batch size</Term>.</li>
   <li>Recommend a technique that shortens a given stage of a <Term id="cold-start">cold start</Term>.</li>
   <li>Differentiate the roles of a <Term id="router">request router</Term>, a <Term id="load-balancer">load balancer</Term>, and a <Term id="queue">request queue</Term> in serving inference requests.</li>
-  <li>Judge whether a described workload suits <Term id="scale-to-zero">scale to zero</Term>, independent component scaling, or neither.</li>
-  <li>Select capacity, placement, and failover measures that meet a multi-cloud deployment's requirements.</li>
+  <li>Judge whether a described workload suits <Term id="scale-to-zero">scale to zero</Term> or independent component scaling.</li>
+  <li>Select the capacity, placement, failover, and security measures that meet a multi-cloud deployment's requirements.</li>
   <li>Choose a testing and release strategy that avoids downtime within a GPU budget.</li>
   <li>Calculate the monthly <Term id="total-cost-of-ownership">total cost of ownership</Term> of a per-token API and of a dedicated deployment.</li>
   <li>Diagnose whether an end-to-end latency problem originates in the model server, the queue, the network, or the client.</li>
 </ol>
 <p>
-  The capstone section practices objectives 2, 5, and 8 together with the main skills of Chapters 1 through 5. Every
+  The capstone section practices objectives 2, 3, and 8 together with the main skills of Chapters 1 through 5. Every
   knowledge check item names the objective it practices.
 </p>
 

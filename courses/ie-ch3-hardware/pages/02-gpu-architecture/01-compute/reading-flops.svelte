@@ -50,12 +50,12 @@
 <Signal kind="worked" title="Normalizing two spec sheets">
   <p>Two spec sheets list the following Tensor Core figures:</p>
   <ul>
-    <li>GPU X: 1,600 teraFLOPS at FP8, sparse.</li>
+    <li>GPU X: 3,200 teraFLOPS at FP4, sparse.</li>
     <li>GPU Y: 700 teraFLOPS at FP16, dense.</li>
   </ul>
-  <p>The raw numbers suggest that GPU X has more than twice the compute. Normalize both to dense FP8.</p>
+  <p>The raw numbers suggest that GPU X has more than four times the compute. Normalize both to dense FP8.</p>
   <ol class="ie-steps">
-    <li>Remove sparsity from GPU X. Its figure is already FP8: 1,600 ÷ 2 = 800 teraFLOPS dense FP8.</li>
+    <li>Convert GPU X in two steps. Remove sparsity: 3,200 ÷ 2 = 1,600 teraFLOPS dense FP4. Match precision: FP8 doubles the precision of FP4, which halves the rate: 1,600 ÷ 2 = 800 teraFLOPS dense FP8.</li>
     <li>Match precision for GPU Y. Its figure is already dense. FP8 is half the precision of FP16: 700 × 2 = 1,400 teraFLOPS dense FP8.</li>
     <li>Compare on the same basis: GPU Y offers 1,400 teraFLOPS and GPU X offers 800. GPU Y leads by about 1.75 times.</li>
   </ol>
@@ -91,17 +91,17 @@
 <p class="ie-obj">Objective 3: Calculate dense FLOPS at a common precision</p>
 <NumericQuestion
   id="flops_practice_1"
-  question="A spec sheet lists 1,500 teraFLOPS at FP16 with sparsity. What dense FP8 rate should you expect?"
-  answer={1500}
+  question="A spec sheet lists 1,320 teraFLOPS at FP8 with sparsity. What dense FP16 rate should you expect?"
+  answer={330}
   unit="teraFLOPS"
-  correctFeedback="Correct. Removing sparsity halves the figure to 750 teraFLOPS dense FP16. Moving to FP8 doubles it to 1,500 teraFLOPS dense FP8. The two steps cancel."
-  incorrectFeedback="Apply both steps. Removing sparsity gives 1,500 ÷ 2 = 750 teraFLOPS dense FP16. Halving precision gives 750 × 2 = 1,500 teraFLOPS dense FP8."
+  correctFeedback="Correct. Removing sparsity halves the figure to 660 teraFLOPS dense FP8. FP16 doubles the precision, which halves the rate again: 660 ÷ 2 = 330 teraFLOPS dense FP16."
+  incorrectFeedback="Apply both steps. Remove sparsity: 1,320 ÷ 2 = 660 teraFLOPS dense FP8. Move to FP16, which doubles the precision and halves the rate: 660 ÷ 2 = 330 teraFLOPS dense FP16."
 />
 
 <p class="ie-obj">Objective 3: Calculate dense FLOPS at a common precision</p>
 <NumericQuestion
   id="flops_practice_2"
-  question="A Blackwell spec sheet lists 2,200 teraFLOPS at FP4, dense. What dense FP8 rate should you expect from the same GPU?"
+  question="A spec sheet lists 2,200 teraFLOPS at FP4, dense. What dense FP8 rate should you expect from the same GPU?"
   answer={1100}
   unit="teraFLOPS"
   correctFeedback="Correct. FP8 has twice the precision of FP4, so the rate halves: 2,200 ÷ 2 = 1,100 teraFLOPS dense FP8."

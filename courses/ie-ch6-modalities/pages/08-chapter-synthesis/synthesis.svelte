@@ -4,7 +4,7 @@
 
 <script>
   import { scrollable } from '$shared/scrollable.js';
-  import { Matching } from 'tessera-learn';
+  import { Matching, MultipleChoice } from 'tessera-learn';
   import Signal from '$shared/Signal.svelte';
 </script>
 
@@ -24,6 +24,7 @@
     { left: 'Embedding model', right: 'Total throughput for backfills, or per-query latency for lookups' },
     { left: 'Speech recognition (Whisper)', right: 'The autoregressive decoder, which runs once per text token' },
     { left: 'Text-to-speech', right: 'Aggregate GPU throughput measured in real-time streams' },
+    { left: 'Image generation', right: 'Compute per denoising step, multiplied by the number of forward passes' },
     { left: 'Video generation', right: 'Attention compute over a three-dimensional latent' },
   ]}
   correctFeedback="Compare your answers with the bottleneck column of the table below."
@@ -94,11 +95,30 @@
     </table>
   </div>
   <p>
-    Two patterns run through the table. The four autoregressive modalities reuse the Chapter 5 toolkit
-    because their decoders behave like LLM decode. The two denoising modalities are compute bound, so
+    Two patterns run through the table. The three autoregressive modalities, vision language, speech
+    recognition, and text-to-speech, reuse the Chapter 5 toolkit because their decoders behave like LLM decode.
+    Embedding models share the transformer architecture but read each input in one pass, so they drop prefix
+    caching, disaggregation, and Tensor Parallelism and scale with replicas, large batches, and a queue instead.
+    The two denoising modalities are compute bound, so
     their gains come from doing less arithmetic or doing it in lower precision.
   </p>
 </Signal>
+
+<MultipleChoice
+  id="synth_voice_agent"
+  question="A cascading voice agent chains Whisper, an LLM, and Orpheus TTS on one request path. Measurements show a 180 ms ASR round trip per chunk, a 250 ms LLM time to first token, and TTS streams that decode at 76 audio tokens per second against a real-time threshold of 90. Which stage should the team fix first?"
+  options={[
+    'ASR, because its round trip is the closest to the 200 ms target',
+    'The LLM, because time to first token sets when any reply can begin',
+    'TTS, because its streams decode below the real-time rate',
+  ]}
+  correct={2}
+  optionFeedback={[
+    'At 180 ms, ASR already meets the 200 ms target for live transcription.',
+    'A 250 ms first token is a small share of the wait, and it does not stop the reply from breaking up later.',
+    'Correct. At 76 tokens per second against a threshold of 90, every TTS stream falls behind playback, so listeners hear gaps. A cascade is only as usable as its weakest stage, so fix that stage before shaving latency elsewhere.',
+  ]}
+/>
 
 <h2>What comes next</h2>
 

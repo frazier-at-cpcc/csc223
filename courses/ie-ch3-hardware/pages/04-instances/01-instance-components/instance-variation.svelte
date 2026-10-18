@@ -27,7 +27,7 @@
   <dt><strong>PCIe</strong></dt>
   <dd>
     A GPU card that plugs into a standard PCI Express slot. PCIe GPUs draw less power and communicate mainly
-    over the PCIe bus. At most, a bridge joins a pair of cards with NVLink.
+    over the PCIe bus. At most, NVLink bridges join small groups of two or four cards.
   </dd>
 </dl>
 <p>

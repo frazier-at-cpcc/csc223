@@ -19,7 +19,7 @@
   replicas to 0.
 </p>
 
-<h2>Two Prerequisites</h2>
+<h2>Prerequisites for Scale to Zero</h2>
 <ul>
   <li><strong>Fast cold starts:</strong> the first user may be waiting live, so the first replica must start as quickly as possible.</li>
   <li><strong>Robust queueing:</strong> the system must hold incoming requests until a replica is live.</li>

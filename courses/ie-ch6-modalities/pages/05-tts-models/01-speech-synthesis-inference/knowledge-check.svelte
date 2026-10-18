@@ -32,25 +32,25 @@
 
 <NumericQuestion
   id="kc_tts_streams"
-  question="A TTS model needs 80 audio tokens per second for real-time speech. At full batch, one GPU produces 3,600 audio tokens per second across all streams. How many real-time streams can the GPU sustain?"
-  answer={45}
+  question="A TTS model needs 80 audio tokens per second for real-time speech. At full batch, one GPU produces 3,700 audio tokens per second across all streams. How many real-time streams can the GPU sustain?"
+  answer={46}
   unit="streams"
-  correctFeedback="3,600 ÷ 80 = 45 real-time streams."
-  incorrectFeedback="Divide aggregate GPU throughput by the real-time threshold, then round down: 3,600 ÷ 80 = 45 streams."
+  correctFeedback="3,700 ÷ 80 = 46.25, which rounds down to 46 real-time streams."
+  incorrectFeedback="Divide aggregate GPU throughput by the real-time threshold, then round down: 3,700 ÷ 80 = 46.25, so 46 streams."
 />
 
 <MultipleChoice
   id="kc_tts_decoder"
   question="A TTS deployment uses Orpheus with TensorRT-LLM, but end-to-end latency spikes under load. Profiling shows the spike occurs after token generation, while audio tokens are converted into waveforms. Which component should the team tune?"
   options={[
+    'The audio decoder, by compiling it and using dynamic batching',
     'The LLM backbone, by enabling in-flight batching for its decode loop',
-    'The audio decoder, by compiling it and adding short-timeout dynamic batching',
     'The voice activity detection model, by shortening its speech segments',
   ]}
-  correct={1}
+  correct={0}
   optionFeedback={[
-    'The backbone already runs on TensorRT-LLM with in-flight batching, and the spike occurs after token generation, in the conversion step.',
     'Correct. The audio decoder converts tokens to waveforms. It should be compiled for the target GPU and use dynamic batching with a short timeout, such as 15 ms.',
+    'The backbone already runs on TensorRT-LLM with in-flight batching, and the spike occurs after token generation, in the conversion step.',
     'VAD segments incoming audio for speech recognition. A TTS pipeline converts text to audio and does not run VAD in the conversion step.',
   ]}
 />

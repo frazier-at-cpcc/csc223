@@ -10,7 +10,7 @@
 <h1>The Framework Landscape</h1>
 
 <p>
-  <strong>Deep learning frameworks</strong> are the bridge between writing <Term id="cuda" />
+  Deep learning frameworks, introduced on the stack page, are the bridge between writing <Term id="cuda" />
   directly and using an off-the-shelf <Term id="inference-engine">inference engine</Term> such as vLLM. Teams use
   these frameworks for both training and inference.
 </p>

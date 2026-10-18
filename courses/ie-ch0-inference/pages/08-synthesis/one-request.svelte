@@ -8,7 +8,7 @@
   const steps = [
     {
       when: 'Before any request',
-      what: 'An engineer deploys a 70-billion-parameter model in FP8 through a deployment config that exposes engine and autoscaling settings. The weights occupy 70 GB, so each replica runs on two 80 GB GPUs in one instance, which leaves room for the KV cache.',
+      what: 'An engineer deploys a 70-billion-parameter model in FP8 through a deployment config that exposes engine and autoscaling settings. The weights occupy 70 GB. One 80 GB GPU falls short of the 105 GB that the 1.5 planning rule requires, so each replica runs on two 80 GB GPUs in one instance, which leaves room for the KV cache.',
       layer: 'Tooling and runtime',
       ideas: 'Developer experience (middle ground); weight memory; quantization; parallelism',
       chapters: '3, 4, 5',
@@ -29,14 +29,14 @@
     },
     {
       when: 'Prefill',
-      what: 'The prompt is a 1,800-token system prompt plus 45 new tokens. The system prompt is already in the KV cache, so prefill computes only the 45 new tokens and produces the first output token.',
+      what: 'The prompt is a 1,800-token system prompt plus 45 new tokens. Earlier requests left the keys and values of the system prompt in the prefix cache, so prefill computes only the 45 new tokens and produces the first output token.',
       layer: 'Runtime',
       ideas: 'Token; prefill; KV cache; caching; time to first token',
       chapters: '2, 5',
     },
     {
       when: 'Decode',
-      what: 'The request joins the running batch. Each decode pass reads the weights once for every request in the batch. A draft model proposes four tokens per step, and one verification pass keeps the accepted ones.',
+      what: 'The request joins the running batch. Each decode pass reads the weights once and produces one token for every request in the batch. A draft model proposes four tokens per step, and one verification pass keeps the accepted ones.',
       layer: 'Runtime',
       ideas: 'Decode; forward pass; batching; speculation; inter-token latency; throughput',
       chapters: '2, 5, 7',
@@ -65,6 +65,7 @@
     This worked case follows a single request to a support assistant from deployment to a regional outage. Each step names
     the layer that acts, the ideas from this chapter that it uses, and the chapters that cover those ideas in depth.
   </p>
+</Signal>
 
   <div class="wide-view">
     <table>
@@ -137,7 +138,6 @@
     targets. Those targets, and the model chosen to meet them, set the requirements that every later chapter optimizes
     against.
   </p>
-</Signal>
 
 <style>
   .narrow-view {

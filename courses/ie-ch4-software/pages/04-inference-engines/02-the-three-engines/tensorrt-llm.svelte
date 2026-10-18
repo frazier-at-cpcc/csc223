@@ -54,7 +54,7 @@
     </tr>
     <tr>
       <th scope="row">V1 (1.X.Y)</th>
-      <td>A standalone package based on PyTorch with no dependency on TensorRT. Released in the summer of 2025.</td>
+      <td>A standalone package based on PyTorch with no dependency on TensorRT. NVIDIA released it in the summer of 2025.</td>
     </tr>
   </tbody>
 </table>

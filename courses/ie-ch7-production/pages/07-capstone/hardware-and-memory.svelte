@@ -21,7 +21,7 @@
 
 <p>
   Beacon's team has access to <Term id="h100" /> GPUs with 80 GB each. It serves the 70B model in FP16 first, with an 8,192-token
-  context for long chats. Chapter 5 adds one more rule that the calculator below enforces: <Term id="tensor-parallelism">tensor parallelism</Term> splits the
+  context for long chats. Chapter 3 added one more rule, which the calculator below enforces: <Term id="tensor-parallelism">tensor parallelism</Term> splits the
   model's 8 KV heads across GPUs, so the GPU count must divide 8 evenly.
 </p>
 

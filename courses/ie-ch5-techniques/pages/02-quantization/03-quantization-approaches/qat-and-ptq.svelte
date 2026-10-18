@@ -27,8 +27,9 @@
 </ul>
 <p>
   Some labs release models built with quantization-aware training. GPT-OSS ships in MXFP4, and Kimi K2 Thinking
-  ships in INT4. Engineers who serve open models work with finished weights, so post-training quantization is the
-  only approach available to them.
+  ships in INT4. Engineers who serve open models start from finished weights. Post-training quantization is their
+  usual approach, because it needs only a small calibration set. Quantization-aware training remains possible as a
+  fine-tuning stage, but it needs training data, training compute, and a full evaluation cycle.
 </p>
 
 <h2>Quantization tooling</h2>

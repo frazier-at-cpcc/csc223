@@ -34,14 +34,14 @@
   id="kc_embed_matryoshka"
   question="A team's vector index has grown expensive to store and slow to search. Its embedding model produces 1,024-value Matryoshka vectors. Which change cuts storage and retrieval time with the least quality loss and no change of model?"
   options={[
+    'Store only the leading 256 of the 1,024 values in each vector',
     'Quantize the embedding model weights to FP8 to speed up inference',
-    'Shorten each stored vector to its leading values, such as 256 of 1,024',
     'Switch to a smaller embedding model that outputs shorter vectors',
   ]}
-  correct={1}
+  correct={0}
   optionFeedback={[
-    'FP8 weights speed up the model, but the vectors keep all 1,024 values. Storage and search time do not change.',
     'Correct. Matryoshka vectors put the most meaning in the leading values, so a shorter vector keeps most of the quality while cutting storage and similarity computation.',
+    'FP8 weights speed up the model, but the vectors keep all 1,024 values. Storage and search time do not change.',
     'A new model encodes a different semantic space, so the whole corpus must be re-embedded, and a smaller model usually loses quality.',
   ]}
 />

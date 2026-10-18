@@ -13,7 +13,7 @@
 <h1>Chapter Quiz</h1>
 
 <p>
-  This graded quiz has 13 questions that cover every objective in the chapter.
+  This graded quiz has 14 questions that cover every objective in the chapter.
   Each question describes a new situation, so apply what you learned rather than
   recalling a sentence. A score of 70 percent or higher passes. You have three
   attempts, and the best score counts. The quiz reports your score but does not
@@ -47,8 +47,21 @@
 />
 
 <MultipleChoice
+  id="q14_cuda_driver"
+  question="An inference server ships as a container image that bundles PyTorch, the CUDA runtime, and cuBLAS. On a newly provisioned GPU machine, the container starts but cannot reach the GPU. Which piece of software must the machine itself supply?"
+  options={['cuBLAS', 'CUDA driver', 'CUDA runtime', 'nvcc compiler']}
+  correct={1}
+  optionFeedback={[
+    'The stem says the image already bundles cuBLAS. A kernel library runs on top of the runtime and the driver, and it cannot reach the hardware by itself.',
+    'Correct. The driver is the low-level interface to the GPU hardware, and it is installed on the host, not inside the container image.',
+    'The stem says the image already bundles the CUDA runtime. The runtime calls the driver beneath it.',
+    'nvcc compiles CUDA source code before deployment. A running container needs no compiler to reach the GPU.',
+  ]}
+/>
+
+<MultipleChoice
   id="q3_kernel_arch"
-  question="A team wrote a custom attention kernel for B200 GPUs that relies on features only Blackwell has. During a demand spike, the team rents extra H100 capacity for the same model. What does the H100 pool require?"
+  question="A team wrote a custom attention kernel for B200 GPUs that uses the Blackwell tensor memory instructions. During a demand spike, the team rents extra H100 capacity for the same model. What does the H100 pool require?"
   options={[
     'Convert the model weights to ONNX so the kernel runs on any GPU',
     'Keep the Blackwell kernel, because older GPUs run newer kernels slowly',
@@ -76,7 +89,7 @@
 
 <MultipleChoice
   id="q5_compile"
-  question="A startup serves a speech model with a novel architecture that no inference engine supports. A profile shows that most GPU time goes to a long chain of small elementwise operations. The team wants a faster PyTorch service this week. Which step fits best?"
+  question="A team serves an in-house audio denoising model written in PyTorch. None of the three inference engines can load its architecture. A PyTorch Profiler trace shows hundreds of short normalization, scaling, and activation kernels in every forward pass, and little time in matrix multiplications. The team wants a faster service this week without writing CUDA. Which step fits best?"
   options={[
     'Compile the model with torch.compile',
     'Export the weights to safetensors for an engine',
@@ -85,7 +98,7 @@
   ]}
   correct={0}
   optionFeedback={[
-    'Correct. torch.compile helps most on architectures that engines do not support and on long chains of lightweight kernels, which it can fuse automatically.',
+    'Correct. torch.compile works on architectures that engines do not load, and it fuses chains of lightweight kernels such as normalization, scaling, and activation automatically.',
     'Safetensors is a storage format for an engine to load, and no engine supports this architecture.',
     'Reference sample code shows a model interface. It is not built for faster production serving.',
     'DeepGEMM supplies matrix multiplication kernels. It does nothing for a chain of elementwise operations.',
@@ -112,7 +125,7 @@
 
 <MultipleChoice
   id="q7_engine_split"
-  question="A trading firm serves one mature, well-supported model on H100 GPUs, where every millisecond of latency counts, and its engineers can tune a complex engine. A separate research group wants to try each new open model on its release day using a few spare GPUs. Which engine plan fits both workloads?"
+  question="A trading firm serves one model whose architecture has been public for two years. It runs on an NVIDIA-only fleet, every millisecond of latency counts, and the firm employs two engineers who maintain custom GPU kernels. A separate research group wants to try each new open model on its release day using a few spare GPUs. Which engine plan fits both workloads?"
   options={[
     'TensorRT-LLM for both workloads',
     'TensorRT-LLM for production, vLLM for research trials',
@@ -130,19 +143,19 @@
 
 <MultipleChoice
   id="q8_engine_stay"
-  question="A three-person team serves a well-supported model with vLLM on H100 GPUs. A production-shaped benchmark at peak load shows P90 time to first token of 210 ms against a 400 ms target. A manager proposes migrating to TensorRT-LLM because it performs best. Which evaluation is sound?"
+  question="A four-person team serves a well-supported model with SGLang on H200 GPUs. A production-shaped benchmark at peak load shows P90 time to first token of 160 ms against a 300 ms target. A manager proposes migrating to TensorRT-LLM because it performs best. Which evaluation is sound?"
   options={[
-    'Add NVIDIA Dynamo in front of vLLM before deciding',
-    'Keep vLLM, because it already meets the goal with headroom',
-    'Migrate to SGLang, because it is easier than TensorRT-LLM',
+    'Add NVIDIA Dynamo in front of SGLang before deciding',
+    'Keep SGLang, because it meets the goal with headroom',
     'Migrate to TensorRT-LLM, because a faster engine lowers cost',
+    'Migrate to vLLM, because it supports more model architectures',
   ]}
   correct={1}
   optionFeedback={[
     'Dynamo adds orchestration for large deployments. It does not answer whether a migration is worth its cost here.',
     'Correct. The requirement is met with headroom, and a small team would spend scarce effort on the hardest engine for a gain the product does not need.',
-    'Nothing in the scenario calls for a change of engine. Switching costs effort without solving a problem.',
     'TensorRT-LLM usually performs best, but its steeper learning curve is a real cost. Performance beyond the target does not justify it here.',
+    'The model is already well supported. Breadth of model support solves no problem this team has.',
   ]}
 />
 

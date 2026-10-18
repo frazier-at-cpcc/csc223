@@ -39,9 +39,11 @@ Total response time        = 400 ms + 7,475 ms = 7,875 ms, about 7.9 seconds</co
     A chat user sees the first words after 0.4 seconds and reads while the rest arrives.
     An agent that needs the whole reply waits the full 7.9 seconds, so for the agent the ITL matters far more than the TTFT.
   </p>
+  <p>The same formula runs backward. A load test records a total response time of 2,600 ms for a 101-token reply with an ITL of 20 ms.</p>
+  <pre class="ie-steps"><code>TTFT = 2,600 ms − (101 − 1) × 20 ms = 2,600 − 2,000 = 600 ms</code></pre>
 </Signal>
 
-<h2>Complete the last step</h2>
+<h2>Faded example: a tool-call response time</h2>
 
 <p>A tool call returns 120 tokens. Its TTFT is 250 milliseconds, and the stream runs at a perceived TPS of 50. The first steps are done for you.</p>
 
@@ -60,7 +62,7 @@ Total response time = 250 ms + 2,380 ms = ?</code></pre>
   incorrectFeedback="Add the TTFT to the streaming time: 250 ms + 2,380 ms = 2,630 ms."
 />
 
-<h2>Practice</h2>
+<h2>Practice: total response time and TTFT</h2>
 
 <NumericQuestion
   id="resp_practice_1"

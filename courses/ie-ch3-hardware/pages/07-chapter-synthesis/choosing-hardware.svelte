@@ -4,7 +4,7 @@
 
 <script>
   import { scrollable } from '$shared/scrollable.js';
-  import { MultipleChoice, RevealModal } from 'tessera-learn';
+  import { Accordion, AccordionItem, MultipleChoice, RevealModal } from 'tessera-learn';
   import Signal from '$shared/Signal.svelte';
   import Term from '$shared/Term.svelte';
   import NumericQuestion from '$shared/NumericQuestion.svelte';
@@ -51,97 +51,103 @@
   </div>
 </Signal>
 
-<h2>Case 1: a decode-heavy chat service with a 70-billion-parameter model</h2>
-<Signal kind="worked" title="70B chat model in FP8, about 16 concurrent conversations per replica">
-  <ol class="ie-steps">
-    <li>
-      <strong>Target.</strong> A public chat product needs elastic capacity, so it runs on cloud datacenter GPUs.
-    </li>
-    <li>
-      <strong>Memory.</strong> 70 billion × 1 byte = 70 GB of <Term id="weights">weights</Term>. The
-      <Term id="memory-planning-factor">planning factor</Term> gives 1.5 × 70 = 105 GB. One 80 GB <Term id="h100">H100</Term> is too
-      small. One 141 GB H200 fits, and so do two H100s with 160 GB together.
-    </li>
-    <li>
-      <strong>Bottleneck.</strong> <Term id="decode">Decode</Term> at a batch of 16 in FP8 has an arithmetic intensity of about 32, far below
-      the H200's <Term id="ops-byte-ratio">ops:byte ratio</Term> of about 412. The service is <Term id="memory-bound">memory-bound</Term>, so
-      bandwidth sets its speed. One H200 streams 4.8 TB/s, a ceiling of about 69 decode steps per second for 70 GB
-      of weights.
-    </li>
-    <li>
-      <strong>Interconnect.</strong> One H200 needs no GPU-to-GPU traffic. Two H100s need
-      <Term id="tensor-parallelism">tensor parallelism</Term> over NVLink, so they must be <Term id="sxm">SXM</Term> GPUs in one node.
-      Together they stream 6.7 TB/s, a higher ceiling of about 96 steps per second, but each GPU contributes less
-      and the pair communicates on every layer.
-    </li>
-    <li>
-      <strong>Generation.</strong> Hopper supports FP8. A <Term id="b200">B200</Term> would add bandwidth, at 8 TB/s, at a higher price.
-    </li>
-  </ol>
-  <p>
-    <strong>Decision.</strong> Serve each replica on one H200 for the most tokens per GPU, or on two SXM H100s when
-    the lowest per-request <Term id="latency">latency</Term> matters more. Benchmark a B200 before scaling up.
-  </p>
-</Signal>
+<h2>Three worked cases</h2>
+<p>Open each case to follow the decision sequence one step at a time.</p>
 
-<h2>Case 2: a small embedding model with modest traffic</h2>
-<Signal kind="worked" title="0.6-billion-parameter embedding model in FP16 for a search feature">
-  <ol class="ie-steps">
-    <li>
-      <strong>Target.</strong> The search feature already runs in the cloud, so the model runs there too.
-    </li>
-    <li>
-      <strong>Memory.</strong> 0.6 billion × 2 bytes = 1.2 GB of weights, and 1.5 × 1.2 = 1.8 GB minimum. Any
-      datacenter GPU holds it many times over.
-    </li>
-    <li>
-      <strong>Bottleneck.</strong> An <Term id="embedding-model">embedding model</Term> runs one <Term id="forward-pass">forward pass</Term> over
-      each input, like <Term id="prefill">prefill</Term>, so batches of inputs are <Term id="compute-bound">compute-bound</Term>. At modest traffic, a full H100 would sit
-      mostly idle.
-    </li>
-    <li>
-      <strong>Interconnect.</strong> One small GPU slice suffices, so no link matters.
-    </li>
-    <li>
-      <strong>Generation.</strong> A <Term id="mig">MIG</Term> slice of an H100 or a small Lovelace GPU such as the
-      L4 both support the FP16 or FP8 this model needs.
-    </li>
-  </ol>
-  <p>
-    <strong>Decision.</strong> Serve the model on a 1g.10gb MIG slice of an H100, which gives one seventh of the
-    GPU's compute and 10 GB of memory, so seven such services can share one GPU. Choose an L4 if the provider does
-    not sell MIG <Term id="instance">instances</Term>.
-  </p>
-</Signal>
-
-<h2>Case 3: an offline translation feature in a mobile app</h2>
-<Signal kind="worked" title="On-device translation for travelers without a data connection">
-  <ol class="ie-steps">
-    <li>
-      <strong>Target.</strong> The feature must work on airplanes and abroad without data, and travelers'
-      conversations should stay private. Both requirements point to
-      <Term id="local-inference">local inference</Term> on the phone.
-    </li>
-    <li>
-      <strong>Memory.</strong> Phones struggle with models above a few billion parameters. A 1-billion-parameter
-      translation model <Term id="quantization">quantized</Term> to 4 bits needs 1 × 0.5 = 0.5 GB of weights and about 0.75 GB with the planning
-      factor, which a median phone can spare.
-    </li>
-    <li>
-      <strong>Bottleneck.</strong> On-device decode is memory-bound, and phone memory is far slower than <Term id="hbm">HBM</Term>. A
-      smaller model streams fewer bytes per token, so it translates faster and drains less battery.
-    </li>
-    <li><strong>Interconnect.</strong> The model runs on one device, so no link matters.</li>
-    <li>
-      <strong>Generation.</strong> The team targets the median device, not the newest flagship, because most
-      travelers carry older phones.
-    </li>
-  </ol>
-  <p>
-    <strong>Decision.</strong> Ship a small quantized translation model on the device through the platform's
-    on-device AI framework, and test it on older phones before release.
-  </p>
-</Signal>
+<Accordion>
+  <AccordionItem title="Case 1: a decode-heavy chat service with a 70-billion-parameter model">
+  <Signal kind="worked" title="70B chat model in FP8, about 16 concurrent conversations per replica">
+    <ol class="ie-steps">
+      <li>
+        <strong>Target.</strong> A public chat product needs elastic capacity, so it runs on cloud datacenter GPUs.
+      </li>
+      <li>
+        <strong>Memory.</strong> 70 billion × 1 byte = 70 GB of <Term id="weights">weights</Term>. The
+        <Term id="memory-planning-factor">planning factor</Term> gives 1.5 × 70 = 105 GB. One 80 GB <Term id="h100">H100</Term> is too
+        small. One 141 GB H200 fits, and so do two H100s with 160 GB together.
+      </li>
+      <li>
+        <strong>Bottleneck.</strong> <Term id="decode">Decode</Term> at a batch of 16 in FP8 has an arithmetic intensity of about 32, far below
+        the H200's <Term id="ops-byte-ratio">ops:byte ratio</Term> of about 412. The service is <Term id="memory-bound">memory-bound</Term>, so
+        bandwidth sets its speed. One H200 streams 4.8 TB/s, a ceiling of about 69 decode steps per second for 70 GB
+        of weights.
+      </li>
+      <li>
+        <strong>Interconnect.</strong> One H200 needs no GPU-to-GPU traffic. Two H100s need
+        <Term id="tensor-parallelism">tensor parallelism</Term> over NVLink, so they must be <Term id="sxm">SXM</Term> GPUs in one node.
+        Together they stream 6.7 TB/s, a higher ceiling of about 96 steps per second, but each GPU contributes less
+        and the pair communicates on every layer.
+      </li>
+      <li>
+        <strong>Generation.</strong> Hopper supports FP8. A <Term id="b200">B200</Term> would add bandwidth, at 8 TB/s, at a higher price.
+      </li>
+    </ol>
+    <p>
+      <strong>Decision.</strong> Serve each replica on one H200 for the most tokens per GPU, or on two SXM H100s when
+      the lowest per-request <Term id="latency">latency</Term> matters more. Benchmark a B200 before scaling up.
+    </p>
+  </Signal>
+  </AccordionItem>
+  <AccordionItem title="Case 2: a small embedding model with modest traffic">
+  <Signal kind="worked" title="0.6-billion-parameter embedding model in FP16 for a search feature">
+    <ol class="ie-steps">
+      <li>
+        <strong>Target.</strong> The search feature already runs in the cloud, so the model runs there too.
+      </li>
+      <li>
+        <strong>Memory.</strong> 0.6 billion × 2 bytes = 1.2 GB of weights, and 1.5 × 1.2 = 1.8 GB minimum. Any
+        datacenter GPU holds it many times over.
+      </li>
+      <li>
+        <strong>Bottleneck.</strong> An <Term id="embedding-model">embedding model</Term> runs one <Term id="forward-pass">forward pass</Term> over
+        each input, like <Term id="prefill">prefill</Term>, so batches of inputs are <Term id="compute-bound">compute-bound</Term>. At modest traffic, a full H100 would sit
+        mostly idle.
+      </li>
+      <li>
+        <strong>Interconnect.</strong> One small GPU slice suffices, so no link matters.
+      </li>
+      <li>
+        <strong>Generation.</strong> Both a <Term id="mig">MIG</Term> slice of an H100 and a small Lovelace GPU such as
+        the L4 support the FP16 or FP8 that this model needs.
+      </li>
+    </ol>
+    <p>
+      <strong>Decision.</strong> Serve the model on a 1g.10gb MIG slice of an H100, which gives one seventh of the
+      GPU's compute and 10 GB of memory, so seven such services can share one GPU. Choose an L4 if the provider does
+      not sell MIG <Term id="instance">instances</Term>.
+    </p>
+  </Signal>
+  </AccordionItem>
+  <AccordionItem title="Case 3: an offline translation feature in a mobile app">
+  <Signal kind="worked" title="On-device translation for travelers without a data connection">
+    <ol class="ie-steps">
+      <li>
+        <strong>Target.</strong> The feature must work on airplanes and abroad without data, and travelers'
+        conversations should stay private. Both requirements point to
+        <Term id="local-inference">local inference</Term> on the phone.
+      </li>
+      <li>
+        <strong>Memory.</strong> Phones struggle with models above a few billion parameters. A 1-billion-parameter
+        translation model <Term id="quantization">quantized</Term> to 4 bits needs 1 × 0.5 = 0.5 GB of weights and about 0.75 GB with the planning
+        factor, which a median phone can spare.
+      </li>
+      <li>
+        <strong>Bottleneck.</strong> On-device decode is memory-bound, and phone memory is far slower than <Term id="hbm">HBM</Term>. A
+        smaller model streams fewer bytes per token, so it translates faster and drains less battery.
+      </li>
+      <li><strong>Interconnect.</strong> The model runs on one device, so no link matters.</li>
+      <li>
+        <strong>Generation.</strong> The team targets the median device, not the newest flagship, because most
+        travelers carry older phones.
+      </li>
+    </ol>
+    <p>
+      <strong>Decision.</strong> Ship a small quantized translation model on the device through the platform's
+      on-device AI framework, and test it on older phones before release.
+    </p>
+  </Signal>
+  </AccordionItem>
+</Accordion>
 
 <h2>Case 4: your turn, a 405-billion-parameter research assistant</h2>
 <p>

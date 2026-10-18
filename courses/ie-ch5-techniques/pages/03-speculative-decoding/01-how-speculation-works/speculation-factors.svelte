@@ -16,7 +16,7 @@
 <ol>
   <li><strong>Draft token cost</strong> is the time required to generate one draft token, as a fraction of one target step.</li>
   <li><strong>Draft sequence length</strong>, k, is the number of draft tokens proposed before each target pass.</li>
-  <li><strong>Acceptance rate</strong>, α, is the probability that each draft token is accepted.</li>
+  <li>The acceptance rate, α, is the probability that the target model accepts a draft token, given that every earlier draft was accepted.</li>
 </ol>
 <p>
   Speedup equals the expected tokens per pass divided by the cost of one speculation step. That cost is k drafts at

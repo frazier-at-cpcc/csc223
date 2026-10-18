@@ -29,7 +29,7 @@
   <li>Less data moves from <Term id="vram">VRAM</Term> to the compute units on each forward pass, which speeds up decode.</li>
   <li>
     GPUs with native support for a lower-precision format perform more operations per second in that format. As of October
-    2026, NVIDIA GPUs support FP8 natively from the Hopper generation onward and FP4 from the Blackwell generation onward.
+    2026, NVIDIA GPUs support FP8 natively from the Hopper and Ada Lovelace generations onward, and FP4 from the Blackwell generation onward.
     Chapter 3 covers these generations.
   </li>
 </ul>

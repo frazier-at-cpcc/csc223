@@ -1,0 +1,11 @@
+An H100 and an H200 have the same compute. The H200 still generates chat tokens faster. The reason is the bottleneck in decode.
+
+A GPU has two main resources. Compute is how many operations it performs per second. Memory bandwidth is how many bytes per second it moves from VRAM to its compute units.
+
+Decode produces one token per forward pass. Each pass reads every model weight from VRAM. For each sequence, those weights feed only a small vector-matrix multiplication. At low to medium batch sizes, the compute units finish that math long before the next weights arrive. Then they wait.
+
+Arithmetic intensity measures this: operations performed per byte moved. An H100 in FP16 can perform about 295 operations per byte. Decode performs far fewer, so it sits under the bandwidth ceiling.
+
+That is why the H200 wins. It moves about 43 percent more bytes per second. Batching helps too, because one read of the weights then serves many requests.
+
+Pause and predict. GPU A has twice the compute of GPU B. GPU B has twice the bandwidth. You serve chat to a few users at a time. Which GPU generates more tokens per second?

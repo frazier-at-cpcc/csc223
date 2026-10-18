@@ -32,8 +32,9 @@ Intensity  = 1 operation per byte</code></pre>
   <p>
     The activations add only 2 × b × d bytes, which is negligible while b is far smaller than d. At batch size 1,
     the intensity of 1 is far below 295, so the layer is memory bound. Every request in a batch shares one read of
-    the weights, so the intensity equals the batch size. Decode stays memory bound on an H100 until the batch
-    reaches about 295 requests. This calculation proves the batching claim from Lesson 1.
+    the weights, so the intensity equals the batch size. The linear layers stay memory bound on an H100 until the
+    batch reaches about 295 requests. The next calculation shows that decode attention does not improve with
+    batching. This calculation proves the batching claim from Lesson 1.
   </p>
 </Signal>
 
@@ -60,6 +61,11 @@ Intensity = 2,109,440 / 2,097,664 ≈ 1 operation per byte</code></pre>
     Decode attention reads every cached key and value once and does about one operation with each byte. Batching
     does not raise this intensity, because each request reads its own <Term id="kv-cache">KV cache</Term>. Both operations of a decode step
     sit far below the ridge point, so decode is memory bound.
+  </p>
+  <p>
+    This calculation gives each query head its own key and value head. Most current LLMs use grouped-query
+    attention, in which several query heads share one KV head, so decode attention reaches an intensity near the
+    group size, often 4 to 16. That is still far below the ridge.
   </p>
 </Signal>
 

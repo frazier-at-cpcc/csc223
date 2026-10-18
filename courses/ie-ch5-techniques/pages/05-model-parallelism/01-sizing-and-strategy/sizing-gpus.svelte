@@ -4,7 +4,6 @@
 
 <script>
   import Figure from '../../../components/Figure.svelte';
-  import MemoryFit from '$shared/sims/MemoryFit.svelte';
   import NumericQuestion from '$shared/NumericQuestion.svelte';
   import Signal from '$shared/Signal.svelte';
   import Term from '$shared/Term.svelte';
@@ -48,6 +47,11 @@
 </p>
 <p class="ie-formula">required VRAM = bytes per parameter × parameters (billions) × planning factor</p>
 <p>Round the result up to the next available instance size to find the minimum GPU count.</p>
+<p>
+  <Term id="tensor-parallelism">Tensor Parallelism</Term> adds one constraint. It splits the model's KV heads across
+  GPUs, so the GPU count must divide the KV head count evenly or be a multiple of it. A model with 8 KV heads can run
+  on 1, 2, 4, 8, or 16 GPUs, but not on 6.
+</p>
 
 <Figure
   number="5.11"
@@ -94,54 +98,4 @@ round_up(vram_required, b200_vram_available)
   unit="GPUs"
   correctFeedback="Correct. 432 GB exceeds the 320 GB of four H100s, so the next instance, 640 GB, needs eight GPUs."
   incorrectFeedback="Round 432 GB up to the next instance size. Four H100s give only 320 GB, so the deployment needs the 640 GB instance, which has eight GPUs."
-/>
-
-<h2>Practice: minimum GPU count</h2>
-<NumericQuestion
-  id="size_practice_1"
-  question="A 90-billion-parameter model is served in FP8 on H100 GPUs at a planning factor of 1.8. Instances offer 80, 160, 320, or 640 GB with 1, 2, 4, or 8 GPUs. What is the minimum number of GPUs?"
-  answer={4}
-  unit="GPUs"
-  correctFeedback="Correct. 1 × 90 × 1.8 = 162 GB, which is slightly above 160 GB, so the deployment needs the 320 GB instance with four GPUs."
-  incorrectFeedback="Required VRAM is 1 byte × 90 × 1.8 = 162 GB. The 160 GB instance falls 2 GB short, so round up to 320 GB, which is four H100 GPUs."
-/>
-
-<NumericQuestion
-  id="size_practice_2"
-  question="A 300-billion-parameter model is served in FP4 on B200 GPUs at a planning factor of 1.8. Instances offer 180, 360, 720, or 1,440 GB with 1, 2, 4, or 8 GPUs. What is the minimum number of GPUs?"
-  answer={2}
-  unit="GPUs"
-  correctFeedback="Correct. FP4 uses half a byte per parameter, so 0.5 × 300 × 1.8 = 270 GB, which rounds up to the 360 GB instance with two GPUs."
-  incorrectFeedback="FP4 stores each parameter in half a byte. Required VRAM is 0.5 × 300 × 1.8 = 270 GB. That exceeds 180 GB, so round up to 360 GB, which is two B200 GPUs."
-/>
-
-<Signal kind="try" title="Size a deployment in the calculator">
-  <ol>
-    <li>Select the "405B in FP8 on B200s, long context" scenario. Record the minimum GPU count that the summary reports at a planning factor of 1.8.</li>
-    <li>Lower the planning factor to 1.5 and record the new minimum GPU count. Explain why Chapter 3's floor is too low for this long-context workload.</li>
-    <li>Return the factor to 1.8. Raise the concurrent sequences until the verdict changes from "Fits with headroom", and record that sequence count.</li>
-  </ol>
-</Signal>
-
-<MemoryFit
-  headingLevel={2}
-  title="GPU memory calculator"
-  model="llama-70b"
-  weightPrecision="fp8"
-  kvPrecision="fp8"
-  context={8192}
-  sequences={16}
-  gpu="h100"
-  gpuCount={2}
-  planningFactor={1.8}
-/>
-
-<h2>Calculator practice: concurrent sequences</h2>
-<NumericQuestion
-  id="size_sim_1"
-  question="Select the 405B in FP8 on B200s, long context scenario, then set the context length to 32,768 tokens. What maximum number of concurrent sequences does the summary report?"
-  answer={105}
-  unit="sequences"
-  correctFeedback="Correct. Eight B200s each keep about 111 GB for the KV cache after weights and overhead, and one 32,768-token sequence takes about 1.06 GB per GPU, so 105 sequences fit."
-  incorrectFeedback="Load the scenario, then move the context length slider to 32,768 tokens. The summary reports 105 concurrent sequences: about 111 GB of KV room per GPU divided by about 1.06 GB per sequence."
 />

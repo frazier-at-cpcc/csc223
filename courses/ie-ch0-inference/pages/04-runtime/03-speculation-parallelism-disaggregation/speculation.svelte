@@ -5,8 +5,6 @@
 <script>
   import Term from '$shared/Term.svelte';
   import Signal from '$shared/Signal.svelte';
-  import NumericQuestion from '$shared/NumericQuestion.svelte';
-  import SpeculationSimulator from '$shared/sims/SpeculationSimulator.svelte';
   import SpeculationDiagram from '../../../components/SpeculationDiagram.svelte';
 </script>
 
@@ -34,7 +32,7 @@
 <h2>The Acceptance Rule</h2>
 
 <ul>
-  <li>The target model accepts drafts from left to right while each draft matches its own prediction.</li>
+  <li>With greedy decoding, the target model accepts drafts from left to right while each draft matches its own prediction. Chapter 5 extends the rule to sampled output.</li>
   <li>The first draft that does not match is rejected.</li>
   <li>Every draft after a rejection is discarded, because it was built on a wrong token.</li>
   <li>
@@ -75,48 +73,7 @@
   </p>
 </Signal>
 
-<h2>Exploring Speculation</h2>
-
-<Signal kind="try" title="Measure what speculation gains">
-  <ol>
-    <li>
-      Select &ldquo;Predictable text (high acceptance)&rdquo;, then select &ldquo;Run 10 steps&rdquo;. Record the tokens per
-      pass so far and compare them with the expected tokens per pass.
-    </li>
-    <li>
-      Select &ldquo;Creative text (low acceptance)&rdquo;. Record the estimated speedup and explain why it is lower than in
-      the first scenario.
-    </li>
-    <li>
-      Select &ldquo;Draft too long&rdquo;. Read the best draft length in the status text, set the draft length slider to that
-      value, and record the new speedup.
-    </li>
-  </ol>
-</Signal>
-
-<SpeculationSimulator title="Speculative Decoding Simulator" headingLevel={3} />
-
-<h2>Practice with the Simulation</h2>
-
-<p>Answer each item by running the named scenario. Practice items support Objective 6.</p>
-
-<NumericQuestion
-  id="sim_spec_bestk"
-  question="Load the Draft too long scenario. Which draft length k gives the highest estimated speedup?"
-  answer={3}
-  unit="tokens"
-  correctFeedback="Correct. At an acceptance rate of 0.6, drafts beyond the third are usually discarded, so their drafting cost outweighs their gain."
-  incorrectFeedback="The status text names the best draft length: k = 3, at about 1.67 times. Longer drafts add drafting cost, but at an acceptance rate of 0.6 the later drafts are rarely accepted."
-/>
-
-<NumericQuestion
-  id="sim_spec_creative"
-  question="Load the Creative text scenario. What estimated speedup over plain decode does the simulator report? Give the value to two decimal places."
-  answer={1.37}
-  tolerance={0.01}
-  unit="times"
-  correctFeedback="Correct. With an acceptance rate of 0.4, one pass yields about 1.65 tokens and costs 1.2 target steps."
-  incorrectFeedback="The simulator reports about 1.37 times. At an acceptance rate of 0.4, most passes stop at the first or second draft, so one pass yields about 1.65 tokens for a cost of 1.2 target steps."
-/>
-
-<p>Chapter 5 covers draft models, acceptance rates, and when speculation stops paying off.</p>
+<p>
+  The next page measures how the <Term id="acceptance-rate">acceptance rate</Term> and the draft length set the speedup that
+  speculation delivers.
+</p>

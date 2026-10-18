@@ -43,7 +43,7 @@
 <p class="ie-objective">Practices objective 2: configure autoscaling parameters</p>
 <MultipleChoice
   id="kc_af_flash"
-  question="A news app sees flash spikes that last about 3 minutes. The autoscaling window is 10 minutes, and new replicas take 1 minute to start. Replicas usually come online as each spike ends. Which change lets capacity arrive during the spike?"
+  question="A news app sees flash spikes that last about 3 minutes. The autoscaling window is 10 minutes, and new replicas take 1 minute to start. Replicas usually come online as each spike ends. Which change lets capacity arrive during the spike at the lowest cost?"
   options={[
     'Lower the concurrency target to half the batch size.',
     'Raise min replicas until it covers the spike peak.',

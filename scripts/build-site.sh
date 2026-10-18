@@ -4,6 +4,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 node scripts/check-terms.mjs
 for check in shared/sims/*.check.mjs; do node "$check"; done
+node scripts/audit-quizzes.mjs
 rm -rf _site && mkdir -p _site
 cp site/index.html _site/
 for dir in courses/ie-ch*/; do

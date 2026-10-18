@@ -18,8 +18,8 @@
 <h2>Tokens</h2>
 
 <p>
-  A <strong>token</strong> is the atomic unit of a language model: an integer that represents a chunk
-  of text. Modern LLMs use <strong>subword tokenization</strong>. Each token is a whole word or a
+  Chapter 0 defined a <Term id="token">token</Term> as an integer that stands for a short string of text. This
+  page shows how a tokenizer produces those integers. Modern LLMs use <strong>subword tokenization</strong>. Each token is a whole word or a
   fraction of a word. In English, most tokenizers produce about four tokens for every three words.
 </p>
 
@@ -37,6 +37,13 @@
   Converting text into tokens, and tokens back into text, requires no neural network. A
   <strong>tokenizer</strong> is a deterministic mapping between strings and their numerical token
   representation.
+</p>
+
+<p>
+  A tokenizer builds its vocabulary before the model is trained. Byte-pair encoding, the most common method,
+  starts from single bytes and repeatedly merges the most frequent adjacent pair in a training corpus into a new
+  token until the vocabulary reaches its target size. Frequent words therefore become single tokens, and rare
+  words stay split into pieces.
 </p>
 
 <p>

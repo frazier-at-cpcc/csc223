@@ -9,7 +9,7 @@
 <h1>Knowledge Check: Image Generation Model Architecture</h1>
 
 <p>
-  These questions are ungraded. The first practices objective 3, interpreting a model's architecture. The
+  These questions are ungraded. The first sorts image denoisers by architecture, which prepares the selection decisions of objective 7. The
   second practices objective 7, selecting an image model under cost constraints. Retry them as often as you
   like.
 </p>

@@ -5,6 +5,7 @@
 <script>
   import Term from '$shared/Term.svelte';
   import Signal from '$shared/Signal.svelte';
+  import NumericQuestion from '$shared/NumericQuestion.svelte';
 </script>
 
 <h1>Parameters and Weights</h1>
@@ -70,6 +71,23 @@
     The weights alone occupy 16 GB. Stored in FP8, the same model needs 8 GB, because each parameter takes 1 byte instead of
     2.
   </p>
+</Signal>
+
+<Signal kind="worked" title="Faded example: a 70-billion-parameter model in FP16">
+  <p>The first two steps are complete. Complete the final step.</p>
+  <ol>
+    <li>Parameter count: 70 billion, or 70 × 10<sup>9</sup>.</li>
+    <li>Bytes per parameter: FP16 uses 2 bytes.</li>
+    <li>Multiply and convert to GB.</li>
+  </ol>
+  <NumericQuestion
+    id="faded_weight_70b"
+    question="How many gigabytes do the weights of this 70-billion-parameter FP16 model occupy?"
+    answer={140}
+    unit="GB"
+    correctFeedback="Correct. 70 × 10^9 × 2 bytes = 140 × 10^9 bytes, or 140 GB."
+    incorrectFeedback="Multiply 70 × 10^9 parameters by 2 bytes to get 140 × 10^9 bytes, which is 140 GB. A common slip is to forget the 2 bytes and answer 70."
+  />
 </Signal>
 
 <p>

@@ -23,8 +23,7 @@
 </ul>
 
 <p>
-  A token is the unit of text that a model reads and writes, about three-quarters of an English word on average.
-  Chapter 2 explains how text becomes tokens.
+  A token, from Chapter 0, is the unit of text that a model reads and writes, about three-quarters of an English word on average.
 </p>
 
 <h2>Shared versus dedicated is not open versus closed</h2>

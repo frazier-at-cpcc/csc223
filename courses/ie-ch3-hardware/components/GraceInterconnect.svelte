@@ -4,7 +4,7 @@
 </script>
 
 <Figure
-  caption="Figure 3.3: Grace CPUs have a higher-bandwidth interconnect to the GPU than standard CPUs do."
+  caption="Figure 3.4: Grace CPUs have a higher-bandwidth interconnect to the GPU than standard CPUs do."
   description="Two CPU-to-GPU pairs are stacked. In the top pair, a standard CPU connects to a GPU through two thin lines that represent a PCIe Gen5 link with 16 lanes, about 128 GB/s counting both directions. In the bottom pair, a Grace CPU connects to a GPU through ten lines that represent NVLink Chip to Chip, up to 900 GB/s counting both directions. The larger number of lines shows the roughly seven-times-higher bandwidth of the Grace connection."
 >
   <svg viewBox="0 0 640 310" role="img" aria-labelledby="grace-title">

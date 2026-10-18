@@ -10,7 +10,7 @@
 
 <h1>GPU-Hours and Total Cost of Ownership</h1>
 
-<h2>A Long Time Horizon</h2>
+<h2>The Estimation Period</h2>
 <p>
   Usage varies from hour to hour and day to day. Base cost estimates on a long time horizon, at least a week and
   ideally a month, to smooth out those variations. This chapter uses one month, which averages 8,760 hours ÷ 12 = 730
@@ -88,25 +88,3 @@
     needed GPU-hours with the floor and bill the larger of the two.
   </p>
 </Signal>
-
-<p class="ie-objective">Practices objective 8: calculate monthly total cost of ownership</p>
-<NumericQuestion
-  id="pr_tco_full"
-  question="A deployment must produce 600 million output tokens per month. One replica uses 1 GPU and produces 250 output tokens per second at the latency target. Utilization is planned at 60 percent, min replicas is 1, GPUs cost $2.00 per GPU-hour, and engineering costs $1,500 per month. What is the monthly dedicated TCO, in dollars?"
-  answer={3722.22}
-  tolerancePct={1}
-  unit="dollars"
-  correctFeedback="Correct. Effective tokens per replica-hour are 250 × 3,600 × 0.60 = 540,000. GPU-hours needed are 600,000,000 ÷ 540,000 = 1,111.1, above the 730-hour floor. GPU cost is 1,111.1 × $2.00 = $2,222, and TCO is $2,222 + $1,500 = $3,722."
-  incorrectFeedback="Work the four steps. Effective tokens per replica-hour: 250 × 3,600 × 0.60 = 540,000. GPU-hours needed: 600,000,000 ÷ 540,000 × 1 = 1,111.1. Floor: 1 × 1 × 730 = 730, so bill 1,111.1. GPU cost: 1,111.1 × $2.00 = $2,222.22. TCO: $2,222.22 + $1,500 = $3,722.22."
-/>
-
-<p class="ie-objective">Practices objective 8: calculate monthly total cost of ownership</p>
-<NumericQuestion
-  id="pr_tco_compare"
-  question="A small product uses 400 million input and 200 million output tokens per month. An API charges $0.60 per million input tokens and $2.40 per million output tokens. A dedicated option would use replicas of 2 GPUs at 400 output tokens per second, planned at 70 percent utilization, with min replicas of 2, $3.00 per GPU-hour, and $1,000 per month of engineering. By how many dollars per month is the cheaper option cheaper?"
-  answer={9040}
-  tolerancePct={1}
-  unit="dollars"
-  correctFeedback="Correct. The API costs 400 × $0.60 + 200 × $2.40 = $720. The dedicated deployment needs only 397 GPU-hours, but its floor is 2 × 2 × 730 = 2,920 GPU-hours, so it bills 2,920 × $3.00 = $8,760, plus $1,000 of engineering, for $9,760. The API is cheaper by $9,040."
-  incorrectFeedback="API: 400 × $0.60 + 200 × $2.40 = $240 + $480 = $720. Dedicated: effective tokens per replica-hour are 400 × 3,600 × 0.70 = 1,008,000, so needed GPU-hours are 200,000,000 ÷ 1,008,000 × 2 = 397. The floor is 2 × 2 × 730 = 2,920, which is larger, so the GPU cost is 2,920 × $3.00 = $8,760. TCO is $8,760 + $1,000 = $9,760. The difference is $9,760 − $720 = $9,040 in favor of the API."
-/>

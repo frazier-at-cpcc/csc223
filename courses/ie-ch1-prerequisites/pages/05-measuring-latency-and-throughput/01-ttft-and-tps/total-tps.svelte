@@ -37,7 +37,7 @@ Total TPS     = 50 users × 40 tokens per second = 2,000 tokens per second</code
   </p>
 </Signal>
 
-<h2>Complete the last step</h2>
+<h2>Faded example: total TPS from streams</h2>
 
 <p>A service streams to 24 concurrent users, and a load test at that concurrency shows each user receiving 45 tokens per second.</p>
 
@@ -55,7 +55,7 @@ Total TPS     = 50 users × 40 tokens per second = 2,000 tokens per second</code
   incorrectFeedback="Multiply the stream count by the per-stream rate: 24 × 45 = 1,080 tokens per second."
 />
 
-<h2>Practice</h2>
+<h2>Practice: total TPS and perceived TPS</h2>
 
 <NumericQuestion
   id="total_practice_1"

@@ -13,15 +13,15 @@
 
 <p>
   A <strong>cold start</strong> is the time it takes to bring a new <Term id="replica">replica</Term> of a model from nothing to its first
-  successful response. Chapter 1 used the term for scaling up from zero replicas. This chapter applies it to every new
-  replica, because the autoscaler pays the same startup cost whenever it adds capacity.
+  successful response. Chapter 1 introduced the term. The autoscaler pays this startup cost every time it adds capacity, so this lesson
+  divides it into stages.
 </p>
 <p>
   The performance of the whole <Term id="autoscaling">autoscaling</Term> system depends on cold start speed. A system that cannot add replicas
   quickly cannot scale down with confidence, so it keeps extra replicas running and over-provisions.
 </p>
 
-<h2>Four Stages</h2>
+<h2>Cold Start Stages</h2>
 <p>Four factors determine cold start time. Each one needs its own optimization.</p>
 <ol>
   <li><strong>GPU procurement:</strong> adding the necessary GPUs to the cluster and allocating them to the model.</li>

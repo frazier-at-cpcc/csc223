@@ -51,7 +51,7 @@
         <tr>
           <th scope="row">Dedicated bill exceeds the API bill</th>
           <td>Fewer always-on replicas; <Term id="scale-to-zero">scale to zero</Term> where users can wait; blended reserved and spot capacity; wait for the crossover volume</td>
-          <td><Term id="quantization">Quantization</Term> halves GPUs per replica (Chapter 5); right-sized GPUs from the planning factor (Chapter 3)</td>
+          <td>FP8 <Term id="quantization">quantization</Term> halves weight memory, which can halve GPUs per replica (Chapter 5); right-sized GPUs from the planning factor (Chapter 3)</td>
           <td>Billed GPU-hours fall toward needed GPU-hours</td>
         </tr>
         <tr>

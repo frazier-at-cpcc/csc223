@@ -16,6 +16,11 @@
   time to first token and inter-token latency that a user experiences.
 </p>
 
+<p>
+  The third scenario previews caching, which Section 04 teaches. When earlier requests have already processed the opening
+  tokens of a prompt, prefill reuses their keys and values and computes only the remaining tokens.
+</p>
+
 <Signal kind="try" title="Trace a request pass by pass">
   <ol>
     <li>
@@ -35,7 +40,7 @@
 
 <RequestTimeline title="One LLM Request, Pass by Pass" headingLevel={2} />
 
-<h2>Practice with the Simulation</h2>
+<h2>Practice: Tracing a Request</h2>
 
 <p>Answer each item by running the named scenario in the simulation. Practice items support Objective 1.</p>
 

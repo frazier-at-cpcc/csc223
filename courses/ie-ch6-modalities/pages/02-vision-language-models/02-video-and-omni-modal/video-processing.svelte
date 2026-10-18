@@ -40,7 +40,7 @@
   clips.
 </p>
 
-<h2>After tokenization</h2>
+<h2>Inference on a tokenized video</h2>
 
 <p>
   Once a video is tokenized and encoded, inference resembles image inference with a much longer

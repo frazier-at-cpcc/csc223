@@ -42,7 +42,7 @@
 <h2>Tracing a data path</h2>
 <p>
   Every transfer in an instance crosses at least one link, and the slowest link on the path sets its speed.
-  Weights loaded from disk pass through host memory and cross <Term id="pcie">PCIe</Term> into VRAM. Traffic
+  Weights loaded from disk pass through host memory and cross PCIe into VRAM. Traffic
   between GPUs in the same server crosses <Term id="nvlink" />. Traffic to another server leaves through a
   network interface. The next lesson measures each of these links.
 </p>

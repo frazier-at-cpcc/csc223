@@ -14,9 +14,9 @@
   March 2022, and the first <Term id="h100">H100</Term> <Term id="gpu">GPUs</Term> shipped later that year.
 </p>
 
-<div class="ie-table-wrap" role="region" aria-label="Hopper GPU specifications, SXM form factor, from NVIDIA datasheets" use:scrollable>
+<div class="ie-table-wrap" role="region" aria-label="Hopper GPU specifications, SXM form factor, from NVIDIA datasheets as of October 2026" use:scrollable>
   <table class="ie-table">
-    <caption>Hopper GPU specifications, SXM form factor, from NVIDIA datasheets</caption>
+    <caption>Hopper GPU specifications, SXM form factor, from NVIDIA datasheets as of October 2026</caption>
     <thead>
       <tr><th scope="col">GPU</th><th scope="col">FP8 compute (dense)</th><th scope="col">Memory</th><th scope="col">Bandwidth</th></tr>
     </thead>

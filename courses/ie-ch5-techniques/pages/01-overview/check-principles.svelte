@@ -30,7 +30,7 @@
 <Sorting
   id="kc_principles_2"
   question="Sort each technique by whether it can change the model's output."
-  items={['Quantization', 'Speculative decoding', 'Prefix caching', 'Tensor parallelism', 'Disaggregation']}
+  items={['Quantization', 'Speculative decoding with standard verification', 'Prefix caching', 'Tensor parallelism', 'Disaggregation']}
   targets={['Can change output quality', 'Lossless']}
   correct={[0, 1, 1, 1, 1]}
   correctFeedback="Correct. Only quantization changes the numbers the model computes with. The other four change where or when the model computes."

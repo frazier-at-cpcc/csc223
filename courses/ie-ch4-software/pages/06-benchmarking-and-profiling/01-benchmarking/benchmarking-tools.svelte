@@ -3,6 +3,7 @@
 </script>
 
 <script>
+  import { Callout } from 'tessera-learn';
   import { scrollable } from '$shared/scrollable.js';
   import Term from '$shared/Term.svelte';
 </script>
@@ -41,6 +42,14 @@
   </tbody>
 </table>
 </div>
+
+<Callout type="info">
+  <p>
+    NVIDIA released AIPerf in 2025 as the successor to GenAI-Perf. Both measure
+    latency and throughput from the client side, so the role in this table is the
+    same.
+  </p>
+</Callout>
 
 <p>
   <strong>Load testing</strong> sends sustained high traffic to a service to

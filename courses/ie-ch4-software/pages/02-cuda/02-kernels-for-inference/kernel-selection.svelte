@@ -30,7 +30,7 @@
 <p>That specialization cuts both ways:</p>
 
 <ul>
-  <li>Moving to a newer generation: a kernel written for an <Term id="h100" /> will likely run on a <Term id="b200" /> but fail to use its architecture and extra memory.</li>
+  <li>Moving to a newer generation: a kernel written in portable CUDA for an <Term id="h100" /> usually runs on a <Term id="b200" /> but fails to use its architecture and extra memory. A kernel built on Hopper-only instructions, as FlashAttention 3 is, does not run on Blackwell at all.</li>
   <li>Moving to an older generation: a kernel written for a B200 may not run at all on the previous-generation <Term id="hopper" /> architecture, because it relies on features that only <Term id="blackwell" /> has.</li>
 </ul>
 

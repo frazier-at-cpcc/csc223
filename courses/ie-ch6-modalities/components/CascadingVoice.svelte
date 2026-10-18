@@ -1,5 +1,5 @@
 <script>
-  // Figure 6.7: cascading multi-model voice pipeline.
+  // Figure 6.6: cascading multi-model voice pipeline.
   import Figure from './Figure.svelte';
   const uid = $props.id();
   const stages = ['VAD', 'ASR', 'LLM', 'TTS'];
@@ -8,7 +8,7 @@
     'A user speaks. The audio flows through four models in order: a voice activity detection (VAD) model, an automatic speech recognition (ASR) model, a large language model (LLM), and a text-to-speech (TTS) model. The TTS output returns to the user as speech, which closes the loop. Each arrow between models is a hand-off between separate models in the pipeline.';
 </script>
 
-<Figure number="6.7" caption="Most voice-based applications use a cascading approach with a multi-model pipeline." {description}>
+<Figure number="6.6" caption="Most voice-based applications use a cascading approach with a multi-model pipeline." {description}>
   <svg viewBox="0 0 680 200" role="img" aria-label="Cascading voice pipeline: user to VAD, ASR, LLM, TTS, and back to the user">
     <defs>
       <marker id="arrow-{uid}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">

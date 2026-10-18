@@ -15,7 +15,7 @@
   tooling layer does not appear in the figure. It sits on top of both and decides how engineers reach them.
 </p>
 
-<h2>Reading the Figure</h2>
+<h2>Layers of the Inference Stack</h2>
 
 <InferenceStack />
 
@@ -56,7 +56,7 @@
     <tr>
       <th scope="row">Routing and load balancing</th>
       <td>Infrastructure</td>
-      <td>Section 08, then Chapter 7 in depth</td>
+      <td>Section 05, then Chapter 7 in depth</td>
     </tr>
     <tr>
       <th scope="row">Autoscaling and multi-cloud capacity management</th>
@@ -66,7 +66,7 @@
     <tr>
       <th scope="row">GPUs, storage, and networking</th>
       <td>Infrastructure</td>
-      <td>Section 02, then Chapter 3 in depth and Chapter 7 for weight storage</td>
+      <td>Section 02 for GPUs and VRAM, then Chapter 3 in depth and Chapter 7 for storage and networking</td>
     </tr>
   </tbody>
 </table>

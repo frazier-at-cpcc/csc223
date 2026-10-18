@@ -1,5 +1,5 @@
 <script>
-  // Figure 6.10, redrawn as a mechanism: a video latent adds a time dimension, so the number of
+  // Figure 6.8, redrawn as a mechanism: a video latent adds a time dimension, so the number of
   // positions grows linearly with frames while attention pairs grow with the square of positions.
   import Figure from './Figure.svelte';
 
@@ -18,7 +18,7 @@
 </script>
 
 <Figure
-  number="6.10"
+  number="6.8"
   caption="Video generation models take text prompts and may take keyframes or other media. Their latent adds a time dimension, so attention pairs grow with the square of the number of positions. Grid sizes are illustrative."
   {description}
 >

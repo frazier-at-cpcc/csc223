@@ -3,11 +3,12 @@
 </script>
 
 <script>
+  import { Video } from 'tessera-learn';
+  import memoryBoundDecodeTranscript from '$assets/videos/memory-bound-decode.txt?raw';
   import { scrollable } from '$shared/scrollable.js';
   import Signal from '$shared/Signal.svelte';
   import Term from '$shared/Term.svelte';
   import NumericQuestion from '$shared/NumericQuestion.svelte';
-  import RooflineExplorer from '$shared/sims/RooflineExplorer.svelte';
 </script>
 
 <h1>Memory Bottlenecks on a Spec Sheet</h1>
@@ -20,6 +21,13 @@
     sets the pace.
   </p>
 </Signal>
+
+<h2>Video: Why Decode Is Memory-Bandwidth Bound</h2>
+<Video src="$assets/videos/memory-bound-decode.mp4" title="Why Decode Is Memory-Bandwidth Bound, explainer video" transcript={memoryBoundDecodeTranscript} />
+<details class="video-answer">
+  <summary>Check your answer to the question at the end of the video</summary>
+  <p>GPU B generates more tokens per second. Decode at small batch sizes is memory-bound, so bandwidth sets its speed, and extra compute sits idle.</p>
+</details>
 
 <h2>Calculating the ops:byte ratio from a spec sheet</h2>
 <p>
@@ -63,11 +71,6 @@
       batches raise decode intensity, so the H200 stops being memory-bound at a smaller batch than the H100.
     </li>
   </ol>
-  <p>
-    A quick ceiling follows from the same numbers. At a batch of 1, every step reads all the weights once, so
-    the step rate cannot exceed bandwidth divided by weight memory. A 70 GB FP8 model on an H200 runs at most
-    4,800 GB/s ÷ 70 GB ≈ 69 decode steps per second.
-  </p>
 </Signal>
 
 <p>
@@ -79,13 +82,13 @@
 <h2>Practice: ops:byte ratios</h2>
 <p class="ie-obj">Objective 5: Select the specification that relieves a bottleneck</p>
 <NumericQuestion
-  id="opsbyte_a100"
-  question="Calculate the dense FP16 ops:byte ratio of the A100 from its spec sheet: 312 teraFLOPS and 2.039 TB/s."
-  answer={153}
-  tolerance={2}
+  id="opsbyte_l40s"
+  question="Calculate the dense FP8 ops:byte ratio of the L40S from its spec sheet: 733 teraFLOPS and 864 GB/s."
+  answer={848}
+  tolerance={3}
   unit="FLOPs per byte"
-  correctFeedback="Correct. 312 ÷ 2.039 ≈ 153 FLOPs per byte. Decode at small batches still falls far below it."
-  incorrectFeedback="Divide compute by bandwidth with matching prefixes: 312 × 10^12 ÷ 2.039 × 10^12 ≈ 153 FLOPs per byte."
+  correctFeedback="Correct. 733 × 10^12 ÷ 0.864 × 10^12 ≈ 848 FLOPs per byte. The L40S has far more compute per byte of bandwidth than the H100, so decode at small batches leaves even more of its FLOPS idle."
+  incorrectFeedback="Convert both values to the same prefix first: 864 GB/s is 0.864 TB/s. Then 733 ÷ 0.864 ≈ 848 FLOPs per byte."
 />
 
 <p class="ie-obj">Objective 5: Select the specification that relieves a bottleneck</p>
@@ -98,54 +101,3 @@
   correctFeedback="Correct. 4,500 ÷ 8 ≈ 563 FLOPs per byte. The B200 adds compute and bandwidth in nearly the same proportion as the H100, so its ratio is similar."
   incorrectFeedback="Divide dense FP8 compute by bandwidth: 4,500 ÷ 8 = 562.5 FLOPs per byte."
 />
-
-<h2>Exploring the roofline across GPUs</h2>
-
-<Signal kind="try" title="Compare decode on the H100 and the H200">
-  <ol class="ie-steps">
-    <li>Load the scenario "Single-user decode on H100." Record the attainable TFLOPS and the percent of peak.</li>
-    <li>Change the GPU to the H200 at the same batch size of 1. Record the attainable TFLOPS and compare the ratio with the bandwidth ratio of 1.43.</li>
-    <li>
-      Return to the H100 and raise the batch size until the verdict reads "compute bound." Record that batch
-      size, then repeat on the H200.
-    </li>
-  </ol>
-</Signal>
-
-<RooflineExplorer gpu="h100" workload="decode" batch={1} headingLevel={2} />
-
-<p class="ie-obj">Objective 5: Select the specification that relieves a bottleneck (explorer task)</p>
-<NumericQuestion
-  id="roofline_sim"
-  question="In the explorer, choose the H200, the decode (linear layers) workload, a batch size of 64, and FP8 precision. What percent of peak compute does the explorer report?"
-  answer={31}
-  tolerance={1}
-  unit="percent"
-  correctFeedback="Correct. The H200 attains about 614 TFLOPS out of its FP8 peak of about 1,980 TFLOPS, or about 31 percent. Even a batch of 64 leaves decode memory-bound, so bandwidth still sets the speed."
-  incorrectFeedback="Set all four controls: H200, decode (linear layers), batch 64, and the FP8 checkbox. The status reports about 614 attainable TFLOPS, which is about 31 percent of the peak of about 1,980 TFLOPS."
-/>
-
-<h2>Matching the bottleneck to the specification</h2>
-<div class="ie-table-wrap" role="region" aria-label="Workload bottlenecks and the specification that relieves them" use:scrollable>
-  <table class="ie-table">
-    <caption>Workload bottlenecks and the specification that relieves them</caption>
-    <thead>
-      <tr><th scope="col">Workload</th><th scope="col">Bottleneck</th><th scope="col">Choose the GPU with more</th></tr>
-    </thead>
-    <tbody>
-      <tr><th scope="row">LLM prefill</th><td>Compute</td><td>Dense FLOPS at the serving precision</td></tr>
-      <tr><th scope="row">Image and video generation</th><td>Compute</td><td>Dense FLOPS at the serving precision</td></tr>
-      <tr><th scope="row">LLM decode, low to medium batch</th><td>Memory bandwidth</td><td>Memory bandwidth</td></tr>
-      <tr><th scope="row">LLM decode, batch above the ridge</th><td>Compute</td><td>Dense FLOPS at the serving precision</td></tr>
-      <tr><th scope="row">Large model or long context</th><td>Memory capacity</td><td>VRAM</td></tr>
-    </tbody>
-  </table>
-</div>
-
-<Signal kind="mistake" title="Choosing a decode GPU by FLOPS">
-  <p>
-    A higher FLOPS figure does not speed up decode at small batch sizes. Below the ridge point, the Tensor Cores
-    wait on memory, so a GPU with more FLOPS and the same bandwidth decodes at the same speed. Compare memory
-    bandwidth first, and compare FLOPS only when the batch is large enough to cross the ridge.
-  </p>
-</Signal>

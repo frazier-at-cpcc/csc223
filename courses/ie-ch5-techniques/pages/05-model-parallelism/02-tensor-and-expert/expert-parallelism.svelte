@@ -26,8 +26,9 @@
 
 <h2>Communication compared with TP</h2>
 <p>
-  The expert router, a small component of every <Term id="mixture-of-experts">MoE</Term> layer, decides which experts each token activates. Every GPU holds a full copy of it. GPUs still communicate to pass tokens from expert to expert. Unlike TP, EP does not need to collect the
-  results of every layer. This lower communication overhead lets EP scale well across nodes and on systems with
+  The expert router, a small component of every <Term id="mixture-of-experts">MoE</Term> layer, decides which experts each token activates. Every GPU holds a full copy of it. At every MoE layer, GPUs send each token to the GPUs that hold its experts and gather the results back. Unlike TP,
+  EP does not all-reduce every layer's full activations across all GPUs. Each GPU exchanges only the tokens routed to
+  it. This lower communication overhead lets EP scale well across nodes and on systems with
   limited interconnect bandwidth.
 </p>
 

@@ -40,7 +40,7 @@
   correct={2}
   optionFeedback={[
     'Whisper accepts at most 30 seconds per chunk, and longer chunks would also delay the live transcript.',
-    'A higher temperature is a repair for a looping chunk in long-file transcription. Applied to every live chunk, it adds randomness without restoring context.',
+    'A higher temperature adds randomness to every chunk. It does not give the model the words that came before the boundary, which is the context the errors point to.',
     'Correct. Real-time transcription is sequential, so the previous chunk is finished before the next begins. Keeping a stream on one GPU lets its transcript serve as the prefix for the next chunk.',
   ]}
 />

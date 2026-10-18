@@ -32,7 +32,7 @@
   On a real GPU, adding streams to a batch lowers each stream's speed, so total TPS grows more slowly than the simulator shows.
 </p>
 
-<h2>Practice with the simulator</h2>
+<h2>Practice: reading pace in the simulator</h2>
 
 <NumericQuestion
   id="sim_read_multiple"

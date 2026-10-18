@@ -9,9 +9,10 @@
 <h1>Knowledge Check: NVIDIA Dynamo</h1>
 
 <p>
-  These questions are ungraded. All three practice objective 7: judge whether a
-  deployment carries enough traffic to justify the added complexity of NVIDIA
-  Dynamo.
+  These questions are ungraded. The sorting item practices objective 7: judge
+  whether a deployment carries enough traffic to justify the added complexity of
+  NVIDIA Dynamo. The other two check how Dynamo relates to the engines and what
+  its planner does.
 </p>
 
 <Sorting

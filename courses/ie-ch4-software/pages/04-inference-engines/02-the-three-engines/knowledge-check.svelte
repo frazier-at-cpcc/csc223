@@ -22,7 +22,7 @@
   correct={0}
   optionFeedback={[
     'Correct. The AMD GPUs rule out TensorRT-LLM. Between the two community engines, SGLang adds heavy investment in large-scale MoE throughput and a design built for component-level customization by its community.',
-    'TensorRT-LLM offers top performance on NVIDIA GPUs, but it runs on NVIDIA GPUs only. Half of this fleet is AMD, so hardware rules it out first.',
+    'TensorRT-LLM offers top performance on NVIDIA GPUs, but it runs on NVIDIA GPUs only. Part of this fleet is AMD, so hardware rules it out first.',
     'vLLM also runs on NVIDIA and AMD GPUs, so it survives the hardware question. Its strength is breadth across models and hardware, which this single-model deployment does not need. SGLang matches the MoE throughput and customization goals more closely.',
   ]}
 />

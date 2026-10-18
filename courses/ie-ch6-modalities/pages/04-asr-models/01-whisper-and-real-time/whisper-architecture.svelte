@@ -36,12 +36,16 @@
   <li><strong>Decoder:</strong> takes the encoded audio features and converts them into text tokens.</li>
 </ul>
 
+<p>Whisper reads audio in chunks of at most 30 seconds.</p>
+
 <WhisperPipeline />
 
 <p>
   The decoder consumes the overwhelming majority of inference time. The encoder runs once per chunk of
   audio, while the decoder runs once for every text token it produces. The decoder is an autoregressive
-  transformer very similar to an LLM, so LLM tooling applies directly.
+  transformer very similar to an LLM, so LLM tooling applies directly. Whisper large-v3-turbo shows where
+  the time goes: it keeps the large-v3 encoder and cuts the decoder from 32 layers to 4, and it runs several
+  times faster as a result.
 </p>
 <p>
   <Term id="tensorrt-llm">TensorRT-LLM</Term> is the main optimization tool. It provides

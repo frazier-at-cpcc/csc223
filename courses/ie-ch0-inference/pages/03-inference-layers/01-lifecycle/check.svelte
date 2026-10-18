@@ -38,7 +38,7 @@
   id="kc_life_why"
   question="A team replaces an XGBoost fraud model with a 70-billion-parameter LLM. Its first plan loads the model in FP16 onto one GPU with 80 GB of VRAM, and the deployment fails before it serves a single request. Which property of generative AI inference explains the failure?"
   options={[
-    'Each output token requires its own forward pass',
+    'Long answers need many sequential decode passes',
     'Request lengths vary widely from prompt to prompt',
     'The weights are larger than the memory of one GPU',
   ]}

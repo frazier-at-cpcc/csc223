@@ -4,8 +4,8 @@
 </script>
 
 <Figure
-  caption="The host and device sides of a cloud GPU instance, and the links that join them."
-  description="The left side of the diagram is the host. It holds a CPU box, a host memory box labeled RAM, a storage box labeled disk, and a network interface box labeled NIC. A PCIe link runs from the host to the device side on the right. The device side holds four GPU boxes, each with its own VRAM, which the diagram calls device memory. A thick bar labeled NVLink and NVSwitch joins all four GPUs. The NIC connects outward to the datacenter network, which leads to other nodes and the internet. Data moving from host memory to a GPU crosses PCIe, data moving between GPUs crosses NVLink, and data moving to another node crosses the NIC."
+  caption="Figure 3.5: The host and device sides of a cloud GPU instance, and the links that join them."
+  description="The left side of the diagram is the host. It holds a CPU box, a host memory box labeled RAM, a storage box labeled disk, and a network interface box labeled NIC. A PCIe link runs from the host to the device side on the right. The device side holds four GPU boxes, each with its own VRAM, which the diagram calls device memory. A thick bar labeled NVLink and NVSwitch joins all four GPUs. The NIC connects outward to the datacenter network, which leads to other nodes and the internet. Data moving from host memory to a GPU crosses PCIe, data moving between GPUs crosses NVLink, and data moving to another node crosses the NIC. The single NIC shown here carries ordinary datacenter traffic. Servers built for multi-node inference add one high-speed NIC per GPU, as the Multi-GPU Instances lesson explains."
 >
   <svg viewBox="0 0 640 300" role="img" aria-labelledby="instance-title">
     <title id="instance-title">Host components linked to GPUs by PCIe, GPUs linked to each other by NVLink</title>

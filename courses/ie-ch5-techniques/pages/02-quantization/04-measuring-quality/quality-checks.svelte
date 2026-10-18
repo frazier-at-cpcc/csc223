@@ -52,6 +52,6 @@
     Quantization is a scale, not a binary decision. Quantizing to <Term id="fp8">FP8</Term> instead of FP4, or quantizing fewer
     components, as in <Term id="weights-only-quantization">weights-only quantization</Term>, still improves
     performance with a lower risk of quality loss. When a domain cannot tolerate any quality risk, the other four
-    techniques in this chapter remain available, because each of them is lossless.
+    techniques in this chapter remain available, because each of them is lossless when speculation uses standard verification.
   </p>
 </Callout>

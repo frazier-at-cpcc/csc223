@@ -2,7 +2,7 @@ export default {
   title: 'Inference Engineering, Chapter 7: Production',
   id: 'urn:uuid:d33f6ca9-24f8-4a12-a12d-edf27d8f3c6f',
   description: 'Chapter 7 of Inference Engineering: Production.',
-  version: '1.1.0',
+  version: '1.2.0',
   language: 'en',
   navigation: { mode: 'free' },
   completion: { mode: 'percentage', percentageThreshold: 100 },

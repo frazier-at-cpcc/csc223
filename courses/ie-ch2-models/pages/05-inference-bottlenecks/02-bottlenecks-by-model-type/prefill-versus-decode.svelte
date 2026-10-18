@@ -3,6 +3,8 @@
 </script>
 
 <script>
+  import { Video } from 'tessera-learn';
+  import memoryBoundDecodeTranscript from '$assets/videos/memory-bound-decode.txt?raw';
   import { scrollable } from '$shared/scrollable.js';
   import Term from '$shared/Term.svelte';
 </script>
@@ -31,7 +33,14 @@
   dimensions, the sequence length, the <Term id="batching">batch</Term> size, and the attention implementation.
 </p>
 
-<h2>The essential difference</h2>
+<h2>Video: Why Decode Is Memory-Bandwidth Bound</h2>
+<Video src="$assets/videos/memory-bound-decode.mp4" title="Why Decode Is Memory-Bandwidth Bound, explainer video" transcript={memoryBoundDecodeTranscript} />
+<details class="video-answer">
+  <summary>Check your answer to the question at the end of the video</summary>
+  <p>GPU B generates more tokens per second. Decode at small batch sizes is memory-bound, so bandwidth sets its speed, and extra compute sits idle.</p>
+</details>
+
+<h2>Matrix-matrix and vector-matrix multiplication</h2>
 
 <p>Prefill processes the entire input sequence in parallel. Decode generates tokens one at a time.</p>
 

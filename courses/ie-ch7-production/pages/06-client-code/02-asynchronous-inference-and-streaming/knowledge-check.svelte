@@ -29,7 +29,7 @@
 <p class="ie-objective">Practices objective 9: diagnose the source of a latency problem</p>
 <MultipleChoice
   id="kc_as_protocol"
-  question="A voice assistant sends microphone audio in a new HTTP request every 200 milliseconds and waits for each response before sending the next chunk. Users hear long pauses, although server-side inference is fast. Which protocol change fits the workload?"
+  question="A browser-based voice assistant sends microphone audio in a new HTTP request every 200 milliseconds and waits for each response before sending the next chunk. Users hear long pauses, although server-side inference is fast. Which protocol change fits the workload?"
   options={[
     'gRPC with a schema for each audio chunk',
     'HTTP/2 with server-sent events',
@@ -37,7 +37,7 @@
   ]}
   correct={2}
   optionFeedback={[
-    'Incorrect. gRPC streams in both directions, but it is designed for structured service-to-service messages. Raw audio from a client device suits an unstructured stream.',
+    'Incorrect. gRPC streams in both directions, and many speech services use it between servers, but a browser cannot open a bidirectional gRPC stream. A WebSocket works directly from the browser.',
     'Incorrect. Server-sent events stream the response only. The client still cannot send new audio over the same exchange.',
     'Correct. The pauses come from the request-and-wait pattern. A WebSocket lets the client stream audio and the server stream replies at the same time over one open connection.',
   ]}

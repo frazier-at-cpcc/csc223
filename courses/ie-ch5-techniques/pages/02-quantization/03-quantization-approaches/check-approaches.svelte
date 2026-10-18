@@ -21,7 +21,7 @@
 
 <MultipleChoice
   id="kc_approach_2"
-  question="An engineer downloads an open model whose weights were released in BF16. Which quantization approach is available to the engineer?"
+  question="An engineer downloads an open model whose weights were released in BF16 and has no training data or training budget. Which quantization approach fits?"
   options={[
     'No approach, because the model shipped in BF16',
     'Post-training quantization with calibration',
@@ -30,8 +30,8 @@
   correct={1}
   optionFeedback={[
     'Incorrect. BF16 is the most common native format, and post-training quantization starts from it.',
-    'Correct. Finished weights can only be quantized after training, with calibration data to set the scale factors.',
-    'Incorrect. Quantization-aware training happens during training, so it requires the training process, not finished weights.',
+    'Correct. Post-training quantization needs only a small calibration set to choose the scale factors, so it fits an engineer without training data.',
+    'Incorrect. Quantization-aware training needs a fine-tuning run with training data, which this engineer lacks.',
   ]}
 />
 
@@ -39,16 +39,16 @@
   id="kc_approach_3"
   question="A team plans to quantize the KV cache of a model that serves 100,000-token documents. Which risk should the team test for most carefully?"
   options={[
-    'Cache entries that can no longer be shared through prefix caching',
-    'Errors in early cache entries that compound across every later token',
     'A KV cache that grows larger and evicts entries sooner',
     'A model that stops producing a first token',
+    'Cache entries that can no longer be shared through prefix caching',
+    'Early cache errors that compound across later tokens',
   ]}
-  correct={1}
+  correct={3}
   optionFeedback={[
-    'Incorrect. Quantized cache entries are still reusable, and a smaller cache fits more prefixes in memory.',
-    'Correct. Every later token reads earlier KV cache entries, so precision errors compound over long sequences.',
     'Incorrect. Quantization makes the KV cache smaller, not larger.',
     'Incorrect. Prefill still computes the first token. The risk lies in output quality, not in failure to generate.',
+    'Incorrect. Quantized cache entries are still reusable, and a smaller cache fits more prefixes in memory.',
+    'Correct. Every later token reads earlier KV cache entries, so precision errors compound over long sequences.',
   ]}
 />

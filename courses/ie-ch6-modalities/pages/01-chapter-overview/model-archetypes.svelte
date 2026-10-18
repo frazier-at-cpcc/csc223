@@ -32,7 +32,7 @@
   model predicts which runtimes support it and which Chapter 5 techniques are likely to help.
 </p>
 
-<h2>Autoregressive models beyond text</h2>
+<h2>Transformer models beyond text</h2>
 <p>
   LLMs are the best-known autoregressive <Term id="transformer">transformer</Term> models, but many
   other modalities use similar architectures. Vision language models, text and multimedia embedding

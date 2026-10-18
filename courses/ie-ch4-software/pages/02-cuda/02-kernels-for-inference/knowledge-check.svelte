@@ -35,14 +35,14 @@
     'Check whether the DeepGEMM release supports Blackwell',
     'Fall back to the cuBLAS GEMM for that operation',
     'Port the plugin kernel to the Blackwell architecture',
-    'Convert the model weights to the ONNX format',
+    'Recompile the model with torch.compile and keep the plugin as is',
     'Raise the batch size to fill the larger B200 memory',
     'Keep the plugin unchanged, since a newer GPU runs it faster',
   ]}
   targets={['Meets the obligation', 'Does not meet it']}
   correct={[0, 0, 0, 1, 1, 1]}
   correctFeedback="The three valid actions confirm support, fall back to a general kernel, or port the kernel. The other three leave the H100-tuned kernel in place."
-  incorrectFeedback="A valid action changes or verifies the kernel itself. A weight format, a batch size, or a newer GPU does not change the hardware assumptions coded into the kernel."
+  incorrectFeedback="A valid action changes or verifies the kernel itself. A recompiled model, a batch size, or a newer GPU does not change the hardware assumptions coded into the kernel."
 />
 
 <MultipleChoice
@@ -56,7 +56,7 @@
   correct={0}
   optionFeedback={[
     'Correct. The kernel encodes H100 values, so it fails to use the larger memory and newer features of the B200. The fix is a kernel tuned for Blackwell.',
-    'The kernel does run. An older kernel usually runs on a newer generation. The risk of not running at all applies in the other direction.',
+    'The stem says the kernel runs, so this cannot explain the result. Portable kernels usually run on a newer generation. Kernels built on Hopper-only instructions do not.',
     'Kernels compute on data in memory. Weight file formats are a separate concern.',
   ]}
 />

@@ -8,7 +8,7 @@
 
 <h1>Knowledge Check: Network Structure</h1>
 
-<p>These questions are ungraded and practice objective 3, interpreting a model's architecture. Retry them as often as you like.</p>
+<p>These questions are ungraded and build the encoder and decoder vocabulary that objective 3 uses to interpret architecture names. Retry them as often as you like.</p>
 
 <Matching
   id="kc_structure_1"

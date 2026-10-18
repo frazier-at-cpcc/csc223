@@ -3,6 +3,7 @@
 </script>
 
 <script>
+  import { Accordion, AccordionItem } from 'tessera-learn';
   import Figure from '../../../components/Figure.svelte';
   import MoeShardingDiagram from '../../../components/MoeShardingDiagram.svelte';
   import Signal from '$shared/Signal.svelte';
@@ -11,7 +12,7 @@
 
 <h1>Experts in Production</h1>
 
-<h2>Routing is granular</h2>
+<h2>Per-layer expert routing</h2>
 
 <p>
   Each <Term id="forward-pass">forward pass</Term> works through every layer of the model, and the router picks
@@ -19,7 +20,7 @@
   picks 8 experts at each of its 94 layers.
 </p>
 
-<h2>Batched serving changes the picture</h2>
+<h2>Expert use under batching</h2>
 
 <p>
   Production servers process many requests together, which is called <Term id="batching">batching</Term>.
@@ -55,10 +56,14 @@
   <MoeShardingDiagram />
 </Figure>
 
-<p>
-  The figure shows both strategies at once. Small components that every token needs, such as the router, are
-  replicated on every GPU. Large components, such as the experts, are sharded so that each GPU holds only part
-  of them. One token's experts land on several GPUs, so each layer exchanges tokens between GPUs.
-  Attention splits by query head, eight heads per GPU. The model has only four
-  <Term id="kv-head">KV heads</Term>, fewer than the eight GPUs, so each KV head is replicated on two GPUs.
-</p>
+<Accordion>
+  <AccordionItem title="How the figure splits attention across GPUs">
+    <p>
+      The figure shows both strategies at once. Small components that every token needs, such as the router, are
+      replicated on every GPU. Large components, such as the experts, are sharded so that each GPU holds only part
+      of them. One token's experts land on several GPUs, so each layer exchanges tokens between GPUs.
+      Attention splits by query head, eight heads per GPU. The model uses grouped-query attention with only four
+      <Term id="kv-head">KV heads</Term>, fewer than the eight GPUs, so each KV head is replicated on two GPUs.
+    </p>
+  </AccordionItem>
+</Accordion>

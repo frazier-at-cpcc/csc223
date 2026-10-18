@@ -61,6 +61,7 @@ export const glossary = {
   'vector-database': {
     term: 'Vector database',
     def: 'A database that stores embedding vectors and returns the stored vectors most similar to a query vector. Retrieval-augmented generation uses a vector database to find relevant documents.',
+    chapter: 6,
   },
   'bin-packing': {
     term: 'Bin packing',
@@ -160,7 +161,7 @@ export const glossary = {
   },
   'open-model': {
     term: 'Open model',
-    def: 'A model whose weights are publicly available to download and run, such as Llama, DeepSeek, Qwen, or Whisper.',
+    def: 'A model whose weights are published for download, usually under a license, such as Llama, DeepSeek, Qwen, or Whisper.',
     chapter: 1,
   },
   'closed-model': {
@@ -220,12 +221,12 @@ export const glossary = {
   },
   'fine-tuning': {
     term: 'Fine-tuning',
-    def: 'Continuing to train a pretrained model on a narrower dataset so it performs better in one domain or task. Fine-tuning often lets a smaller model meet the quality bar of a larger one.',
+    def: 'Continuing to train a pretrained model on a narrower dataset so it performs better in one domain or task. Fine-tuning can let a smaller model meet the quality bar of a larger one.',
     chapter: 1,
   },
   distillation: {
     term: 'Distillation',
-    def: 'Knowledge distillation, the language-model sense, trains a smaller student model to match the output probability distributions of a larger teacher model. Step distillation, the image-generation sense, trains a model to produce a usable image in far fewer denoising steps than its teacher.',
+    def: 'Training a smaller student model to imitate a larger teacher. For language models, the student learns either the teacher\'s full probability distributions, which is knowledge distillation, or text the teacher generated, which is fine-tuning on teacher-generated data. Step distillation, the image-generation sense, trains a model to produce a usable image in far fewer denoising steps than its teacher.',
     chapter: 1,
   },
   'knowledge-distillation': {
@@ -697,8 +698,8 @@ export const glossary = {
     chapter: 3,
   },
   pcie: {
-    term: 'PCIe',
-    def: 'A GPU form factor that plugs into a standard PCI Express slot. PCIe GPUs usually draw less power and offer fewer interconnect options than SXM versions.',
+    term: 'PCIe (PCI Express)',
+    def: 'The standard bus that connects a GPU to the host CPU and memory. It is much slower than NVLink between GPUs. A PCIe GPU is the form factor that plugs into this slot, and it usually draws less power and offers fewer interconnect options than the SXM version.',
     chapter: 3,
   },
   node: {
@@ -961,7 +962,7 @@ export const glossary = {
   },
   'target-model': {
     term: 'Target model',
-    def: 'The full model whose output speculative decoding must match. It verifies draft tokens and keeps only those it would have produced.',
+    def: 'The full model whose output speculative decoding must match. It verifies all draft tokens in one forward pass and accepts them by a rule that leaves its output distribution unchanged.',
     chapter: 5,
   },
   'draft-model': {
@@ -971,7 +972,7 @@ export const glossary = {
   },
   'acceptance-rate': {
     term: 'Acceptance rate',
-    def: 'The share of draft tokens the target model accepts. A higher acceptance rate gives a larger speedup from speculation.',
+    def: 'The probability that the target model accepts a draft token, given that the draft tokens before it were accepted. It is higher than the observed share of all drafts accepted, because every draft after the first rejection is discarded whether or not it was correct. A higher acceptance rate gives a larger speedup from speculation.',
     chapter: 5,
   },
   eagle: {
@@ -1115,7 +1116,7 @@ export const glossary = {
   },
   tts: {
     term: 'Text-to-speech (TTS)',
-    def: 'Generating spoken audio from text. Modern TTS models generate audio tokens with an LLM-style backbone and convert them to sound with an audio decoder.',
+    def: 'Generating spoken audio from text. Many modern TTS models generate audio tokens with an LLM-style backbone and convert them to sound with an audio decoder. Others use flow-matching or diffusion designs.',
     chapter: 6,
   },
   'neural-audio-codec': {
@@ -1229,7 +1230,7 @@ export const glossary = {
   },
   router: {
     term: 'Request router',
-    def: 'The component that chooses which replica receives each request, using load, KV cache contents, loaded LoRAs, or sequence length.',
+    def: 'The component that chooses which replica receives each request by what the request needs, such as a cached prompt prefix, a loaded LoRA, or its sequence length. A load balancer, by contrast, spreads requests by load.',
     chapter: 7,
   },
   'load-balancer': {
@@ -1326,6 +1327,31 @@ export const glossary = {
     term: 'gRPC',
     def: 'A remote procedure call framework built on HTTP/2 that uses strict schemas and supports streaming in both directions.',
     chapter: 7,
+  },
+  'real-time-threshold': {
+    term: 'Real-time threshold',
+    def: 'The audio-token rate that produces one second of audio per second, about 80 to 100 tokens per second depending on the model. A TTS stream that decodes below it runs out of audio.',
+    chapter: 6,
+  },
+  'downsampling': {
+    term: 'Downsampling',
+    def: 'Converting an image or video into visual tokens at a lower resolution or frame rate. It shortens the sequence at the cost of fine detail.',
+    chapter: 6,
+  },
+  'audio-decoder': {
+    term: 'Audio decoder',
+    def: 'The component that converts the audio tokens a TTS model emits into a waveform, for example the decoder of the SNAC neural audio codec.',
+    chapter: 6,
+  },
+  'total-response-time': {
+    term: 'Total response time',
+    def: 'The time from sending a request until the last output token arrives. For a streamed reply of N tokens it equals TTFT + (N - 1) × ITL.',
+    chapter: 1,
+  },
+  'inference-time': {
+    term: 'Inference time',
+    def: 'The time the GPU spends generating tokens for a request, excluding network and queue time.',
+    chapter: 1,
   },
 };
 

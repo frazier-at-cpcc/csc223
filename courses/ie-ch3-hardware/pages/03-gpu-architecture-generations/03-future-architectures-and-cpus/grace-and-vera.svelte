@@ -27,7 +27,7 @@
 <p>
   Grace CPUs perform well overall, but their key feature for inference is bandwidth to the GPU. Grace uses
   <strong>NVLink Chip to Chip (C2C)</strong> for up to 900 GB/s of bandwidth, counting both directions, between
-  CPU memory and GPU memory. A standard server connects its CPU to each GPU over <Term id="pcie">PCIe</Term>.
+  CPU memory and GPU memory. A standard server connects its CPU to each GPU over PCIe.
   A PCIe Gen5 link with 16 lanes carries about 128 GB/s counting both directions, so C2C is about seven times
   faster.
 </p>

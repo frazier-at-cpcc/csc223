@@ -9,7 +9,7 @@
 <h1>Knowledge Check: Current Architectures</h1>
 <p>These practice items are ungraded. Each one gives feedback that explains the answer.</p>
 
-<p class="ie-obj">Objective 6: Differentiate GPU generations by inference features</p>
+<p class="ie-obj">Objective 6: Differentiate NVIDIA GPU generations by inference features</p>
 <Matching
   id="kc_features"
   question="Match each GPU to the inference feature or limitation that sets it apart."
@@ -23,7 +23,7 @@
   incorrectFeedback="Use the letter first. H marks Hopper and FP8, and the H200 differs from the H100 only in memory. B marks Blackwell and FP4. L marks Lovelace, which supports FP8 but has no NVLink."
 />
 
-<p class="ie-obj">Objective 6: Differentiate GPU generations by inference features</p>
+<p class="ie-obj">Objective 6: Differentiate NVIDIA GPU generations by inference features</p>
 <MultipleChoice
   id="kc_l40_parallel"
   question="A team plans to serve one 70-billion-parameter model on four L40S GPUs in a single server. Which approach suits this hardware, and why?"
@@ -40,7 +40,7 @@
   ]}
 />
 
-<p class="ie-obj">Objective 6: Differentiate GPU generations by inference features</p>
+<p class="ie-obj">Objective 6: Differentiate NVIDIA GPU generations by inference features</p>
 <MultipleChoice
   id="kc_fa_kernel"
   question="Which attention kernel was written for Hopper GPUs to use their asynchronous data transfer features?"

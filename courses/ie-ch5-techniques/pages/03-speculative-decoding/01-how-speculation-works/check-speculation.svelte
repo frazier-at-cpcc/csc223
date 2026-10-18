@@ -24,16 +24,16 @@
   question="Traffic grows and the inference engine runs at very large batch sizes. Why should the engine disable speculative decoding?"
   options={[
     'Large batches lower the acceptance rate of every draft',
-    'Large batches use the spare compute that verification needs',
     'Large batches make every draft sequence longer than planned',
     'Large batches raise the time to first token for all users',
+    'Large batches use the spare compute that verification needs',
   ]}
-  correct={1}
+  correct={3}
   optionFeedback={[
     'Incorrect. Acceptance depends on factors such as temperature and subject matter, not on batch size.',
-    'Correct. Speculation relies on idle compute during memory-bound decode. Large batches saturate that compute, so each extra position costs a full step.',
     'Incorrect. Batch size does not change draft sequence length, which the operator configures.',
     'Incorrect. Speculation never affects time to first token, which prefill determines.',
+    'Correct. Speculation relies on idle compute during memory-bound decode. Large batches saturate that compute, so each extra position costs a full step.',
   ]}
 />
 

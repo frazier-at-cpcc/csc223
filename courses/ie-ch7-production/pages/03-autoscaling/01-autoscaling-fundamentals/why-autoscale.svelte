@@ -6,6 +6,7 @@
   import Figure from '../../../components/Figure.svelte';
   import AutoscalingChart from '../../../components/AutoscalingChart.svelte';
   import Term from '$shared/Term.svelte';
+  import { Sorting } from 'tessera-learn';
 </script>
 
 <h1>Why Autoscale</h1>
@@ -51,3 +52,19 @@
 >
   <AutoscalingChart autoscaled />
 </Figure>
+
+<p class="ie-objective">Supports objective 2: configure autoscaling parameters</p>
+<Sorting
+  id="rc_sla_slo"
+  question="Sort each statement as a service level agreement (SLA) or a service level objective (SLO)."
+  items={[
+    'A contract promises customers 99.9 percent monthly uptime, with service credits if it is missed.',
+    'The team aims to keep P95 time to first token under 400 milliseconds on its own dashboard.',
+    'An enterprise contract refunds fees when P99 latency exceeds 2 seconds.',
+    'The on-call engineer is paged when P99 end-to-end latency passes 900 milliseconds.',
+  ]}
+  targets={['SLA: a contractual promise', 'SLO: an internal target']}
+  correct={[0, 1, 0, 1]}
+  correctFeedback="Correct. An SLA is a contractual promise to a customer, usually with penalties. An SLO is an internal target, usually stricter, so the contract is met with margin. This chapter uses SLO for internal latency targets."
+  incorrectFeedback="Look for a contract. The uptime promise with credits and the refund clause are SLAs. The dashboard target and the paging threshold are internal SLOs, which a team sets tighter than its SLAs."
+/>

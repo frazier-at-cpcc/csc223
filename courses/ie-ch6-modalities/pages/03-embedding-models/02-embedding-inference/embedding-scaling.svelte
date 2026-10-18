@@ -24,7 +24,7 @@
   </li>
 </ul>
 
-<h2>Scale horizontally</h2>
+<h2>Horizontal scaling</h2>
 
 <p>
   High-traffic deployments scale horizontally. Each GPU runs as its own independent

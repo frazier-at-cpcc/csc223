@@ -20,7 +20,7 @@
 <Signal kind="recall" chapter={0} title="Core concepts this chapter depends on">
   <p>
     Answer the four items from memory before you look anything up.
-    They retrieve five Chapter 0 ideas: the <Term id="token">token</Term>, the <Term id="prefill">prefill</Term> and <Term id="decode">decode</Term> phases,
+    They retrieve six Chapter 0 ideas: the <Term id="token">token</Term>, the <Term id="prefill">prefill</Term> and <Term id="decode">decode</Term> phases, the <Term id="kv-cache">KV cache</Term>,
     <Term id="latency">latency</Term> and <Term id="throughput">throughput</Term>, <Term id="batching">batching</Term>, and the memory that a model's <Term id="weights">weights</Term> occupy.
   </p>
 </Signal>
@@ -84,6 +84,7 @@
   <ul>
     <li>A token is the unit of text that a language model reads and writes.</li>
     <li>Prefill processes the whole prompt, and decode then generates the output one token per <Term id="forward-pass">forward pass</Term>.</li>
+    <li>The KV cache stores the key and value tensors of tokens already processed, so decode does not recompute them.</li>
     <li>Latency is how long one user waits, and throughput is the total work the system completes per unit of time.</li>
     <li>Batching runs many requests through the model together, which raises throughput.</li>
     <li>Weight memory equals the <Term id="parameter">parameter</Term> count times the bytes stored for each parameter.</li>

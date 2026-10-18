@@ -31,7 +31,7 @@
   </dd>
 </dl>
 
-<h2>Speed is not the difference</h2>
+<h2>Fabric Speed, RDMA, and Latency</h2>
 <p>
   As of October 2026, current NICs run at 400 to 800 gigabits per second (Gb/s) on both fabrics. The NVIDIA
   ConnectX-7 adapter runs at 400 Gb/s, and the ConnectX-8 adapter runs at 800 Gb/s, over either InfiniBand or
@@ -56,7 +56,7 @@
 
 <MultiNodeTopology />
 
-<h2>The cross-node link is the slow link</h2>
+<h2>Cross-Node Bandwidth Compared with NVLink</h2>
 <p>
   Whichever fabric a cluster uses, the network between nodes is about an order of magnitude slower than NVLink
   inside a node. An 800 Gb/s NIC moves 100 GB/s in each direction. A Blackwell GPU's NVLink moves about 900 GB/s

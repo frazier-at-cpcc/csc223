@@ -1,15 +1,15 @@
 <script>
-  // Figure 6.11: Context Parallelism with a ring of context slices on one 8-GPU node.
+  // Figure 6.9: Context Parallelism with a ring of context slices on one 8-GPU node.
   import Figure from './Figure.svelte';
   const uid = $props.id();
   const rows = [70, 130, 190, 250];
   const left = rows.map((y, i) => ({ y, n: i + 1 }));
   const right = rows.map((y, i) => ({ y, n: 8 - i }));
   const description =
-    'Eight B200 GPUs sit on one node, four on each side of the diagram. Every GPU holds a full copy of the model weights. In the center, the shared latent space is divided into eight context slices, one per GPU. The slices form a ring: slice 1 passes partial attention results to slice 2, and so on down the left side to slice 4, across to slice 5, up the right side to slice 8, and back across the top to slice 1. Each GPU computes attention for its own slice and passes intermediate results to the next GPU in the ring, so the GPUs together compute attention over the entire latent space.';
+    'Eight B200 GPUs sit on one node, four on each side of the diagram. Every GPU holds a full copy of the model weights. In the center, the shared latent space is divided into eight context slices, one per GPU. The slices form a ring: slice 1 passes its key and value block to slice 2, and so on down the left side to slice 4, across to slice 5, up the right side to slice 8, and back across the top to slice 1. Each GPU computes attention for its own slice and passes key and value blocks to the next GPU in the ring, so the GPUs together compute attention over the entire latent space.';
 </script>
 
-<Figure number="6.11" caption="Context Parallelism replicates model weights but shares latent space to compute attention during video model inference. The numbered ring of context slices is an addition that shows ring attention." {description}>
+<Figure number="6.9" caption="Context Parallelism replicates model weights but shares latent space to compute attention during video model inference. The numbered ring of context slices is an addition that shows ring attention." {description}>
   <svg viewBox="0 0 760 336" role="img" aria-label="Eight B200 GPUs each hold full weights and one slice of a shared latent space; slices pass attention results around a ring">
     <defs>
       <marker id="arrow-{uid}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">

@@ -11,7 +11,7 @@
 <p>This check is ungraded. Each item gives feedback when you answer it.</p>
 
 <h2>Memory and Speed Vocabulary</h2>
-<p>Objective 1: trace an LLM request through its prefill and decode forward passes.</p>
+<p>Supports Objective 1: TTFT and inter-token latency are what a user sees of the prefill and decode passes.</p>
 
 <Matching
   id="kc_cc_vocab"

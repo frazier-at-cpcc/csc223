@@ -64,7 +64,7 @@
 <Signal kind="worked" title="Selecting a model against a latency budget">
   <p>
     A design tool must show a preview within 1.5 seconds. On the target <Term id="gpu">GPU</Term>, the standard model takes 3.0 seconds
-    at 40 steps. Its step-distilled version runs 8 steps.
+    at 40 steps. Its step-distilled version runs 8 steps. Both models run with guidance enabled, so time scales with the step count.
   </p>
   <ol>
     <li>Scale the time by the step count: 3.0 seconds × 8 / 40 = 0.6 seconds. The few-step model fits the budget.</li>

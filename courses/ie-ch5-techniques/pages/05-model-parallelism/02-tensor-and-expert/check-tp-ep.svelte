@@ -29,8 +29,8 @@
   ]}
   correct={1}
   optionFeedback={[
-    'Incorrect. EP still passes tokens between GPUs to reach the experts they activate.',
-    'Correct. TP requires an all-reduce after each split layer. EP passes tokens to their experts but skips that per-layer collection, and it replicates only the small router.',
+    'Incorrect. At every MoE layer, EP sends tokens to the GPUs that hold their experts and gathers the results back.',
+    'Correct. TP all-reduces every layer\'s full activations across all GPUs. Under EP, each GPU exchanges only the tokens routed to its experts, and only the small router is replicated.',
     'Incorrect. Only the small router is replicated. Each expert lives on one GPU.',
   ]}
 />

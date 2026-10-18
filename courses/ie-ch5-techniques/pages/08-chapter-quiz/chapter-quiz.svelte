@@ -18,19 +18,19 @@
 
 <MultipleChoice
   id="q1"
-  question="A team enabled speculative decoding when its chatbot carried light traffic. Traffic has since grown tenfold, batch sizes now run large, and per-user speed has fallen below the speed without speculation. What explains the change?"
+  question="A support chatbot runs a 24-billion-parameter model on three replicas and serves 40 million tokens per day of multi-turn conversations. Batch sizes stay low. Which proposal should the team defer?"
   options={[
-    'Large batches consumed the compute that verification needs',
-    'More users lowered the acceptance rate of each draft',
-    'More requests raised the time to first token for every user',
-    'The prefix cache filled and evicted the draft tokens',
+    'Cache-aware routing across the three replicas',
+    'Disaggregation into separate prefill and decode engines',
+    'Prefix caching of each conversation history',
+    'Speculative decoding with a trained EAGLE speculator head',
   ]}
-  correct={0}
+  correct={1}
   optionFeedback={[
-    'Correct. Speculation borrows idle compute from memory-bound decode. Large batches use that compute, so verifying extra positions now costs real time and the speedup turns into a slowdown.',
-    'Incorrect. Acceptance depends on temperature and subject matter, not on how many users share the engine.',
-    'Incorrect. Speculation acts only during decode, and the complaint concerns per-user streaming speed.',
-    'Incorrect. Draft tokens are not stored in the prefix cache, and cache evictions affect prefill, not decode speed.',
+    'Incorrect. Three replicas give the router a choice, and multi-turn histories make the prefix worth reaching.',
+    'Correct. A 24-billion-parameter model at 40 million tokens per day falls below both the size and the volume at which separate engines pay off.',
+    'Incorrect. Each turn repeats the earlier history, so prefix caching cuts time to first token at any volume.',
+    'Incorrect. Low batch sizes leave idle compute in decode, which is the condition speculation needs.',
   ]}
 />
 
@@ -49,19 +49,19 @@
 
 <MultipleChoice
   id="q3"
-  question="An activation tensor holds values mostly between −2 and 2, plus a few isolated values near 400 scattered across many channels. The team will quantize it to a 4-bit floating-point format. Which scaling choice preserves the small values best?"
+  question="A team quantizes a weight tensor to a 4-bit format on B200 GPUs. Evals trace a quality loss to small weights that round to zero in blocks that also hold one large weight. The team is choosing between MXFP4 and NVFP4. Which choice reduces the loss, and why?"
   options={[
-    'One scale for the whole tensor',
-    'One scale for each feature-vector channel',
-    'One scale for each block of 32 values',
-    'One scale for each block of 16 values',
+    'MXFP4, because its power-of-two block scales are exact',
+    'MXFP4, because blocks of 32 spread each scale more widely',
+    'NVFP4, because blocks of 16 isolate each large weight',
+    'NVFP4, because it stores each weight value in more bits',
   ]}
-  correct={3}
+  correct={2}
   optionFeedback={[
-    'Incorrect. A tensor-wide scale must stretch to cover 400, so values near 1 round to zero.',
-    'Incorrect. The outliers sit in many channels, so many channel scales still stretch to cover 400.',
-    'Incorrect. Blocks of 32 confine each outlier to its own block, but blocks of 16 confine it more tightly.',
-    'Correct. The smallest blocks confine each outlier to the fewest neighboring values, so every other block keeps a fine scale for its small values.',
+    'Incorrect. Power-of-two scales are cheap to apply but coarser than FP8 scales, and blocks of 32 leave more small weights under each large one.',
+    'Incorrect. A larger block places more small weights under each large one, so more of them round to zero.',
+    'Correct. Both formats store 4 bits per value. NVFP4 blocks of 16 with FP8 scales leave fewer small weights under each large one, so fewer of them round to zero.',
+    'Incorrect. Both formats store each value in 4 bits. NVFP4 differs in its smaller blocks and its FP8 block scales.',
   ]}
 />
 
@@ -85,7 +85,7 @@
 
 <MultipleChoice
   id="q5"
-  question="A summarization service receives long documents and returns short summaries. After FP8 weights-only quantization, tokens per second rose but time to first token barely changed. Which next step would lower time to first token?"
+  question="A summarization service receives long documents and returns short summaries. Profiling shows that most of each request's latency comes before the first token. The team has already quantized the weights to FP8. Which next step lowers that latency?"
   options={[
     'Quantize the activations to FP8 as well',
     'Quantize the weights further, to INT4',
@@ -131,19 +131,19 @@
 
 <MultipleChoice
   id="q8"
-  question="A coding assistant builds each prompt from the user's open file, which changes with every keystroke, then a 6,000-token repository guide shared by every user, then the instruction. Prefix cache hits are near zero. Which change raises them most?"
+  question="A retrieval service sends a 6,000-token block of instructions and examples that every request shares, followed by the retrieved passages and the question. A per-request trace ID is printed inside the instructions, about 1,500 tokens in. Cache hits cover only the first 1,500 tokens of each request. Which change raises the cached share most?"
   options={[
-    'Move the repository guide to the start of the prompt',
-    'Move the instruction to the start of the prompt',
-    'Raise the KV cache memory fraction on each of the replicas',
-    'Split the open file with chunked prefill',
+    'Enable cache-aware routing across the replicas',
+    'Move the trace ID to the end of the prompt',
+    'Offload KV cache blocks to CPU host memory',
+    'Quantize the KV cache to FP8 on every replica',
   ]}
-  correct={0}
+  correct={1}
   optionFeedback={[
-    'Correct. The shared guide then forms a 6,000-token prefix for every request, and the changing file comes after it.',
-    'Incorrect. The instruction varies between requests, so placing it first still ends the shared prefix at once.',
-    'Incorrect. More memory cannot help when no two requests share a prefix.',
-    'Incorrect. Chunked prefill schedules long inputs. It does not create a shared prefix.',
+    'Incorrect. Routing finds the replica with the prefix, but every replica\'s prefix still ends at the trace ID.',
+    'Correct. The trace ID differs on every request, so the shared prefix ends there. Moving it after the shared block extends the cached prefix to about 6,000 tokens.',
+    'Incorrect. Offloading keeps more prefixes, but the reusable prefix is still only 1,500 tokens long.',
+    'Incorrect. A smaller cache holds more prefixes, but it does not lengthen the shared one.',
   ]}
 />
 
@@ -176,19 +176,19 @@
 
 <MultipleChoice
   id="q11"
-  question="A Mixture of Experts model must span two nodes of eight GPUs connected by InfiniBand. The product is an interactive agent, and per-user latency matters more than total throughput. Which strategy fits?"
+  question="A dense model runs in TP16 across two nodes of eight GPUs connected by InfiniBand. Profiling shows each decode step waiting on InfiniBand traffic after every layer. Which change cuts decode latency most?"
   options={[
-    'Expert Parallelism across all sixteen GPUs in both nodes',
-    'Pipeline Parallelism in sixteen stages, one stage per GPU',
-    'Tensor Parallelism across all sixteen GPUs in both nodes',
-    'Tensor Parallelism per node, Pipeline Parallelism across nodes',
+    'Quantize the KV cache to FP8',
+    'Raise the batch size on both nodes',
+    'Replace the InfiniBand adapters with RDMA Ethernet adapters',
+    'Restructure as TP8PP2 across the two nodes',
   ]}
   correct={3}
   optionFeedback={[
-    'Incorrect. Expert Parallelism across nodes gives the highest system throughput, but the goal here is per-user latency.',
-    'Incorrect. Sixteen sequential stages raise per-request latency and leave stages idle.',
-    'Incorrect. Tensor Parallelism needs an all-reduce after every layer, which is too slow over InfiniBand.',
-    'Correct. TP inside each node gives low latency over NVLink, and PP crosses InfiniBand only once between the two stages.',
+    'Incorrect. A smaller cache frees memory, but the per-layer all-reduce still crosses InfiniBand.',
+    'Incorrect. Larger batches raise throughput, but each step still waits on the cross-node all-reduce.',
+    'Incorrect. RDMA Ethernet adapters run at similar speeds and still sit far below NVLink, so the per-layer traffic stays slow.',
+    'Correct. TP8PP2 keeps every all-reduce on NVLink inside a node, and only the activations between the two stages cross InfiniBand.',
   ]}
 />
 
@@ -199,14 +199,14 @@
     'A 30-billion-parameter model serving 3 billion tokens per day of long RAG prompts',
     'A 250-billion-parameter model serving 2 billion tokens per day of short, cached chat turns',
     'A 300-billion-parameter model serving 2 billion tokens per day of 20,000-token contracts',
-    'A 600-billion-parameter model serving 20 million tokens per day of long reports',
+    'A 600-billion-parameter model serving 40 million tokens per day of long reports',
   ]}
   correct={2}
   optionFeedback={[
     'Incorrect. The volume and input length qualify, but a 30-billion-parameter model is too small to justify separate engines.',
     'Incorrect. Short, cached turns run efficiently on decode engines, so extra replicas serve better.',
     'Correct. The workload meets all three conditions: high volume, a large model, and prefill-heavy traffic.',
-    'Incorrect. Twenty million tokens per day falls below the volume at which disaggregation pays off.',
+    'Incorrect. Forty million tokens per day falls below the volume at which disaggregation pays off.',
   ]}
 />
 

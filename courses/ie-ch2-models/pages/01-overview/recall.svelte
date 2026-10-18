@@ -45,10 +45,10 @@
   incorrectFeedback="Weight memory equals parameters times bytes per parameter. 8 × 10^9 parameters × 2 bytes = 16 × 10^9 bytes, which is 16 GB."
 />
 
-<Signal kind="recall" chapter={1} title="Distillation and end-to-end latency">
+<Signal kind="recall" chapter={1} title="Distillation and total response time">
   <p>
-    Chapter 1 defined knowledge distillation and showed how <Term id="time-to-first-token">TTFT</Term> and <Term id="inter-token-latency">inter-token latency</Term> combine into the
-    total time a user waits.
+    Chapter 1 defined knowledge distillation and showed how <Term id="time-to-first-token">TTFT</Term> and <Term id="inter-token-latency">inter-token latency</Term> combine into total
+    response time.
   </p>
 </Signal>
 
@@ -66,9 +66,9 @@
 
 <NumericQuestion
   id="rc_e2e"
-  question="A response has a TTFT of 200 ms and an inter-token latency of 25 ms. It contains 101 output tokens. What is its end-to-end latency in milliseconds?"
+  question="A response has a TTFT of 200 ms and an inter-token latency of 25 ms. It contains 101 output tokens. What is its total response time in milliseconds?"
   answer={2700}
   unit="ms"
-  correctFeedback="End-to-end latency = TTFT + (tokens − 1) × ITL = 200 + 100 × 25 = 2,700 ms. The first token comes from prefill, and each of the other 100 tokens costs one decode step."
-  incorrectFeedback="End-to-end latency = TTFT + (tokens − 1) × ITL. The first token arrives at TTFT, and each of the remaining 100 tokens adds one inter-token gap: 200 + 100 × 25 = 2,700 ms."
+  correctFeedback="Total response time = TTFT + (tokens − 1) × ITL = 200 + 100 × 25 = 2,700 ms. The first token comes from prefill, and each of the other 100 tokens costs one decode step."
+  incorrectFeedback="Total response time = TTFT + (tokens − 1) × ITL. The first token arrives at TTFT, and each of the remaining 100 tokens adds one inter-token gap: 200 + 100 × 25 = 2,700 ms."
 />

@@ -96,7 +96,7 @@
 
 <ul>
   <li>Chapter 1 compares models with <Term id="benchmark-suite">benchmark suites</Term>.</li>
-  <li>Chapter 2 describes every model layer as a <Term id="matmul">matrix multiplication</Term>.</li>
+  <li>Chapter 2 describes the main work of every model layer as <Term id="matmul">matrix multiplication</Term>.</li>
   <li>
     Chapter 7 packages models in <Term id="container">containers</Term>, loads weights from
     <Term id="object-storage">object storage</Term>, and serves requests over <Term id="http">HTTP</Term>.

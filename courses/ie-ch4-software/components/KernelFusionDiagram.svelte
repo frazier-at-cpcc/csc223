@@ -77,7 +77,7 @@
     </p>
   </details>
   <figcaption>
-    Figure 4.2, redrawn to match the worked example. Each arrow is one memory
-    access. Fusing two kernels removes one write and one read, the dashed arrows.
+    Figure 4.2. Each arrow is one memory access. Fusing two kernels removes one
+    write and one read, the dashed arrows.
   </figcaption>
 </figure>

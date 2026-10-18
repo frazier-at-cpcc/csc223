@@ -33,8 +33,8 @@
 <h2>Strength: breadth of support</h2>
 
 <ul>
-  <li>Hardware: at the time of publication, NVIDIA, AMD, and Intel GPUs, along with Google TPUs.</li>
-  <li>Models: the most models and architectures of any engine. Nearly every open LLM works with vLLM on its release day.</li>
+  <li>Hardware: at the time of publication, vLLM ran on NVIDIA, AMD, and Intel GPUs, along with Google TPUs.</li>
+  <li>Models: vLLM supports the most models and architectures of any engine. Nearly every open LLM works with vLLM on its release day.</li>
   <li>Modalities: vLLM Omni extends the engine to image, audio, and video inputs and outputs.</li>
 </ul>
 

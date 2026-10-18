@@ -27,7 +27,8 @@
 
 <p>
   When both phases share a worker, each one interferes with the other. A long prompt that arrives in the middle of other
-  users' decode can pause their streams while its prefill runs.
+  users' decode can pause their streams while its prefill runs. Chapter 5 also covers chunked prefill, a scheduling fix for
+  the same interference that adds no hardware.
 </p>
 
 <h2>Scaling Each Phase</h2>

@@ -46,7 +46,7 @@
   throughput and cost is to make the model itself faster.
 </p>
 
-<h2>Attention dominates</h2>
+<h2>Why attention dominates video compute</h2>
 
 <p>
   Early video models were framewise and generated one frame at a time, which reduced quality and
@@ -70,6 +70,32 @@
 </p>
 
 <LatentAttention />
+
+<Signal kind="worked" title="Compute growth when the latent grows">
+  <p>
+    In a video model, attention takes 80 percent of one denoising step's compute, and the linear layers take
+    20 percent. The team triples the number of latent frames at the same resolution.
+  </p>
+  <ol>
+    <li>Sequence growth: three times the frames give three times the positions.</li>
+    <li>Attention grows with the square of the length: 0.8 × 3² = 7.2.</li>
+    <li>Linear layers grow in proportion to the length: 0.2 × 3 = 0.6.</li>
+    <li>New compute per step: 7.2 + 0.6 = 7.8 times the original.</li>
+  </ol>
+  <p>Attention's share rises from 80 percent to 7.2 ÷ 7.8, about 92 percent.</p>
+</Signal>
+
+<p>Finish the next example. The first steps are done for you.</p>
+
+<NumericQuestion
+  id="faded_attention_share"
+  question="In a video model, attention takes 70 percent of one step's compute and the linear layers take 30 percent. The latent sequence grows 4 times. Attention: 0.7 × 4² = 11.2. Linear layers: 0.3 × 4 = 1.2. Complete the final step: by what factor does each step's compute grow?"
+  answer={12.4}
+  tolerance={0.01}
+  unit="times"
+  correctFeedback="11.2 + 1.2 = 12.4 times the original compute per step."
+  incorrectFeedback="Add the two scaled shares: 11.2 + 1.2 = 12.4 times the original compute."
+/>
 
 <p>Use the quadratic rule to answer the next item.</p>
 

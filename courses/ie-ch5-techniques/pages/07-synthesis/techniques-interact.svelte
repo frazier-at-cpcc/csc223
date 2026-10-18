@@ -119,11 +119,11 @@
 
 <MultipleChoice
   id="syn_plan"
-  question="A company serves a 70-billion-parameter chat model on one node of H100 GPUs at 30 million tokens per day. Every request starts with the same 5,000-token system prompt, batch sizes stay low, and output quality must not change perceptibly. Which plan should the team adopt first?"
+  question="A company serves a dense 70-billion-parameter chat model as one replica on a node of H100 GPUs at 30 million tokens per day. Every request starts with the same 5,000-token system prompt, batch sizes stay low, and output quality must not change perceptibly. Which plan should the team adopt first?"
   options={[
     'Dynamic disaggregation in 2P6D with cache-aware routing',
     'EP8 across the node with KV cache offloading to networked SSD',
-    'FP8 with custom evals, prefix caching, and speculative decoding',
+    'FP8 with evals, prefix caching, and speculation',
     'Multi-node TP8PP2 with NVFP4 quantization of every component',
   ]}
   correct={2}

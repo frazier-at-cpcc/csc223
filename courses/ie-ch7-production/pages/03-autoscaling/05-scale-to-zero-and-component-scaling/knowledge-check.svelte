@@ -28,17 +28,6 @@
 />
 
 <p class="ie-objective">Practices objective 5: judge fit for scale to zero and component scaling</p>
-<NumericQuestion
-  id="kc_sz_hops"
-  question="A pipeline has a 500-millisecond latency SLO. Each request sends 4 messages between services, and in a split design each of the 4 messages crosses between clusters. Messages take 10 milliseconds within a cluster and 50 milliseconds between clusters. What percentage of the SLO do the crossings add?"
-  answer={32}
-  tolerance={0.5}
-  unit="percent"
-  correctFeedback="Correct. Each crossing message adds 50 − 10 = 40 milliseconds. Four crossings add 160 milliseconds, which is 160 ÷ 500 = 32 percent of the SLO."
-  incorrectFeedback="Use only the extra delay per crossing: 50 − 10 = 40 milliseconds. Four crossing messages add 4 × 40 = 160 milliseconds, and 160 ÷ 500 = 0.32, or 32 percent. Using the full 50 milliseconds per message overstates the penalty."
-/>
-
-<p class="ie-objective">Practices objective 5: judge fit for scale to zero and component scaling</p>
 <MultipleChoice
   id="kc_sz_split"
   question="A voice agent runs voice activity detection, transcription, and an LLM as one combined service on full 8-GPU nodes. When call volume doubles, the team must add whole nodes even though only the transcription stage is saturated. Which design fixes the waste?"

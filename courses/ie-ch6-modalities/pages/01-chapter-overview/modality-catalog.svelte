@@ -28,8 +28,8 @@
       <tr><td>Text</td><td>Audio (voice)</td><td>Speech synthesis</td></tr>
       <tr><td>Text</td><td>Audio (music)</td><td>Music generation</td></tr>
       <tr><td>Audio (voice)</td><td>Audio (voice)</td><td>Speech-to-speech</td></tr>
-      <tr><td>Text and/or image</td><td>3D model</td><td>Generative CAD</td></tr>
-      <tr><td>Text and/or image</td><td>Image or video</td><td>Image and video generation</td></tr>
+      <tr><td>Text, image, or both</td><td>3D model</td><td>Generative CAD</td></tr>
+      <tr><td>Text, image, or both</td><td>Image or video</td><td>Image and video generation</td></tr>
       <tr><td>Image or video</td><td>Text</td><td>Captioning</td></tr>
       <tr><td>Image or video</td><td>Mask</td><td>Segmentation</td></tr>
       <tr><td>Text and image</td><td>Image</td><td>Image editing</td></tr>

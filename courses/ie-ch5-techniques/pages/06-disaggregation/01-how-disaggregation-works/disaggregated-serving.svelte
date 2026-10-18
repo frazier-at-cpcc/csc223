@@ -40,6 +40,7 @@
   Separate engines can each be optimized for their own phase, and the system can be optimized as a whole. For
   example, the prefill engine needs a lower degree of <Term id="tensor-parallelism">Tensor Parallelism</Term> than
   the decode engine. Decode is limited by reading <Term id="weights">weights</Term>, and a higher TP degree splits those reads across more
-  GPUs, so each decode step finishes sooner. Prefill already saturates compute on each GPU, so it gains less from
-  extra GPUs and pays for the added <Term id="all-reduce">all-reduce</Term> traffic.
+  GPUs, so each decode step finishes sooner. Prefill <Term id="all-reduce">all-reduces</Term> carry the activations of
+  every prompt token, so each added GPU spends a larger share of its time communicating. A prefill pool therefore
+  gets more throughput per GPU from a lower TP degree and more engines.
 </p>

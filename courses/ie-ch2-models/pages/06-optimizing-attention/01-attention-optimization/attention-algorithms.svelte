@@ -27,7 +27,7 @@
       <tr><th scope="row">Gated attention</th><td>Uses layers introduced in training to approximate attention for certain chunks of context.</td><td>Time becomes linear in chunk length for those chunks.</td></tr>
       <tr><th scope="row">Linear attention</th><td>Replaces the <Term id="softmax">softmax</Term> equation with a linear-time approximation.</td><td>Time becomes linear in N.</td></tr>
       <tr><th scope="row">Compressed attention</th><td>Periodically compresses earlier context. Attention considers the compressed context and the uncompressed recent tokens.</td><td>Time and the KV cache both shrink for long contexts.</td></tr>
-      <tr><th scope="row"><Term id="multi-latent-attention">Multi-latent attention</Term></th><td>Compresses keys and values into a small latent vector, which the model expands when it attends.</td><td>The KV cache shrinks greatly. Time stays quadratic in N.</td></tr>
+      <tr><th scope="row"><Term id="multi-latent-attention">Multi-head latent attention</Term></th><td>Compresses keys and values into a small latent vector, which the model expands when it attends.</td><td>The KV cache shrinks greatly. Time stays quadratic in N.</td></tr>
     </tbody>
   </table>
 </div>

@@ -8,7 +8,7 @@
 </script>
 
 <Figure
-  caption="Figure 3.5: An H100 has eight memory slices and seven compute slices for assembling multi-instance GPU instances. The highlighted example is the 3g.40gb profile."
+  caption="Figure 3.7: An H100 has eight memory slices and seven compute slices for assembling multi-instance GPU instances. The highlighted example is the 3g.40gb profile."
   description="The top row shows eight memory slices of 10 GB each, for 80 GB of VRAM. The bottom row shows seven equal compute slices followed by a narrow box labeled leftover SMs, which is not a slice and stays idle. Hatched slices with heavy outlines mark one example instance, the 3g.40gb profile. It combines three of the seven compute slices with four memory slices, or 40 GB, which is half of the VRAM. The profile pairs three compute slices with four memory slices, not three."
 >
   <svg viewBox="0 0 640 250" role="img" aria-labelledby="mig-title">

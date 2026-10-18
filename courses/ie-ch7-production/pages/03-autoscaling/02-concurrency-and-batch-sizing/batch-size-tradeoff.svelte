@@ -53,9 +53,13 @@
 </Signal>
 
 <p class="ie-objective">Practices objective 2: configure autoscaling parameters</p>
+<p>
+  Complete the last step of this faded example. Batch size and concurrency target are both 12, and window-average
+  concurrency is 100. Raw replica count: 100 ÷ 12 = 8.33.
+</p>
 <NumericQuestion
   id="pr_desired"
-  question="A replica's batch size and concurrency target are both 12. Window-average concurrency reaches 100 requests. How many replicas does the autoscaler request?"
+  question="After rounding, how many replicas does the autoscaler request?"
   answer={9}
   unit="replicas"
   correctFeedback="Correct. 100 ÷ 12 = 8.3, and the autoscaler rounds up to 9. Eight replicas would hold only 96 requests."

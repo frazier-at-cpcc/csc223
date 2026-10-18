@@ -20,7 +20,7 @@
 
 <MultipleChoice
   id="q1"
-  question="To save compute, an engineer proposes deleting the SiLU activation from every feed-forward sublayer of a model while keeping both weight matrices in each sublayer. What happens to each feed-forward sublayer?"
+  question="Each feed-forward sublayer of a model applies a linear layer, a SiLU activation, and a second linear layer. To save compute, an engineer proposes deleting the SiLU activation from every feed-forward sublayer while keeping both weight matrices in each sublayer. What happens to each feed-forward sublayer?"
   options={[
     'Its two weight matrices compose into the equivalent of one linear layer.',
     'It keeps its full capacity, because both weight matrices keep their values.',
@@ -88,7 +88,7 @@
     'Each step skips attention, because no keys or values are stored for it.',
     'Each step still processes one token, because the causal mask hides the rest.',
     'Each step reprocesses only the 2,000 prompt tokens, so its cost stays constant.',
-    'Each step reprocesses the whole sequence so far, so its cost grows every step.',
+    'Each step recomputes all earlier keys and values, so its cost grows every step.',
   ]}
   correct={3}
   optionFeedback={[
@@ -101,25 +101,25 @@
 
 <MultipleChoice
   id="q6"
-  question="A team plans to serve Qwen3-235B-A22B in FP16. It budgets 44 GB of GPU memory for the weights, based on the 22 billion active parameters. Which assessment of the plan is correct?"
+  question="A team plans to serve a Mixture of Experts model with 300 billion total parameters and 18 billion active parameters, stored in FP8 at 1 byte per parameter. It budgets 18 GB of GPU memory for the weights, based on the active count. Which assessment of the plan is correct?"
   options={[
-    'It falls short by about 426 GB, because all 235 billion parameters must stay resident.',
+    'It falls short by about 282 GB, because all 300 billion parameters must stay resident.',
     'It is correct for single requests, because only the active experts load for each token.',
     'It is correct at any load, because the router loads experts from disk when it needs them.',
-    'It falls short by about 4 GB, because the shared attention weights add about 9 percent.',
+    'It falls short by about 18 GB, because FP8 stores each parameter in 2 bytes.',
   ]}
   correct={0}
   optionFeedback={[
-    'Correct. The router can choose any expert for the next token, so every parameter must be in GPU memory: 235 × 10^9 × 2 bytes = 470 GB, which is 426 GB more than the plan.',
-    'Incorrect. The 22 billion active parameters set the compute per token. Even one request needs all 470 GB of weights resident, because the next token may route to any expert.',
+    'Correct. The router can choose any expert for the next token, so every parameter must be in GPU memory: 300 × 10^9 × 1 byte = 300 GB, which is 282 GB more than the plan.',
+    'Incorrect. The 18 billion active parameters set the compute per token. Even one request needs all 300 GB of weights resident, because the next token may route to any expert.',
     'Incorrect. Loading experts from disk on demand would stall every forward pass. Production engines keep every expert in GPU memory.',
-    'Incorrect. The active count already includes the shared components. The gap comes from the inactive experts, which still need memory.',
+    'Incorrect. FP8 stores each parameter in 1 byte. The gap comes from the inactive experts, which still need memory.',
   ]}
 />
 
 <MultipleChoice
   id="q7"
-  question="A team moves a Mixture of Experts model from single-request local use to a server that batches 64 requests per decode step. Compared with one request, how do the compute per token and the weight bytes read per step change?"
+  question="A team moves a Mixture of Experts model with 64 experts per layer and 4 active per token from single-request local use to a server that batches 40 requests per decode step. Compared with one request, how do the compute per token and the weight bytes read per step change?"
   options={[
     'Compute per token rises to the total count, and weight bytes per step stay at the active count.',
     'Compute per token stays at the active count, and weight bytes per step approach the total count.',
@@ -129,7 +129,7 @@
   correct={1}
   optionFeedback={[
     'Incorrect. Each token still passes through only its selected experts, so its compute stays at the active count. The weight reads are what grow.',
-    'Correct. Each token still uses only its selected experts, so arithmetic per token is unchanged. Across 64 requests, nearly every expert is selected by some token, so nearly all weights are read on each step.',
+    'Correct. Each token still uses only its selected experts, so arithmetic per token is unchanged. Across 40 requests, nearly every expert is selected by some token, so nearly all weights are read on each step.',
     'Incorrect. The router does not send every token to every expert. Only the union of experts across the batch grows.',
     'Incorrect. The tokens in a batch select different experts, so the set of weights read on each step grows toward the full model.',
   ]}
@@ -146,7 +146,7 @@
 
 <MultipleChoice
   id="q9"
-  question="A camera app must return a stylized photo within 1 second of capture. On the target GPU, a standard image model takes 5 seconds at 50 steps, and a step-distilled version of it runs 6 steps. Reviewers accept moderate quality loss. Which choice best meets these constraints?"
+  question="A camera app must return a stylized photo within 1 second of capture. On the target GPU, a standard image model takes 5 seconds at 50 steps, and a step-distilled version of it runs 6 steps. Both models run with guidance enabled. Reviewers accept moderate quality loss. Which choice best meets these constraints?"
   options={[
     'The standard model at 50 steps on a GPU with twice the compute',
     'The standard model with its step count cut to 10',
@@ -164,7 +164,7 @@
 
 <MultipleChoice
   id="q10"
-  question="A marketing team needs a six-second product clip with smooth camera motion by tomorrow morning. A teammate proposes generating its 144 frames with a fast image model, conditioning each frame on the one before it, to save cost. Which judgment is correct?"
+  question="A travel agency needs a six-second drone flyover of a coastline by tomorrow morning. A teammate proposes generating its 144 frames with a fast image model, conditioning each frame on the one before it, to save cost. Which judgment is correct?"
   options={[
     'Accept it, because a fast image model costs far less per frame than a video model.',
     'Accept it, but raise the step count to 50 so that each frame reaches full quality.',

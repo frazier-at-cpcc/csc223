@@ -37,7 +37,7 @@
     </tbody>
   </table>
   <figcaption>
-    Figure 4.7, adapted. A profiler splits a 350 ms time to first token into the
+    Figure 4.7. A profiler splits a 350 ms time to first token into the
     operations that produced it. The activation function takes 80 ms, far more
     than an elementwise operation should, which points to excess memory reads.
   </figcaption>

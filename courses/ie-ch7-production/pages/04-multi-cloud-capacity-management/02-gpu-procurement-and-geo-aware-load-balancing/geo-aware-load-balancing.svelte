@@ -16,7 +16,7 @@
   <strong>global load balancer</strong> that does the same job across clusters and regions.
 </p>
 
-<h2>Two Competing Goals</h2>
+<h2>Distance Versus Queue Time</h2>
 <ul>
   <li>A request should not sit in a queue while spare capacity waits elsewhere.</li>
   <li>A request should not routinely travel a long distance, such as from Singapore to a server in San Francisco.</li>

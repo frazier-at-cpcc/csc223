@@ -9,7 +9,7 @@
 <h1>Knowledge Check: Future Architectures and CPUs</h1>
 <p>These practice items are ungraded. Each one gives feedback that explains the answer.</p>
 
-<p class="ie-obj">Objective 6: Differentiate GPU generations by name</p>
+<p class="ie-obj">Objective 6: Differentiate NVIDIA GPU generations by inference features</p>
 <Matching
   id="kc_superchips"
   question="Match each NVIDIA product name to what it contains."
@@ -40,15 +40,15 @@
   ]}
 />
 
-<p class="ie-obj">Objective 5: Select the specification that relieves a bottleneck</p>
+<p class="ie-obj">Objective 6: Differentiate NVIDIA GPU generations by inference features</p>
 <MultipleChoice
   id="kc_cpx"
   question="Which Rubin-generation addition targets the compute-bound prefill phase of LLM inference?"
-  options={['HBM4 memory', 'The Rubin CPX chip', 'The Vera CPU']}
-  correct={1}
+  options={['The Rubin CPX chip', 'HBM4 memory', 'The Vera CPU']}
+  correct={0}
   optionFeedback={[
-    'Incorrect. HBM4 raises memory bandwidth, which helps memory-bound decode rather than compute-bound prefill.',
     'Correct. The Rubin CPX is a separate chip built for compute-bound tasks such as the prefill of long inputs.',
+    'Incorrect. HBM4 raises memory bandwidth, which helps memory-bound decode rather than compute-bound prefill.',
     'Incorrect. The Vera CPU replaces Grace as the host CPU. It does not perform prefill computation.',
   ]}
 />

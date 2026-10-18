@@ -1,0 +1,11 @@
+A GPU can hold a model's weights and still run out of memory halfway through a long conversation. The KV cache is the part that keeps growing.
+
+Attention projects a key and a value for every token. The KV cache stores those key and value tensors in VRAM, so the model never recomputes them for earlier tokens.
+
+Follow one request with a 1,000-token prompt. Prefill processes all 1,000 tokens and writes 1,000 entries into the cache at once.
+
+Decode then grows it one step at a time. Each decode step reads every stored entry and adds one new entry for its token. After 200 decode steps, the cache holds 1,200 entries. The cache grows linearly with sequence length.
+
+Every request in a batch has its own cache. Long contexts and large batches multiply the total, until the cache can become the main consumer of VRAM. That is why memory planning reserves headroom for it, as Chapter 3 shows.
+
+Pause and calculate. A request arrives with a 2,500-token prompt. How many entries does its KV cache hold after prefill? How many after 300 decode steps?

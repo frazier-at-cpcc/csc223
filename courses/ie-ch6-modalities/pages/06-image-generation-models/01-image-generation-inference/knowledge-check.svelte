@@ -31,7 +31,7 @@
   tolerance={0.1}
   unit="percent"
   correctFeedback="Full guidance makes 60 × 2 = 120 passes. Truncation makes 45 × 2 + 15 × 1 = 105 passes. The savings are 15 ÷ 120 = 12.5 percent."
-  incorrectFeedback="Full guidance: 60 × 2 = 120 passes. With truncation: 45 × 2 + 15 = 105 passes. Saved: 120 − 105 = 15 passes, and 15 ÷ 120 = 12.5 percent. Dividing by 60 steps instead of 120 passes gives 25 percent, which double-counts the savings."
+  incorrectFeedback="Full guidance: 60 × 2 = 120 passes. With truncation: 45 × 2 + 15 = 105 passes. Saved: 120 − 105 = 15 passes, and 15 ÷ 120 = 12.5 percent. Dividing by the 60 steps instead of the 120 passes gives 25 percent. The baseline must be passes, because the savings are counted in passes."
 />
 
 <Matching

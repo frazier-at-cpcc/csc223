@@ -46,26 +46,10 @@
 
 <h2>Practice: Weight Memory</h2>
 
-<p>The worked example on the Parameters and Weights page computed 16 GB for an 8-billion-parameter model in FP16.</p>
-
-<Signal kind="worked" title="Faded example: a 70-billion-parameter model in FP16">
-  <p>The first two steps are complete. Complete the final step.</p>
-  <ol>
-    <li>Parameter count: 70 billion, or 70 × 10<sup>9</sup>.</li>
-    <li>Bytes per parameter: FP16 uses 2 bytes.</li>
-    <li>Multiply and convert to GB.</li>
-  </ol>
-  <NumericQuestion
-    id="faded_weight_70b"
-    question="How many gigabytes do the weights of this 70-billion-parameter FP16 model occupy?"
-    answer={140}
-    unit="GB"
-    correctFeedback="Correct. 70 × 10^9 × 2 bytes = 140 × 10^9 bytes, or 140 GB. That exceeds the 80 GB of one H100."
-    incorrectFeedback="Multiply 70 × 10^9 parameters by 2 bytes to get 140 × 10^9 bytes, which is 140 GB. A common slip is to forget the 2 bytes and answer 70."
-  />
-</Signal>
-
-<p>Solve the next two problems on your own.</p>
+<p>
+  The Parameters and Weights page worked an 8-billion-parameter model and a 70-billion-parameter model. Solve the next two
+  problems on your own.
+</p>
 
 <NumericQuestion
   id="practice_weight_32b"

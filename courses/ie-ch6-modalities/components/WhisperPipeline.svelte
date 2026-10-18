@@ -1,5 +1,5 @@
 <script>
-  // Figure 6.4, redrawn as a mechanism: the encoder runs once per audio chunk, while the decoder
+  // Figure 6.3, redrawn as a mechanism: the encoder runs once per audio chunk, while the decoder
   // runs once per output token, which is why the decoder dominates Whisper's inference time.
   import Figure from './Figure.svelte';
   const uid = $props.id();
@@ -11,7 +11,7 @@
 </script>
 
 <Figure
-  number="6.4"
+  number="6.3"
   caption="ASR models transcribe input audio into text. In Whisper, the encoder runs once per audio chunk, while the decoder runs once per output token, so the decoder takes most of the inference time."
   {description}
 >

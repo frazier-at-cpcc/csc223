@@ -12,8 +12,9 @@
 
 <p>
   A traffic-based autoscaler needs to know how much concurrent traffic each <Term id="replica">replica</Term> can handle. Most inference services
-  handle more than one request at a time through <Term id="batching">batching</Term>. Chapter 0 introduced continuous batching.
-  This page compares it with two older approaches that differ in when a batch starts.
+  handle more than one request at a time through <Term id="batching">batching</Term>. Chapter 0 introduced continuous batching, and Chapter 6 used
+  dynamic batching for embedding and audio decoding. This page sets both beside static batching. The three differ in
+  when a batch starts.
 </p>
 
 <h2>Static Batching</h2>

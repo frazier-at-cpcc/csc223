@@ -3,6 +3,8 @@
 </script>
 
 <script>
+  import { Video } from 'tessera-learn';
+  import tensorVsPipelineTranscript from '$assets/videos/tensor-vs-pipeline.txt?raw';
   import { scrollable } from '$shared/scrollable.js';
   import Signal from '$shared/Signal.svelte';
   import Term from '$shared/Term.svelte';
@@ -17,6 +19,13 @@
     Every link is slower than the GPU's own VRAM, and the links between nodes add more latency than NVLink.
   </p>
 </Signal>
+
+<h2>Video: Tensor and Pipeline Parallelism</h2>
+<Video src="$assets/videos/tensor-vs-pipeline.mp4" title="Tensor and Pipeline Parallelism, explainer video" transcript={tensorVsPipelineTranscript} />
+<details class="video-answer">
+  <summary>Check your answer to the question at the end of the video</summary>
+  <p>Case 1 calls for tensor parallelism across the eight GPUs, TP8, because the GPUs share NVLink and tensor parallelism gives the lowest latency. Case 2 calls for tensor parallelism within each node and pipeline parallelism between them, TP8PP2, because tensor parallelism needs too much communication to span the slower link between nodes.</p>
+</details>
 
 <h2>Communication as the limit on scaling</h2>
 <p>

@@ -28,7 +28,7 @@
 />
 
 <h2>Estimating Tokens</h2>
-<p>Objective 1: trace an LLM request.</p>
+<p>Supports Objective 1: tracing a request starts from the number of prompt tokens.</p>
 
 <NumericQuestion
   id="kc_cc_tokens"

@@ -68,7 +68,7 @@
   question="A GPU has an ops:byte ratio of 300. A kernel on that GPU has an arithmetic intensity of 40 operations per byte. Which ceiling limits the kernel?"
   options={[
     'The compute ceiling, because the kernel performs more than one operation per byte',
-    'The memory-bandwidth ceiling, because the kernel performs fewer operations per byte than the GPU can',
+    'The memory-bandwidth ceiling, because 40 sits below 300',
     'Neither ceiling, because the kernel sits exactly at the ridge point',
   ]}
   correct={1}

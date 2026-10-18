@@ -19,7 +19,7 @@
   question="Sort each workload into the model type that fits it best."
   items={[
     'Book cover art with a legible title, due next week',
-    'A style filter applied to each frame of a live video call',
+    'A real-time style filter in which each output frame depends only on its own camera frame',
     'A five-second product clip with consistent camera motion',
     'Thumbnail previews that update while a user types a prompt',
     'A print advertisement where fine detail matters more than speed',

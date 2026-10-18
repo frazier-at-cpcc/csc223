@@ -47,7 +47,7 @@
     SGLang has strong day-zero support for a wide range of models. It works with
     labs such as DeepSeek, Qwen, Kimi, and Z AI to release optimized
     implementations of new architectural features, such as DeepSeek's
-    <Term id="multi-latent-attention">Multi-head Latent Attention (MLA)</Term>.
+    <Term id="multi-latent-attention" />.
   </li>
   <li>
     SGLang has invested heavily in large-scale MoE deployments, especially

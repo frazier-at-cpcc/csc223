@@ -6,13 +6,13 @@
     [548, 30, ['Normalization (RMSNorm)'], true],
     [476, 48, ['Masked self-attention', 'about 20% of block weights'], false],
     [392, 30, ['Normalization (RMSNorm)'], true],
-    [298, 64, ['Feed-forward network', 'linear, then SiLU, then linear', 'about 80% of block weights'], false],
+    [290, 76, ['Feed-forward network (SwiGLU)', 'gate and up linear layers,', 'SiLU, down linear', 'about 80% of block weights'], false],
     [180, 30, ['Final normalization'], true],
     [120, 36, ['LMHead (linear)'], false],
   ];
   // Upward arrows along x = 250: [fromY, toY]
   const arrows = [
-    [676, 658], [620, 580], [548, 526], [476, 462], [436, 424], [392, 364], [298, 276], [250, 212], [180, 158], [120, 102],
+    [676, 658], [620, 580], [548, 526], [476, 462], [436, 424], [392, 368], [290, 276], [250, 212], [180, 158], [120, 102],
   ];
   const adds = [448, 262];
 </script>

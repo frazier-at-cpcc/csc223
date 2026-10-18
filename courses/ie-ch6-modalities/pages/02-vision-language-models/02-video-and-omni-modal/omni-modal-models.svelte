@@ -21,7 +21,7 @@
   them, and OCR models are generally a fraction of the size.
 </p>
 
-<h2>Production VLMs are pipelines</h2>
+<h2>VLM pipelines in production</h2>
 
 <p>
   Production VLM inference often coordinates several models and preprocessing steps. A single

@@ -43,7 +43,7 @@
         <tr>
           <th scope="row">LLM <Term id="decode">decode</Term>, dense model</th>
           <td>One new token per request, a vector-matrix multiplication</td>
-          <td>Low: about the <Term id="batching">batch</Term> size for linear layers, about 1 for attention</td>
+          <td>Low: about the <Term id="batching">batch</Term> size for linear layers, about 1 to 16 for attention, set by how many query heads share each KV head</td>
           <td><Term id="memory-bound">Memory bound</Term></td>
           <td><Term id="inter-token-latency">Inter-token latency</Term> and tokens per second</td>
           <td>Batching (Chapters 4 and 7), quantization and speculative decoding (Chapter 5), <Term id="pagedattention">PagedAttention</Term> (Chapter 2), more memory bandwidth (Chapter 3)</td>
@@ -79,8 +79,10 @@
   <p>
     Read any row from left to right to predict how a workload behaves before measuring it. A change that raises
     intensity, such as a larger batch or a fused <Term id="kernel">kernel</Term>, moves a memory-bound row toward the compute ceiling. A
-    change that cuts passes, such as a few-step model or a <Term id="kv-cache">KV cache</Term>, shrinks the work without changing the
-    bottleneck.
+    change that cuts passes, such as a few-step model, shrinks the work without changing the bottleneck. The
+    <Term id="kv-cache">KV cache</Term> works differently. It keeps the number of passes the same and removes the
+    recomputation inside each decode pass, which leaves one token per request in each pass and makes decode memory
+    bound.
   </p>
 </Signal>
 
@@ -91,10 +93,10 @@
     { left: 'LLM prefill of a long prompt', right: 'Compute bound, and it sets time to first token' },
     { left: 'LLM decode at a batch size of 1', right: 'Memory bound, and it sets inter-token latency' },
     { left: 'One guided image denoising step', right: 'Compute bound, and it sets time per image' },
-    { left: 'Decode attention at any batch size', right: 'Memory bound at about 1 operation per byte' },
+    { left: 'Decode attention at any batch size', right: 'Memory bound at about 1 to 16 operations per byte' },
   ]}
   correctFeedback="Passes that process many tokens at once are compute bound. Passes that process one token per request are memory bound, and decode attention stays memory bound because each request reads its own KV cache."
-  incorrectFeedback="Sort by the shape of the pass. Prefill and denoising process thousands of tokens per pass, which gives high intensity. Decode processes one token per request, which gives intensity near the batch size for linear layers and near 1 for attention."
+  incorrectFeedback="Sort by the shape of the pass. Prefill and denoising process thousands of tokens per pass, which gives high intensity. Decode processes one token per request, which gives intensity near the batch size for linear layers and near the query-head group size, 1 to 16, for attention."
 />
 
 <h2>What comes next</h2>

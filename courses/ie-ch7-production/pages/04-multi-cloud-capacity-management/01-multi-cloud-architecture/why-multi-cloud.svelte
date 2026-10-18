@@ -33,8 +33,8 @@
   self-healing, which means replacing failed capacity automatically without an engineer moving workloads by hand.
 </p>
 
-<h2>Four Benefits</h2>
-<div class="ie-table-wrap" role="region" aria-label="Four Benefits table" use:scrollable>
+<h2>Benefits of Multi-Cloud</h2>
+<div class="ie-table-wrap" role="region" aria-label="Benefits of Multi-Cloud table" use:scrollable>
 <table class="ie-table">
   <thead>
     <tr><th scope="col">Benefit</th><th scope="col">How multi-cloud delivers it</th></tr>
@@ -48,8 +48,8 @@
 </table>
 </div>
 <p>
-  Two related terms describe those legal requirements. <Term id="data-sovereignty">Data sovereignty</Term>, from Chapter 1, is the broad
-  idea that a country's laws govern data processed or stored there. <strong>Data residency</strong> is the narrower,
-  concrete rule that certain data must be processed or stored inside a named country or region. The Reliability,
+  Chapter 1 defined <Term id="data-sovereignty">data sovereignty</Term> as the legal requirements that control where
+  model inputs and outputs may be processed and stored. A <strong>data residency</strong> rule is one such requirement,
+  stated for a named country or region, such as a rule that patient data stays inside Canada. The Reliability,
   Security, and Compliance lesson applies residency rules to cluster placement.
 </p>

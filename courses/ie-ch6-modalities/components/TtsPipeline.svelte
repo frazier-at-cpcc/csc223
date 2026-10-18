@@ -1,5 +1,5 @@
 <script>
-  // Figure 6.6, redrawn as a mechanism: an LLM backbone generates audio tokens one at a time
+  // Figure 6.5, redrawn as a mechanism: an LLM backbone generates audio tokens one at a time
   // (continuous batching), and a separate audio decoder converts blocks of tokens to a waveform
   // in single passes (dynamic batching).
   import Figure from './Figure.svelte';
@@ -10,7 +10,7 @@
 </script>
 
 <Figure
-  number="6.6"
+  number="6.5"
   caption="Text-to-speech models synthesize input text into audio. An LLM backbone generates audio tokens, and a separate audio decoder turns them into a waveform. The two stages batch work in different ways."
   {description}
 >

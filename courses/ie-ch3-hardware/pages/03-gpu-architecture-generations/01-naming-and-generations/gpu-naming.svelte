@@ -30,7 +30,7 @@
   <li>The B200 from the Blackwell generation in turn supplants the H200.</li>
 </ul>
 
-<h2>Letters are meaningful, numbers are approximate</h2>
+<h2>Letters and Numbers in GPU Names</h2>
 <p>
   The numbering looks somewhat arbitrary, and different generations use different sets of numbers. The general
   rule is that a bigger number means a larger, more powerful, or more expensive GPU within its generation. The

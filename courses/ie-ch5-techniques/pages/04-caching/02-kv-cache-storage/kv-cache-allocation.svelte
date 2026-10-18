@@ -46,7 +46,7 @@
 <Signal kind="mistake" title="Confusing the engine fraction with the planning factor">
   <p>
     The fraction of 0.8 answers a runtime question: of the memory left on a GPU that is already running, how much
-    goes to the KV cache? The planning factor in section 5.4 answers a sizing question asked before deployment: how
+    goes to the KV cache? The planning factor in the Model Parallelism section answers a sizing question asked before deployment: how
     much total VRAM does a model need? A fraction of 0.8 says nothing about how many GPUs to buy.
   </p>
 </Signal>

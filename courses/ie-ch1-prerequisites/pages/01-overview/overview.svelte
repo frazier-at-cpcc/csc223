@@ -46,7 +46,7 @@
 <h2>How this chapter fits the book</h2>
 
 <p>
-  Chapter 0 introduced <Term id="inference">inference</Term>, the <Term id="inference-stack">inference stack</Term>, and the core vocabulary of tokens, prefill, decode, latency, and throughput.
+  Chapter 0 introduced <Term id="inference">inference</Term>, the <Term id="inference-stack">inference stack</Term>, and the core vocabulary of tokens, prefill, decode, latency, throughput, TTFT, and inter-token latency.
   Chapter 1 sets the prerequisites for inference work: the product requirements, the model choice, and the metrics that every later decision is measured against.
 </p>
 
@@ -65,7 +65,7 @@
   <li><strong>Model Selection</strong> covers choosing, evaluating, fine-tuning, and distilling models.</li>
   <li><strong>Measuring Latency and Throughput</strong> defines and calculates the core performance metrics and includes a streaming simulator.</li>
   <li><strong>Chapter Synthesis</strong> turns the requirements into a measurable requirements sheet.</li>
-  <li><strong>Chapter Glossary</strong> lists every term that this chapter teaches.</li>
+  <li><strong>Chapter Glossary</strong> lists the series glossary entries that this chapter teaches in depth.</li>
   <li><strong>Chapter Quiz</strong> is a graded quiz of 14 items. A score of 70 percent passes.</li>
 </ul>
 

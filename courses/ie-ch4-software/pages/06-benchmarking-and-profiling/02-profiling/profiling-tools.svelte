@@ -57,7 +57,7 @@
 <p>The profile on the previous page leads to a four-step fix.</p>
 
 <ol>
-  <li>Run PyTorch Profiler and find that the activation function takes an unusually long time because of excess memory reads.</li>
+  <li>Run PyTorch Profiler and find that the activation function takes an unusually long time. Profile that kernel with Nsight Compute, which shows excess memory reads.</li>
   <li>Write a fused kernel that applies the activation inside the matrix multiplication that precedes it, the pattern from Kernel Fusion in Practice. The activation now runs on data that is still on chip, which removes the extra reads.</li>
   <li>Insert the new kernel into the PyTorch code.</li>
   <li>Re-run the system-level benchmarks to confirm the service now meets its latency targets.</li>

@@ -40,7 +40,7 @@ ITL (milliseconds)                = 1,000 ÷ perceived TPS (tokens per second)</
   <p>A shorter gap between tokens means a higher perceived TPS.</p>
 </Signal>
 
-<h2>Complete the last step</h2>
+<h2>Faded example: perceived TPS from ITL</h2>
 
 <p>A stream delivers one token every 8 milliseconds. The setup is done for you.</p>
 
@@ -58,7 +58,7 @@ ITL (milliseconds)                = 1,000 ÷ perceived TPS (tokens per second)</
   incorrectFeedback="Divide 1,000 milliseconds by 8 milliseconds per token: 1,000 ÷ 8 = 125 tokens per second."
 />
 
-<h2>Practice</h2>
+<h2>Practice: converting ITL and perceived TPS</h2>
 
 <NumericQuestion
   id="itl_practice_1"

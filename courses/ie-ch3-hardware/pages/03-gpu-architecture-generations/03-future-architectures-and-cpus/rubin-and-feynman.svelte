@@ -11,8 +11,8 @@
 
 <p>
   The <strong>Rubin</strong> architecture is named for astronomer Vera Rubin. It succeeds <Term id="blackwell">Blackwell</Term> as NVIDIA's
-  next-generation <Term id="gpu">GPU</Term> architecture. As of October 2026, NVIDIA has scheduled the first Rubin systems for the
-  second half of 2026.
+  next-generation <Term id="gpu">GPU</Term> architecture. NVIDIA announced that the first Rubin systems would ship in the second half of
+  2026. As of October 2026, confirm availability with your cloud provider before you plan around Rubin.
 </p>
 
 <Callout type="warning">
