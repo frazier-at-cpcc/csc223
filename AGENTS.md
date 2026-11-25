@@ -86,7 +86,7 @@ viewed, success from the quiz at 70); change it in all eight or none.
 - **Audience:** technically literate learners (software engineers, IT and CS
   students) new to serving generative AI models in production.
 - **Voice:** follow the `academic-writing-standards` skill. No em-dash asides,
-  no contractions, no rhetorical questions, no hedge-minimizers, bold only for
+  no contractions, no teasers (state the fact, never "you'll find out why..."), rhetorical questions only when the answer follows, no hedge-minimizers, bold only for
   defined terms, active voice, one idea per sentence.
 - **Quiz items:** follow the `mcq-author` skill (one objective per item, plausible
   foils, no "all of the above", feedback on every option).
